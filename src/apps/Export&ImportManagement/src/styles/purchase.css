@@ -1,0 +1,42 @@
+.add__scrollbar {
+  height: 350px;
+  overflow-y: auto;
+}
+
+.add__scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.add__scrollbar::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 4px;
+  scroll-behavior: smooth;
+}
+
+.scrollable-container {
+  width: 325px;
+  height: 110px;
+  padding: 4px;
+  /* border: 1px solid #ccc; */
+  overflow: auto;
+}
+
+.scrollable-container::-webkit-scrollbar {
+  width: 5px;
+}
+
+.scrollable-container::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 4px;
+  scroll-behavior: smooth;
+}
+
+.custom-select {
+  width: 100%;
+  max-width: 200px;
+  height: auto;
+  overflow-y: auto;
+  max-height: 150px;
+  border: 1px solid #ccc;
+  padding: 5px;
+}
