@@ -17,7 +17,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "../ui/alert-dialog";
+} from "../../../../../components/ui/alert-dialog";
 import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
 // import { Button } from "@/components/ui/button";
 import {
@@ -28,7 +28,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
   DropdownMenuCheckboxItem,
-} from "../ui/dropdown-menu";
+} from "../../../../../components/ui/dropdown-menu";
 // import { Input } from "@/components/ui/input";
 import {
   Table,
@@ -37,15 +37,15 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../ui/table";
+} from "../../../../../components/ui/table";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { SquarePen, NotebookText, Trash2 } from "lucide-react";
 // import image from "@/constants/image";
 import toast from "react-hot-toast";
 import image from "../../constants/image";
-import { Button } from "../ui/button";
-import { Input } from "../ui/input";
+import { Button } from "../../../../../components/ui/button";
+import { Input } from "../../../../../components/ui/input";
 
 const columns = (handleOpenDialog) => [
   {

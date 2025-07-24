@@ -98,7 +98,7 @@ export default function Signin() {
                         <Input
                           type={showPassword ? "text" : "password"}
                           placeholder="Password"
-                          className="text-black pr-10"
+                          className="text-black pr-10 autofill-black"
                           {...field}
                         />
                       </FormControl>

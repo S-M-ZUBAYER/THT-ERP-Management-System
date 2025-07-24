@@ -6,7 +6,7 @@ import TodaysTaskReports from "../components/task-report/TodaysTaskReports";
 
 export default function TaskReport() {
   return (
-    <div className="p-4 lg:p-8">
+    <div className="p-4 lg:p-8 w-[80vw]">
       <TodaysTaskReports />
       <AllTaskReports />
     </div>

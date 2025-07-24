@@ -4,8 +4,12 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+} from "../../../../../components/ui/dropdown-menu";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "../../../../../components/ui/avatar";
 import { BellRing, Menu, X } from "lucide-react";
 import image from "../../constants/image";
 // import image from "@/constants/image";
@@ -21,7 +25,7 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="w-full bg-white  px-4 md:px-20 py-4 flex items-center justify-between relative">
+    <nav className="w-full bg-white  px-2 md:px-[3vw] py-6 flex items-center justify-between relative">
       <NavLink to="/" className="flex items-center gap-2">
         <img src={image.log} alt="logo" className="h-10" />
       </NavLink>
