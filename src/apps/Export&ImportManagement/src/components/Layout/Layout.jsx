@@ -7,7 +7,10 @@ import DashboardSidebar from "../../pages/Dashboard/DashboardSidebar";
 
 const Layout = () => {
   const location = useLocation(); // Get the current route
-  const isRootRoute = location.pathname === "/" || location.pathname.includes("login"); // Define the condition to check if we're on the main domain
+  const isRootRoute =
+    location.pathname === "/export-import" ||
+    location.pathname === "/export-import/" ||
+    location.pathname.includes("login"); // Define the condition to check if we're on the main domain
 
   return (
     <>
@@ -34,4 +37,3 @@ const Layout = () => {
 };
 
 export default Layout;
-
