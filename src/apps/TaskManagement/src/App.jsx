@@ -17,20 +17,19 @@ import ReportsPage from "./pages/ReportsPage";
 import AllProject from "./pages/AllProject";
 import AllTask from "./pages/AllTask";
 
-const AppLayout = () => {
-  return (
-    <div className="flex h-screen">
+const AppLayout = () => (
+  <div className="flex h-screen bg-white">
+    <aside className="w-80 min-w-80 max-w-80 flex-shrink-0 h-screen border-[#F0E6FF] border-r p-6 flex flex-col justify-between overflow-x-hidden">
       <Sidebar />
-      <div className="flex flex-col flex-1">
-        <Navbar />
-        <main className="p-6 overflow-y-auto custom-scrollbar">
-          <Outlet />
-        </main>
-      </div>
+    </aside>
+    <div className="flex flex-col flex-1 min-w-0">
+      <Navbar />
+      <main className="p-6 overflow-y-auto custom-scrollbar min-w-0 overflow-x-hidden">
+        <Outlet />
+      </main>
     </div>
-  );
-};
-
+  </div>
+);
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useUserData();
 

@@ -154,3 +154,118 @@ button:focus-visible {
     @apply bg-background text-foreground;
   }
 }
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #90b4c8;
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #6c9bb2;
+}
+
+.rdp-button_reset {
+  background-color: #f9f9f9;
+  color: black;
+}
+
+/* globals.css */
+input:-webkit-autofill {
+  box-shadow: 0 0 0px 1000px white inset !important;
+  -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+  transition: background-color 5000s ease-in-out 0s;
+  color: #004368 !important;
+}
+
+/*svg roller */
+
+@keyframes drawFullCircle {
+  0% {
+    stroke-dashoffset: 100%;
+  }
+  100% {
+    stroke-dashoffset: 0%;
+  }
+}
+
+/* styles.css */
+[data-state="open"] {
+  background-color: transparent;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+/* Change selected range background and text color */
+.rdp-day_range_start,
+.rdp-day_range_end,
+.rdp-day_range_middle {
+  background-color: #817eb6 !important; /* Your preferred color */
+  color: white !important;
+}
+
+/* Optional: Rounded corners for start/end */
+.rdp-day_range_start {
+  border-top-left-radius: 9999px;
+  border-bottom-left-radius: 9999px;
+}
+.rdp-day_range_end {
+  border-top-right-radius: 9999px;
+  border-bottom-right-radius: 9999px;
+}
+
+@layer utilities {
+  .autofill-blue:-webkit-autofill {
+    -webkit-text-fill-color: #004368 !important;
+  }
+
+  .autofill-black:-webkit-autofill {
+    -webkit-text-fill-color: #2b2b2b !important;
+  }
+
+  .autofill-green:-webkit-autofill {
+    -webkit-text-fill-color: #008000 !important;
+  }
+
+  /* optional: remove yellow autofill background */
+  .autofill-blue:-webkit-autofill,
+  .autofill-black:-webkit-autofill,
+  .autofill-green:-webkit-autofill {
+    box-shadow: 0 0 0px 1000px white inset !important;
+  }
+}
+
+.rdp-button_reset {
+  background-color: #f9f9f9; /* Tailwind blue-600 */
+  color: black;
+}
+
+:root {
+  --chart-1: 220 90% 56%; /* Example hsl color */
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #90b4c8;
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #6c9bb2;
+}

@@ -102,7 +102,7 @@ export default function Sidebar() {
                 color: isActive ? "#004368" : "#90B4C8",
                 borderColor: isActive ? "#004368" : "transparent",
               })}
-              onClick={() => setIsOpen(false)} // Close on mobile click
+              onClick={() => setIsOpen(false)}
             >
               {React.createElement(icon, { size: 18 })}
               <span>{label}</span>

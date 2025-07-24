@@ -1,15 +1,17 @@
 import React from "react";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "../../../../../components/ui/popover";
 import { CalendarIcon } from "lucide-react";
 // import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
-import { Button } from "../ui/button";
+import { Button } from "../../../../../components/ui/button";
 import { cn } from "@/lib/utils";
-import { Calendar } from "../ui/calendar";
+import { Calendar } from "../../../../../components/ui/calendar";
 
 function Datepicker({ value, onChange, placeholder }) {
-  console.log("clall");
-
   return (
     <Popover>
       <PopoverTrigger
@@ -19,7 +21,7 @@ function Datepicker({ value, onChange, placeholder }) {
         <Button
           variant="outline"
           className={cn(
-            "w-full sm:w-[300px] md:w-[400px] lg:w-[500px] xl:w-[700px] justify-start text-left font-normal bg-white text-[#004368]",
+            "justify-start text-left font-normal bg-white text-[#004368] w-full",
             !value && "text-muted-foreground"
           )}
         >

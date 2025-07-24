@@ -59,6 +59,7 @@ export default function Login() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
+          className="autofill-black"
         />
         <Input
           type="password"
@@ -66,6 +67,7 @@ export default function Login() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
+          className="autofill-black"
         />
         <Button type="submit" className="w-full">
           Submit
