@@ -38,17 +38,20 @@ const Navbar = () => {
               className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-slate-200 rounded-box w-52 font-bold "
             >
               <li>
-                <NavLink to="/dashboard">Accounts</NavLink>
+                <NavLink to="/export-import/dashboard">Accounts</NavLink>
               </li>
               <li>
-                <NavLink to="/warehouse">Warehouse</NavLink>
+                <NavLink to="/export-import/warehouse">Warehouse</NavLink>
               </li>
               <li>
-                <NavLink to="/admin">Admin</NavLink>
+                <NavLink to="/export-import/admin">Admin</NavLink>
               </li>
             </ul>
           </div>
-          <NavLink to="/" className="btn btn-ghost normal-case text-xl">
+          <NavLink
+            to="/export-import"
+            className="btn btn-ghost normal-case text-xl"
+          >
             THT
           </NavLink>
         </div>
@@ -57,7 +60,7 @@ const Navbar = () => {
             <li>
               <NavLink
                 className="hover:font-bold hover:text-white"
-                to="/dashboard"
+                to="/export-import/dashboard"
               >
                 Accounts
               </NavLink>
@@ -65,13 +68,16 @@ const Navbar = () => {
             <li>
               <NavLink
                 className="hover:font-bold hover:text-white mx-2"
-                to="/warehouse"
+                to="/export-import/warehouse"
               >
                 Warehouse
               </NavLink>
             </li>
             <li>
-              <NavLink className="hover:font-bold hover:text-white" to="/admin">
+              <NavLink
+                className="hover:font-bold hover:text-white"
+                to="/export-import/admin"
+              >
                 Admin
               </NavLink>
             </li>
@@ -94,7 +100,7 @@ const Navbar = () => {
           </div>
 
           <div>
-            <Link className="hover:text-green-600" to="/signup">
+            <Link className="hover:text-green-600" to="/export-import/signup">
               Create New User
             </Link>
           </div>
