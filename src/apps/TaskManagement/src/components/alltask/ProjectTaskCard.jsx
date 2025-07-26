@@ -1,12 +1,13 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import ProjectTaskMenu from "./ProjectTaskMenu";
-// import { useProjectUpdateStore } from "@/Zustand/useProjectUpdateStore";
 import UpdateProject from "./UpdateProject";
 import { useProjectUpdateStore } from "../../Zustand/useProjectUpdateStore";
+import { useUserData } from "../../hook/useUserData";
 
 const ProjectTaskCard = ({ task }) => {
   const navigate = useNavigate();
+  const { user } = useUserData();
   const { showUpdateModal } = useProjectUpdateStore();
   const handleBugClick = () => {
     navigate(`/task-management/tasks/${task.project_name}`);
@@ -24,7 +25,9 @@ const ProjectTaskCard = ({ task }) => {
               <p className="text-sm text-[#6600FF] font-medium">PROJECTS </p>
             </div>
             <div>
-              <ProjectTaskMenu id={task.id} task={task} />
+              {user.role === "Admin" && (
+                <ProjectTaskMenu id={task.id} task={task} />
+              )}
             </div>
           </div>
           <h2 className="text-lg font-semibold mb-1 mt-6 break-words whitespace-pre-line max-w-full">

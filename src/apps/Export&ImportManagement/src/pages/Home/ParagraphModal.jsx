@@ -23,7 +23,14 @@ const ParagraphModal = ({ text }) => {
         {text.split(" ").length > 15 && (
           <button
             onClick={handleSeeMore}
-            className="text-blue-600 hover:text-blue-800 cursor-pointer ml-1 font-semibold transition-all duration-300 ease-in-out">
+            style={{
+              color: "blue",
+              backgroundColor: "transparent",
+              border: "none",
+              boxShadow: "none",
+              outline: "none",
+            }}
+          >
             See More
           </button>
         )}
@@ -45,7 +52,8 @@ const ParagraphModal = ({ text }) => {
           {/* Close Button */}
           <button
             onClick={handleCloseModal}
-            className="bg-blue-700 hover:bg-blue-800 text-white font-semibold py-3 px-8 rounded-lg focus:outline-none transform transition-all duration-300 ease-in-out shadow-lg">
+            className="bg-blue-700 hover:bg-blue-800 text-white font-semibold py-3 px-8 rounded-lg focus:outline-none transform transition-all duration-300 ease-in-out shadow-lg"
+          >
             Close
           </button>
         </div>

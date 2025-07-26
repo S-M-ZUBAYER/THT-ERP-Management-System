@@ -26,7 +26,9 @@ import { TbBrandElectronicArts } from "react-icons/tb";
 
 const DashboardSidebar = ({ children }) => {
   const [open, setOpen] = useState(true);
-  const user = localStorage.getItem("user");
+  const userString = localStorage.getItem("user");
+  const user = userString ? JSON.parse(userString) : null;
+  console.log(user?.role); // Should now print "Commercial Manager"
 
   const navLinks = [
     {
@@ -35,25 +37,25 @@ const DashboardSidebar = ({ children }) => {
       icon: <AiOutlineDashboard />, // Dashboard icon
     },
     user &&
-      JSON.parse(user)?.role === "Product Manager" && {
+      user?.role === "Product Manager" && {
         path: "/export-import/newproduct",
         display: "Add New Product",
         icon: <MdOutlineProductionQuantityLimits />, // Export icon
       },
     user &&
-      JSON.parse(user)?.role === "Product Manager" && {
+      user?.role === "Product Manager" && {
         path: "/export-import/newbrand",
         display: "Add New Brand",
         icon: <TbBrandElectronicArts />, // Import icon
       },
     user &&
-      JSON.parse(user)?.role === "Product Manager" && {
+      user?.role === "Product Manager" && {
         path: "/export-import/transportroutes",
         display: "Transport Way",
         icon: <FaShippingFast />,
       },
     user &&
-      JSON.parse(user)?.role === "Product Manager" && {
+      user?.role === "Product Manager" && {
         path: "/export-import/transportcountry",
         display: "Destination Country",
         icon: <BiWorld />,
@@ -71,67 +73,67 @@ const DashboardSidebar = ({ children }) => {
     // },
     // Adding new links here
     user &&
-      JSON.parse(user)?.role === "Product Manager" && {
+      user?.role === "Product Manager" && {
         path: "/export-import/datainput",
         display: "Product Data Entry",
         icon: <MdAddToPhotos />,
       },
     user &&
-      JSON.parse(user)?.role === "Product Manager" && {
+      user?.role === "Product Manager" && {
         path: "/export-import/accounts",
         display: "Product Export Summary",
         icon: <MdAccountBalance />,
       },
     user &&
-      JSON.parse(user)?.role === "Product Manager" && {
+      user?.role === "Product Manager" && {
         path: "/export-import/productinboxes",
         display: "Product Palletizing",
         icon: <FaBoxOpen />,
       },
     user &&
-      JSON.parse(user)?.role === "Product Manager" && {
+      user?.role === "Product Manager" && {
         path: "/export-import/printInitialData",
         display: "Pallet info Printing",
         icon: <FiPrinter />,
       },
     user &&
-      JSON.parse(user)?.role === "Commercial Manager" && {
+      user?.role === "Commercial Manager" && {
         path: "/export-import/AddCAndFLevel",
         display: "Add C&F Level",
         icon: <MdOutlineProductionQuantityLimits />, // Export icon
       },
     user &&
-      JSON.parse(user)?.role === "Commercial Manager" && {
+      user?.role === "Commercial Manager" && {
         path: "/export-import/addcharges",
         display: "Add Charges",
         icon: <FaMoneyBill1Wave />,
       },
     user &&
-      JSON.parse(user)?.role === "Commercial Manager" && {
+      user?.role === "Commercial Manager" && {
         path: "/export-import/addProductInBoxValue",
         display: "Add Product InBox Value",
         icon: <FaCalculator />,
       },
     user &&
-      JSON.parse(user)?.role === "Commercial Manager" && {
+      user?.role === "Commercial Manager" && {
         path: "/export-import/export",
         display: "Export Initial Data Entry",
         icon: <BiSolidPurchaseTag />,
       },
     user &&
-      JSON.parse(user)?.role === "Commercial Manager" && {
+      user?.role === "Commercial Manager" && {
         path: "/export-import/exportAndFinance",
         display: "Export Finance Data Entry",
         icon: <BiSolidPurchaseTag />,
       },
     user &&
-      JSON.parse(user)?.role === "Commercial Manager" && {
+      user?.role === "Commercial Manager" && {
         path: "/export-import/finalExport",
         display: "Final Export Checking",
         icon: <BiSolidPurchaseTagAlt />,
       },
     user &&
-      JSON.parse(user)?.role === "Finance" && {
+      user?.role === "Finance" && {
         path: "/export-import/finance",
         display: "Finance Checking",
         icon: <GiTakeMyMoney />,
