@@ -38,49 +38,91 @@ const Routers = () => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/login" element={<Login />} />
+      <Route path="/export-import/login" element={<Login />} />
       <Route element={<PrivateRoute />}>
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/newproduct" element={<NewProduct />} />
-        <Route path="/newproduct/:id" element={<NewProductUpdate />} />
-        <Route path="/newbrand" element={<NewBrand />} />
-        <Route path="/newbrand/:id" element={<NewBrandUpdate />} />
-        <Route path="/import" element={<Import />} />
-        <Route path="/accounts" element={<Accounts />} />
-        <Route path="/accounts/:id" element={<AccountsUpdate />} />
-        <Route path="/warehouse" element={<Warehouse />} />
-        <Route path="/transport" element={<Transport />} />
-        <Route path="/transportroutes" element={<TransportRoutes />} />
+        <Route path="/export-import/dashboard" element={<Dashboard />} />
+        <Route path="/export-import/newproduct" element={<NewProduct />} />
+        <Route
+          path="/export-import/newproduct/:id"
+          element={<NewProductUpdate />}
+        />
+        <Route path="/export-import/newbrand" element={<NewBrand />} />
+        <Route
+          path="/export-import/newbrand/:id"
+          element={<NewBrandUpdate />}
+        />
+        <Route path="/export-import/import" element={<Import />} />
+        <Route path="/export-import/accounts" element={<Accounts />} />
+        <Route
+          path="/export-import/accounts/:id"
+          element={<AccountsUpdate />}
+        />
+        <Route path="/export-import/warehouse" element={<Warehouse />} />
+        <Route path="/export-import/transport" element={<Transport />} />
+        <Route
+          path="/export-import/transportroutes"
+          element={<TransportRoutes />}
+        />
         {/* <Route path="/newproduct" element={<NewProduct />} />
         <Route path="/newproduct/:id" element={<NewProductUpdate />} />
         <Route path="/newbrand" element={<NewBrand />} />
         <Route path="/newbrand/:id" element={<NewBrandUpdate />} /> */}
-        <Route path="/AddCAndFLevel" element={<AddCFLevel />} />
-        <Route path="/datainput" element={<DataInput />} />
-        <Route path="/datainput/:id" element={<DataInputUpdate />} />
-        <Route path="/transportcountry" element={<TransportCountry />} />
-        <Route path="/printInitialData" element={<PrintingExInitialData />} />
-        <Route path="/export" element={<Purchase />} />
-        <Route path="/exportAndFinance" element={<PurchaseFinance />} />
-        <Route path="/finalExport" element={<FinalPurchase />} />
-        <Route path="/transportservice" element={<Transportservice />} />
-        <Route path="/addcharges" element={<AddCharges />} />
-        <Route path="/addcharges/:id" element={<AddChargesUpdate />} />
-        <Route path="/productinboxes" element={<ProductBoxes />} />
+        <Route path="/export-import/AddCAndFLevel" element={<AddCFLevel />} />
+        <Route path="/export-import/datainput" element={<DataInput />} />
         <Route
-          path="/addProductInBoxValue"
+          path="/export-import/datainput/:id"
+          element={<DataInputUpdate />}
+        />
+        <Route
+          path="/export-import/transportcountry"
+          element={<TransportCountry />}
+        />
+        <Route
+          path="/export-import/printInitialData"
+          element={<PrintingExInitialData />}
+        />
+        <Route path="/export-import/export" element={<Purchase />} />
+        <Route
+          path="/export-import/exportAndFinance"
+          element={<PurchaseFinance />}
+        />
+        <Route path="/export-import/finalExport" element={<FinalPurchase />} />
+        <Route
+          path="/export-import/transportservice"
+          element={<Transportservice />}
+        />
+        <Route path="/export-import/addcharges" element={<AddCharges />} />
+        <Route
+          path="/export-import/addcharges/:id"
+          element={<AddChargesUpdate />}
+        />
+        <Route
+          path="/export-import/productinboxes"
+          element={<ProductBoxes />}
+        />
+        <Route
+          path="/export-import/addProductInBoxValue"
           element={<ProductInBoxCalculation />}
         />
-        <Route path="/finance" element={<Finance />} />
-        <Route path="/export-details/:id" element={<FinanceDetails />} />
-        <Route path="/finance-details/:id" element={<FinanceDetails />} />
-        <Route path="/finaldata" element={<FinalData />} />
-        <Route path="/finalData-details/:id" element={<FinanceDetails />} />
+        <Route path="/export-import/finance" element={<Finance />} />
+        <Route
+          path="/export-import/export-details/:id"
+          element={<FinanceDetails />}
+        />
+        <Route
+          path="/export-import/finance-details/:id"
+          element={<FinanceDetails />}
+        />
+        <Route path="/export-import/finaldata" element={<FinalData />} />
+        <Route
+          path="/export-import/finalData-details/:id"
+          element={<FinanceDetails />}
+        />
       </Route>
       <Route element={<AdminRoute />}>
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/admin" element={<Admin />} />
-        <Route path="/signup" element={<Signup />} />
+        <Route path="/export-import/dashboard" element={<Dashboard />} />
+        <Route path="/export-import/admin" element={<Admin />} />
+        <Route path="/export-import/signup" element={<Signup />} />
       </Route>
     </Routes>
   );
