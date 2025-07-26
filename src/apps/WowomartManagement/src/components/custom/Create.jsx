@@ -17,7 +17,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "../ui/alert-dialog";
+} from "../../../../../components/ui/alert-dialog";
 import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
 import {
   DropdownMenu,
@@ -28,8 +28,8 @@ import {
   DropdownMenuTrigger,
   DropdownMenuCheckboxItem,
   DropdownMenuSubTrigger,
-} from "../ui/dropdown-menu";
-// import { Input } from "@/components/ui/input";
+} from "../../../../../components/ui/dropdown-menu";
+
 import {
   Table,
   TableBody,
@@ -37,14 +37,14 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../ui/table";
+} from "../../../../../components/ui/table";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 // import updateExpiredSellers from "@/lib/updateExpiredSellers";
 import { SquarePen, NotebookText, Trash2, UserRoundX } from "lucide-react";
 // import image from "@/constants/image";
-import { Button } from "../ui/button";
-import { Input } from "../ui/input";
+import { Button } from "../../../../../components/ui/button";
+import { Input } from "../../../../../components/ui/input";
 import updateExpiredSellers from "../../lib/updateExpiredSellers";
 import image from "../../constants/image";
 
@@ -310,7 +310,11 @@ export function Create() {
             <Button
               variant="default"
               className="ml-auto"
-              style={{ backgroundColor: "white", color: "#004368" }}
+              style={{
+                backgroundColor: "white",
+                color: "#004368",
+                outline: "none",
+              }}
             >
               Columns <ChevronDown className="ml-2 h-4 w-4" />
             </Button>

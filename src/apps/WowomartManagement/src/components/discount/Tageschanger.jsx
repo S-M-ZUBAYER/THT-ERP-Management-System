@@ -12,7 +12,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
+} from "../../../../../components/ui/form";
 // import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -20,8 +20,8 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
-import { Button } from "../ui/button";
+} from "../../../../../components/ui/select";
+import { Button } from "../../../../../components/ui/button";
 
 const formSchema = z.object({
   userId: z.string(),
@@ -155,6 +155,7 @@ function TagChangeForm() {
                       style={{
                         backgroundColor: "transparent",
                         outline: "none",
+                        boxShadow: "none",
                       }}
                     >
                       <SelectValue

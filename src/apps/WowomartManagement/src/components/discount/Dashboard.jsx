@@ -12,7 +12,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
+} from "../../../../../components/ui/form";
 // import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -20,14 +20,14 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
+} from "../../../../../components/ui/select";
 
 import Datepicker from "./Datepicker";
-import { Input } from "../ui/input";
+import { Input } from "../../../../../components/ui/input";
 import generateRandomCoupon from "../../lib/generateRandomCoupon";
 import formatDateToYYYYMMDD from "../../lib/formatDateToYYYYMMDD";
 import formatDateToEndOfDayUTC from "../../lib/formatDateToEndOfDayUTC";
-import { Button } from "../ui/button";
+import { Button } from "../../../../../components/ui/button";
 // import formatDateToEndOfDayUTC from "@/lib/formatDateToEndOfDayUTC";
 // import generateRandomCoupon from "@/lib/generateRandomCoupon";
 // import formatDateToYYYYMMDD from "@/lib/formatDateToYYYYMMDD";
@@ -170,11 +170,12 @@ function Dashboard({ percents }) {
                       <SelectTrigger
                         style={{
                           backgroundColor: "white",
-                          outline: "none",
                           width: "100%",
                           fontFamily: "sans-serif",
                           color: "#004368",
                           fontSize: "15.5px",
+                          outline: "none",
+                          boxShadow: "none",
                         }}
                       >
                         <SelectValue placeholder="Select condition" />
@@ -212,6 +213,8 @@ function Dashboard({ percents }) {
                         fontFamily: "sans-serif",
                         color: "#004368",
                         fontSize: "15.5px",
+                        outline: "none",
+                        boxShadow: "none",
                       }}
                       {...field}
                     />
@@ -314,7 +317,7 @@ function Dashboard({ percents }) {
               name="expireDate"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-[#004368] font-semibold">
+                  <FormLabel className="text-[#004368] font-semibold w-full">
                     Expiration Date
                   </FormLabel>
                   <Datepicker
@@ -348,6 +351,7 @@ function Dashboard({ percents }) {
                           width: "100%",
                           fontFamily: "sans-serif",
                           color: "#004368",
+                          boxShadow: "none",
                         }}
                       >
                         <SelectValue placeholder="Select percentage" />

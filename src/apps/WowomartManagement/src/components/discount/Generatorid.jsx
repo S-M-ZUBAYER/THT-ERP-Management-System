@@ -9,13 +9,13 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
+} from "../../../../../components/ui/form";
 // import { Input } from "@/components/ui/input";
 import axios from "axios";
 import { useState, useCallback } from "react";
 // import useStore from "@/zustand/inputValueStore";
-import { Button } from "../ui/button";
-import { Input } from "../ui/input";
+import { Button } from "../../../../../components/ui/button";
+import { Input } from "../../../../../components/ui/input";
 import useStore from "../../zustand/inputValueStore";
 
 const formSchema = z.object({
@@ -84,11 +84,12 @@ function GeneratorId() {
                     placeholder="Enter your email"
                     {...field}
                     disabled={form.formState.isSubmitting}
+                    className="autofill-black"
                     style={{
                       backgroundColor: "transparent",
                       outline: "none",
-                      border: "1px solid #004368",
                       color: "#004368",
+                      boxShadow: "none",
                     }}
                   />
                 </FormControl>
@@ -111,7 +112,7 @@ function GeneratorId() {
             type="submit"
             disabled={form.formState.isSubmitting}
             style={{ backgroundColor: "#004368", color: "white" }}
-            className="mt-2 sm:mt-6"
+            className="mt-6 sm:mt-8"
           >
             {form.formState.isSubmitting ? "Fetching..." : "Add Email"}
           </Button>

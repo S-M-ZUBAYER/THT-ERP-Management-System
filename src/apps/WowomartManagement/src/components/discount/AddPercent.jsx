@@ -75,7 +75,11 @@ export function AddPercent({ onSuccess }) {
             step="any"
             {...register("percent", { valueAsNumber: true })}
             placeholder="Enter percent"
-            className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
+            className="border border-gray-300 rounded px-3 py-2 bg-white w-full"
+            style={{
+              outline: "none",
+              boxShadow: "none",
+            }}
           />
           {errors.percent && (
             <p className="text-red-500 text-sm mt-1">
@@ -87,7 +91,11 @@ export function AddPercent({ onSuccess }) {
           <button
             type="submit"
             className="w-full md:w-auto text-white px-4 py-2 rounded hover:bg-gray-800"
-            style={{ backgroundColor: "#004368" }}
+            style={{
+              backgroundColor: "#004368",
+              outline: "none",
+              boxShadow: "none",
+            }}
           >
             Add
           </button>

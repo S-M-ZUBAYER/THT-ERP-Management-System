@@ -33,7 +33,7 @@ export default function AmountConvertedToPercentage() {
           value={productPrice}
           onChange={(e) => setProductPrice(e.target.value)}
           placeholder="Enter product price"
-          className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
         />
       </div>
 
@@ -46,7 +46,7 @@ export default function AmountConvertedToPercentage() {
           value={fixedDiscount}
           onChange={(e) => setFixedDiscount(e.target.value)}
           placeholder="Enter fixed discount"
-          className="w-full px-4 py-2 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full px-4 py-2 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
         />
       </div>
 

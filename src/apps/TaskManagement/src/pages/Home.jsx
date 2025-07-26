@@ -8,7 +8,7 @@ import useTaskColumns from "../hook/useTasksData";
 const Home = () => {
   const { tasksByStatus, loading, error } = useTaskColumns();
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mx-10 w-[75vw] ">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6  w-[80vw] ">
       {loading ? (
         <div className="w-[60vw] h-screen flex justify-center items-center ">
           <Loader />

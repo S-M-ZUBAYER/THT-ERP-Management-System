@@ -28,7 +28,7 @@ const links = [
 
 const Sidebar = () => {
   return (
-    <aside className="w-80 h-screen  border-[#F0E6FF] border-r p-6 flex flex-col justify-between">
+    <>
       <div className=" flex flex-col justify-center items-center">
         <div className="py-10">
           <svg
@@ -89,16 +89,14 @@ const Sidebar = () => {
             <NavLink
               key={idx}
               to={link.path}
+              end={link.path === "/task-management"}
               className={({ isActive }) =>
                 cn(
                   "flex items-center gap-3 px-4 py-2 text-sm font-medium hover:text-[#004368] transition-all rounded-lg",
-                  isActive && " text-[#004368] "
+                  isActive ? "text-[#004368]" : "text-[#BDBDBD]"
                 )
               }
-              style={({ isActive }) => ({
-                color: isActive ? "#004368" : "#BDBDBD",
-                outline: "none",
-              })}
+              style={{ outline: "none" }}
             >
               <img src={link.icon} alt="icons" className="w-5" />
               <span>{link.label}</span>
@@ -116,13 +114,13 @@ const Sidebar = () => {
           }}
           onClick={() => {
             localStorage.removeItem("user");
-            window.location.href = "/sign-in";
+            window.location.href = "/task-management/sign-in";
           }}
         >
           <img src={icons.LogOut} alt="log out" className="w-5" /> Log out
         </Button>
       </div>
-    </aside>
+    </>
   );
 };
 
