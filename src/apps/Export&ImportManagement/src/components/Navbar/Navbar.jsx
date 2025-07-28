@@ -14,14 +14,15 @@ import { Menu } from "lucide-react";
 const Navbar = () => {
   const navigate = useNavigate();
   const { user, logoutUser } = useContext(UserContext);
+  console.log(user);
 
   const handleLogout = () => {
     logoutUser();
-    navigate("/");
+    navigate("/export-import");
   };
 
   return (
-    <header className="bg-slate-100 border-b shadow-sm w-screen">
+    <header className="bg-slate-100 border-b shadow-sm w-[99vw] ">
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-4">
           <DropdownMenu>
@@ -107,6 +108,7 @@ const Navbar = () => {
                 border: "none",
                 backgroundColor: "transparent",
                 fontWeight: "bold",
+                outline: "none",
               }}
               onClick={handleLogout}
             >
@@ -120,6 +122,7 @@ const Navbar = () => {
                   border: "none",
                   backgroundColor: "transparent",
                   fontWeight: "bold",
+                  outline: "none",
                 }}
               >
                 Sign In
@@ -133,6 +136,7 @@ const Navbar = () => {
                 border: "none",
                 backgroundColor: "transparent",
                 fontWeight: "bold",
+                outline: "none",
               }}
             >
               Create New User
