@@ -1,9 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
+import React from "react";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
-import { UserContext } from "../context/authContext";
-import axios from "axios";
 import { toast } from "react-toastify";
-import { ClipLoader } from "react-spinners";
 
 const AdminRoute = () => {
   const location = useLocation();
@@ -19,7 +16,7 @@ const AdminRoute = () => {
     return <Outlet />;
   } else {
     toast.error("You don't have permission to access this route");
-    return <Navigate to="/" state={{ from: location }} replace />;
+    return <Navigate to="/export-import`" state={{ from: location }} replace />;
   }
 };
 
