@@ -1,0 +1,18 @@
+{
+  "shift schedule": "Shift Schedule",
+  "Entry Time": "Entry Time",
+  "Exit Time": "Exit Time",
+  "Submit": "Submit",
+  "Shift Schedule Table": "Shift Schedule Tabel",
+  "Team": "Team",
+  "Clear All Table Data": "Clear All Table Data",
+  "No Shift Data Available": "No Shift Data Available",
+  "Common Shift Times": "Common Shift Times",
+  "note headline": "*Note",
+  "Logically it's not Possible": "Logically it's not Possible",
+  "Shift": "Shift",
+  "Action": "Action",
+  "Delete": "Delete",
+  "note": "Group 09 is for setting the shift change time, which is defaulted to midnight (00:00). If you clock in after 00:00, the entry will be recorded in the next day's column. However, if our latest off-duty time exceeds 00:00, we need to manually adjust the time for Group 09. For example, if you leave at 2:00 AM, you need to change Group 09 to at least 2:30 AM (to avoid clocking in exactly at 2:00 AM, which would push the entry to the next day). Typically, we set this time at least 30 minutes later than the latest off-duty time.",
+  "note 2": "A Maximum of 3 Shifting Schedules or Groups Can Be Set!"
+}

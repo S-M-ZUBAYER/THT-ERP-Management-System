@@ -1,0 +1,20 @@
+{
+    "shift schedule": "Jadual Syif",
+    "Entry Time": "Waktu Masuk",
+    "Exit Time": "Waktu Keluar",
+    "Submit": "Hantar",
+    "Shift Schedule Table": "Jadual Syif",
+    "Team": "Pasukan",
+    "Clear All Table Data": "Kosongkan Semua Data Jadual",
+    "No Shift Data Available": "Tiada Data Syif Tersedia",
+    "Common Shift Times": "Waktu Syif Biasa",
+    "note headline": "Penjelasan Masa Pertukaran Syif",
+    "note": "Grup 09 adalah untuk menetapkan masa pertukaran syif, yang secara lalai ditetapkan pada tengah malam (00:00). Jika anda mencatatkan waktu masuk selepas 00:00, rekod tersebut akan dimasukkan ke dalam lajur hari berikutnya. Walau bagaimanapun, jika waktu pulang paling lewat melebihi 00:00, kita perlu mengubah masa untuk Grup 09 secara manual. Sebagai contoh, jika anda pulang pada pukul 2:00 pagi, anda perlu mengubah Grup 09 ke sekurang-kurangnya 2:30 pagi (untuk mengelakkan mencatatkan waktu masuk tepat pada 2:00 pagi yang akan mendorong rekod ke hari berikutnya). Biasanya, kami menetapkan masa ini sekurang-kurangnya 30 minit lebih lewat daripada waktu pulang paling lewat.",
+    "Logically it's not Possible": "Secara logiknya, ia tidak mungkin",
+    "Shift": "Syif",
+    "Action": "Tindakan",
+    "Delete": "Padam",
+    "Team Name": "Nama Pasukan",
+    "Clear All": "Padam Semua",
+    "note 2": "Maksimum 3 jadual syif atau kumpulan boleh ditetapkan!"
+}

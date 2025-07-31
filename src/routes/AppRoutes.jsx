@@ -7,6 +7,7 @@ import WowomartApp from "@/apps/WowomartManagement/src/App";
 // import ExportImportApp from "@/apps/ExportImportManagement/src/routers/Routers.jsx";
 import ExportImportApp from "../apps/Export&ImportManagement/src/App";
 import TranslatorApp from "../apps/Translator/src/TranslatorApp"; // ✅ default import now
+import AttendanceShiftingApp from "../apps/AttendanceShifting/App"; // ✅ default import now
 
 const AppRoutes = () => {
   return (
@@ -17,6 +18,10 @@ const AppRoutes = () => {
       <Route path="/wowomart-management/*" element={<WowomartApp />} />
       <Route path="/export-import/*" element={<ExportImportApp />} />
       <Route path="/translator/*" element={<TranslatorApp />} />
+      <Route
+        path="/attendance-shifting/*"
+        element={<AttendanceShiftingApp />}
+      />
     </Routes>
   );
 };

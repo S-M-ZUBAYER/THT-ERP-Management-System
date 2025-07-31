@@ -7,6 +7,7 @@ import customerManagementLogo from "../assets/WebsiteImages/customerManagement.j
 import exportImportLogo from "../assets/WebsiteImages/exportImportLogo.jpg";
 import taskManagementLogo from "../assets/WebsiteImages/taskManagmentLogo.jpg";
 import translatorLogo from "../assets/WebsiteImages/translatorLogo.jpg";
+import attendanceShiftingLogo from "../assets/WebsiteImages/attendanceShiftingLogo.jpg";
 
 const websites = [
   {
@@ -33,6 +34,11 @@ const websites = [
     name: "THT-Translator System",
     route: "/translator",
     img: translatorLogo,
+  },
+  {
+    name: "THT-Attendance Shifting System",
+    route: "/attendance-shifting",
+    img: attendanceShiftingLogo,
   },
 ];
 
