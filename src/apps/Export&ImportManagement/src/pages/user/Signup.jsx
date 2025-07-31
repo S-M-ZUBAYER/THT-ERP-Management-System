@@ -9,6 +9,7 @@ const Signup = () => {
   const [userEmail, setUserEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
+  const [btnLoading, setBtnLoading] = useState(false);
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
@@ -38,20 +39,25 @@ const Signup = () => {
     }
 
     if (Object.keys(validationErrors).length === 0) {
+      setBtnLoading(true);
       axios
         .post(
           "https://grozziieget.zjweiting.com:3091/web-api-tht-1/api/dev/users/signup",
           { userName, userEmail, password, role }
         )
-        .then((res) => {
+        .then(() => {
           loginUser(userEmail);
           toast.success("User create Successfully", { position: "top-center" });
-          navigate("/");
+          navigate("/export-import");
           // window.location.reload();
         })
-        .catch((err) =>
-          toast.error("Something went wrong", { position: "top-center" })
-        );
+        .catch((err) => {
+          console.log(err);
+          toast.error("Something went wrong", { position: "top-center" });
+        })
+        .finally(() => {
+          setBtnLoading(false);
+        });
     } else {
       setErrors(validationErrors);
     }
@@ -79,7 +85,7 @@ const Signup = () => {
                   Name
                 </label>
                 <input
-                  className="w-full border-2 border-gray-100 rounded-xl p-2 mt-1 bg-transparent"
+                  className="w-full border-2 border-gray-100 rounded-xl p-2 mt-1 bg-transparent autofill-black"
                   placeholder="Enter your name"
                   type="text"
                   name="userName"
@@ -97,7 +103,7 @@ const Signup = () => {
                   Email
                 </label>
                 <input
-                  className="w-full border-2 border-gray-100 rounded-xl p-2 mt-1 bg-transparent"
+                  className="w-full border-2 border-gray-100 rounded-xl p-2 mt-1 bg-transparent autofill-black"
                   placeholder="Enter your email"
                   type="text"
                   name="useEmail"
@@ -115,7 +121,7 @@ const Signup = () => {
                   Password
                 </label>
                 <input
-                  className="w-full border-2 border-gray-100 rounded-xl p-2 mt-1 bg-transparent"
+                  className="w-full border-2 border-gray-100 rounded-xl p-2 mt-1 bg-transparent autofill-black"
                   placeholder="Enter your password"
                   type="password"
                   name="password"
@@ -133,7 +139,7 @@ const Signup = () => {
                   Role
                 </label>
                 <select
-                  className="w-full border-2 border-gray-100 rounded-xl p-2 mt-1 bg-transparent"
+                  className="w-full border-2 border-gray-100 rounded-xl p-2 mt-1 bg-transparent autofill-black"
                   name="role"
                   value={role}
                   onChange={(e) => setRole(e.target.value)}
@@ -156,16 +162,26 @@ const Signup = () => {
                 <button
                   className="active:scale-[.98] active:duration-75 hover:scale-[1.03] ease-in-out transition-all py-3 rounded-xl bg-violet-500 text-white text-lg font-bold"
                   type="submit"
+                  disabled={btnLoading}
                 >
-                  Sign up
+                  {btnLoading ? "Loading" : "Sign up"}
                 </button>
-                <div className="divider text-base font-semibold">OR</div>
+                <div className="divider text-base font-semibold text-center ">
+                  OR
+                </div>
               </div>
               <div className="mt-4 flex justify-center items-center">
                 <p className="font-normal text-base">
                   Already have an account?
                 </p>
-                <button className="text-violet-500 text-base font-medium ml-2">
+                <button
+                  className="text-violet-500 text-base font-medium ml-2"
+                  style={{
+                    border: "none",
+                    backgroundColor: "transparent",
+                    outline: "none",
+                  }}
+                >
                   <Link to="/export-import/login">Log In</Link>
                 </button>
               </div>

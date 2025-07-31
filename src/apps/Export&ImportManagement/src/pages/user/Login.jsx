@@ -39,7 +39,7 @@ const Login = () => {
         if (foundUser) {
           userID(foundUser); // Store the found user's ID
           toast.success("Login Successfully", { position: "top-center" });
-          navigate("/"); // Navigate to the home page
+          navigate("/export-import"); // Navigate to the home page
         } else {
           toast.error("User not found", { position: "top-center" });
         }
@@ -49,12 +49,12 @@ const Login = () => {
         });
       }
     } catch (err) {
+      console.log(err);
       toast.error("Something went wrong. Please try again!");
     } finally {
       setBtnLoading(false); // Ensure button loading state is reset in both success and error cases
     }
   };
-
 
   return (
     <div className="flex w-full h-screen">
@@ -65,7 +65,8 @@ const Login = () => {
             borderRadius: "50px",
             background: "#e0e0e0",
             boxShadow: "20px 20px 60px #bebebe, -20px -20px 60px #ffffff",
-          }}>
+          }}
+        >
           <h1 className="text-4xl font-semibold text-center">Welcome Back</h1>
           <p className="font-medium text-base text-gray-500 mt-4 text-center">
             Please Enter Your Details
@@ -77,7 +78,7 @@ const Login = () => {
                   Email
                 </label>
                 <input
-                  className="w-full border-2 border-gray-100 rounded-xl p-4 mt-1 bg-transparent"
+                  className="w-full border-2 border-gray-100 rounded-xl p-4 mt-1 bg-transparent autofill-black outline-none"
                   placeholder="Enter your email"
                   type="email"
                   name="useEmail"
@@ -92,7 +93,7 @@ const Login = () => {
                   Password
                 </label>
                 <input
-                  className="w-full border-2 border-gray-100 rounded-xl p-4 mt-1 bg-transparent"
+                  className="w-full border-2 border-gray-100 rounded-xl p-4 mt-1 bg-transparent autofill-black outline-none"
                   placeholder="Enter your password"
                   type="password"
                   name="password"
@@ -105,16 +106,25 @@ const Login = () => {
               <div className="mt-5 flex flex-col gap-y-4">
                 <button
                   className="active:scale-[.98] active:duration-75 hover:scale-[1.03] ease-in-out transition-all py-3 rounded-xl bg-violet-500 text-white text-lg font-bold"
-                  type="submit">
+                  type="submit"
+                >
                   {btnLoading ? "Loading" : "Sign in"}
-
                 </button>
-                <div className="divider text-base font-semibold">OR</div>
+                <div className="divider text-base font-semibold text-center">
+                  OR
+                </div>
               </div>
               <div className="mt-8 flex justify-center items-center">
                 <p className="font-normal text-base">Don't have an account?</p>
-                <button className="text-violet-500 text-base font-medium ml-2">
-                  <Link to="/signup">Sign Up</Link>
+                <button
+                  className="text-violet-500 text-base font-medium ml-2"
+                  style={{
+                    border: "none",
+                    backgroundColor: "transparent",
+                    outline: "none",
+                  }}
+                >
+                  <Link to="/export-import/signup">Sign Up</Link>
                 </button>
               </div>
             </div>

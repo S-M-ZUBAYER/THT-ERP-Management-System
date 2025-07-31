@@ -81,7 +81,7 @@ const NotificationDrawer = () => {
         </div>
       </DrawerTrigger>
 
-      <DrawerContent className="fixed top-0 right-0 h-full w-80 bg-white shadow-lg border-l z-50">
+      <DrawerContent className="fixed top-0 right-0 h-full w-80 bg-white shadow-lg border-l z-50 ">
         <DrawerHeader>
           <DrawerTitle>Notifications</DrawerTitle>
           <DrawerDescription>Your recent messages</DrawerDescription>

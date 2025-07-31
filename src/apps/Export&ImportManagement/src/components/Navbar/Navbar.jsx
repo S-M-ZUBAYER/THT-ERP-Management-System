@@ -2,6 +2,15 @@ import React, { useContext } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { UserContext } from "../context/authContext";
 
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+  DropdownMenuItem,
+} from "@/components/ui/dropdown-menu";
+import { Menu } from "lucide-react";
+
 const Navbar = () => {
   const navigate = useNavigate();
   const { user, logoutUser } = useContext(UserContext);
@@ -9,104 +18,133 @@ const Navbar = () => {
 
   const handleLogout = () => {
     logoutUser();
-    navigate("/");
+    navigate("/export-import");
   };
 
   return (
-    <div className="bg-gradient-to-tr bg-slate-200">
-      <div className="container mx-auto navbar bg-gradient-to-tr bg-slate-200 px-14 text-black font-semibold">
-        <div className="navbar-start">
-          <div className="dropdown">
-            <label tabIndex={0} className="btn btn-ghost lg:hidden">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h8m-8 6h16"
-                />
-              </svg>
-            </label>
-            <ul
-              tabIndex={0}
-              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-slate-200 rounded-box w-52 font-bold "
+    <header className="bg-slate-100 border-b shadow-sm w-[99vw] ">
+      <div className="container mx-auto px-4 py-3 flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          <DropdownMenu>
+            <DropdownMenuTrigger
+              className="lg:hidden"
+              style={{
+                color: "black",
+                border: "none",
+                backgroundColor: "transparent",
+                outline: "none",
+              }}
             >
-              <li>
-                <NavLink to="/export-import/dashboard">Accounts</NavLink>
-              </li>
-              <li>
-                <NavLink to="/export-import/warehouse">Warehouse</NavLink>
-              </li>
-              <li>
-                <NavLink to="/export-import/admin">Admin</NavLink>
-              </li>
-            </ul>
-          </div>
+              <Menu className="h-6 w-6" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              style={{
+                backgroundColor: "white",
+                border: "none",
+                outline: "none",
+              }}
+            >
+              <DropdownMenuItem asChild>
+                <NavLink
+                  to="/export-import/dashboard"
+                  className="text-black hover:bg-gray-200 hover:text-white px-3 py-2 rounded font-bold"
+                >
+                  Accounts
+                </NavLink>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <NavLink
+                  to="/export-import/warehouse"
+                  className="text-black hover:bg-gray-200 hover:text-white px-3 py-2 rounded font-bold"
+                >
+                  Warehouse
+                </NavLink>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <NavLink
+                  to="/export-import/admin"
+                  className="text-black hover:bg-gray-200 hover:text-white px-3 py-2 rounded font-bold"
+                >
+                  Admin
+                </NavLink>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
           <NavLink
             to="/export-import"
-            className="btn btn-ghost normal-case text-xl"
+            className="text-xl font-bold text-primary"
           >
             THT
           </NavLink>
         </div>
-        <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1">
-            <li>
-              <NavLink
-                className="hover:font-bold hover:text-white"
-                to="/export-import/dashboard"
-              >
-                Accounts
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                className="hover:font-bold hover:text-white mx-2"
-                to="/export-import/warehouse"
-              >
-                Warehouse
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                className="hover:font-bold hover:text-white"
-                to="/export-import/admin"
-              >
-                Admin
-              </NavLink>
-            </li>
-          </ul>
-        </div>
-        <div className="navbar-end gap-4">
-          <div>
-            {user ? (
-              <p
-                className="hover:text-red-600 cursor-pointer"
-                onClick={handleLogout}
-              >
-                Log Out
-              </p>
-            ) : (
-              <NavLink to="/export-import/login" className="">
-                Sign In
-              </NavLink>
-            )}
-          </div>
 
-          <div>
-            <Link className="hover:text-green-600" to="/export-import/signup">
+        <nav className="hidden lg:flex gap-6 text-sm font-medium">
+          <NavLink
+            to="/export-import/dashboard"
+            className="text-black hover:bg-gray-200 hover:text-white px-3 py-2 rounded font-bold"
+          >
+            Accounts
+          </NavLink>
+          <NavLink
+            to="/export-import/warehouse"
+            className="text-black hover:bg-gray-200 hover:text-white px-3 py-2 rounded font-bold"
+          >
+            Warehouse
+          </NavLink>
+          <NavLink
+            to="/export-import/admin"
+            className="text-black hover:bg-gray-200 hover:text-white px-3 py-2 rounded font-bold"
+          >
+            Admin
+          </NavLink>
+        </nav>
+
+        <div className="flex items-center gap-4">
+          {user ? (
+            <Button
+              style={{
+                color: "black",
+                border: "none",
+                backgroundColor: "transparent",
+                fontWeight: "bold",
+                outline: "none",
+              }}
+              onClick={handleLogout}
+            >
+              Log Out
+            </Button>
+          ) : (
+            <NavLink to="/export-import/login">
+              <Button
+                style={{
+                  color: "black",
+                  border: "none",
+                  backgroundColor: "transparent",
+                  fontWeight: "bold",
+                  outline: "none",
+                }}
+              >
+                Sign In
+              </Button>
+            </NavLink>
+          )}
+          <NavLink to="/export-import/signup">
+            <Button
+              style={{
+                color: "black",
+                border: "none",
+                backgroundColor: "transparent",
+                fontWeight: "bold",
+                outline: "none",
+              }}
+            >
               Create New User
-            </Link>
-          </div>
+            </Button>
+          </NavLink>
         </div>
       </div>
-    </div>
+    </header>
   );
 };
 

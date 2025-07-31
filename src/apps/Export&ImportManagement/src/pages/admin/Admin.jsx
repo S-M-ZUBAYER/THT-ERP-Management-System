@@ -27,7 +27,7 @@ const Admin = () => {
         setUsers(response.data);
         setUserLoading(false);
       } catch (error) {
-        console.error("Failed to fetch users");
+        console.error("Failed to fetch users", error);
         setUserLoading(false);
       }
     };
@@ -47,12 +47,10 @@ const Admin = () => {
         );
         // Update local state
         setUsers((prevUsers) =>
-          prevUsers.map((u) =>
-            u.id === user.id ? { ...u, admin: true } : u
-          )
+          prevUsers.map((u) => (u.id === user.id ? { ...u, admin: true } : u))
         );
         toast.success("User has been made admin successfully!");
-      } catch (error) {
+      } catch {
         toast.error("Failed to make user admin");
       }
     }
@@ -71,7 +69,12 @@ const Admin = () => {
     try {
       await axios.put(
         `https://grozziieget.zjweiting.com:3091/web-api-tht-1/api/dev/users`,
-        { ...selectedUser, userName: newName, password: newPassword, role: newRole }
+        {
+          ...selectedUser,
+          userName: newName,
+          password: newPassword,
+          role: newRole,
+        }
       );
       // Update local state
       setUsers((prevUsers) =>
@@ -83,70 +86,71 @@ const Admin = () => {
       );
       toast.success("User details updated successfully!");
       setIsModalOpen(false); // Close modal
-    } catch (error) {
+    } catch {
       toast.error("Failed to update user details");
     }
   };
 
   return (
-    <div className="max-h-screen mb-6">
+    <div className="max-h-screen mb-6  overflow-y-auto custom-scrollbar">
       <h1 className="text-xl md:text-4xl mt-10 text-center font-bold text-violet-500 uppercase tracking-wide">
         User List
       </h1>
-      {
-        userLoading ?
-          <div className="">
-            <ClipLoader
-              color={"#36d7b7"}
-              loading={userLoading}
-              size={50}
-              cssOverride={override}
-            />
-            <p className="text-center font-extralight text-xl text-green-400">
-              Please wait ....
-            </p>
-          </div> :
-          <div className="overflow-x-auto mt-7 mx-[35px] md:mx-3">
-            <table className="min-w-full bg-white shadow-md rounded-lg">
-              <thead className="bg-violet-500 text-white">
-                <tr>
-                  <th className="py-3 px-6 text-left">Name</th>
-                  <th className="py-3 px-6 text-left">Email</th>
-                  <th className="py-3 px-6 text-left">Role</th>
-                  <th className="py-3 px-6 text-left">Admin</th>
-                  <th className="py-3 px-6 text-left">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {users.map((user) => (
-                  <tr key={user.id} className="border-b">
-                    <td className="py-3 px-6">{user.userName}</td>
-                    <td className="py-3 px-6">{user.userEmail}</td>
-                    <td className="py-3 px-6">{user.role}</td>
-                    <td className="py-3 px-6">
-                      {user.admin ? "Admin" : "Not Admin"}
-                    </td>
-                    <td className="py-3 px-6 flex space-x-4">
-                      {!user.admin && (
-                        <button
-                          onClick={() => handleMakeAdmin(user)}
-                          className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600">
-                          Make Admin
-                        </button>
-                      )}
+      {userLoading ? (
+        <div className="">
+          <ClipLoader
+            color={"#36d7b7"}
+            loading={userLoading}
+            size={50}
+            cssOverride={override}
+          />
+          <p className="text-center font-extralight text-xl text-green-400">
+            Please wait ....
+          </p>
+        </div>
+      ) : (
+        <div className="overflow-x-auto mt-7 mx-[35px] md:mx-3">
+          <table className="min-w-full bg-white shadow-md rounded-lg">
+            <thead className="bg-violet-500 text-white">
+              <tr>
+                <th className="py-3 px-6 text-left">Name</th>
+                <th className="py-3 px-6 text-left">Email</th>
+                <th className="py-3 px-6 text-left">Role</th>
+                <th className="py-3 px-6 text-left">Admin</th>
+                <th className="py-3 px-6 text-left">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {users.map((user) => (
+                <tr key={user.id} className="border-b">
+                  <td className="py-3 px-6">{user.userName}</td>
+                  <td className="py-3 px-6">{user.userEmail}</td>
+                  <td className="py-3 px-6">{user.role}</td>
+                  <td className="py-3 px-6">
+                    {user.admin ? "Admin" : "Not Admin"}
+                  </td>
+                  <td className="py-3 px-6 flex space-x-4">
+                    {!user.admin && (
                       <button
-                        onClick={() => handleEditClick(user)}
-                        className="bg-yellow-500 text-white px-4 py-1 rounded hover:bg-yellow-600">
-                        Edit
+                        onClick={() => handleMakeAdmin(user)}
+                        className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600"
+                      >
+                        Make Admin
                       </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-      }
-
+                    )}
+                    <button
+                      onClick={() => handleEditClick(user)}
+                      className="bg-yellow-500 text-white px-4 py-1 rounded hover:bg-yellow-600"
+                    >
+                      Edit
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
 
       {/* Modal for editing user */}
       {isModalOpen && (
@@ -156,7 +160,9 @@ const Admin = () => {
           contentLabel="Edit User"
           className="bg-white rounded-lg p-6 shadow-lg max-w-lg mx-auto mt-20"
         >
-          <h2 className="text-xl font-bold mb-4 text-center text-cyan-600">Edit User</h2>
+          <h2 className="text-xl font-bold mb-4 text-center text-cyan-600">
+            Edit User
+          </h2>
           <div className="mb-4">
             <label className="block text-sm font-bold mb-2">Email</label>
             <input
@@ -182,7 +188,10 @@ const Admin = () => {
               onChange={(e) => setNewRole(e.target.value)}
               className="w-full p-2 border rounded bg-white"
             >
-              <option value="" disabled>Select Role</option>  {/* Placeholder option */}
+              <option value="" disabled>
+                Select Role
+              </option>{" "}
+              {/* Placeholder option */}
               <option value="Commercial Manager">Commercial Manager</option>
               <option value="Finance">Finance</option>
               <option value="Product Manager">Product Manager</option>
@@ -200,12 +209,12 @@ const Admin = () => {
 
           <button
             onClick={handleUpdateUser}
-            className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+            className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+          >
             Update
           </button>
         </Modal>
       )}
-
     </div>
   );
 };
