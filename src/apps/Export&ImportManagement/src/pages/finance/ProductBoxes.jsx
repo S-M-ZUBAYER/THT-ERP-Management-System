@@ -14,9 +14,9 @@ const ProductBoxes = () => {
   // const [selectedProductModels, setSelectedProductModels] = useState("");
   const [selectedProductPallet, setSelectedProductPallet] = useState("");
   const [inputValues, setInputValues] = useState({});
-  const [allProducts, setAllProducts] = useState("")
-  const [allPerBoxQuantity, setAllPerBoxQuantity] = useState("")
-  const [totalPerProductQuantity, setTotalPerProductQuantity] = useState("")
+  const [allProducts, setAllProducts] = useState("");
+  const [allPerBoxQuantity, setAllPerBoxQuantity] = useState("");
+  const [totalPerProductQuantity, setTotalPerProductQuantity] = useState("");
   const [perBoxProducts, setPerBoxProducts] = useState(0);
   const [productQuantity, setProductQuantity] = useState(0);
   const [totalBox, setTotalBox] = useState(0);
@@ -59,7 +59,6 @@ const ProductBoxes = () => {
     }
   };
 
-
   // Handle pallet input change
   const handlePalletInputChange = (e) => {
     setSelectedProductPallet(e.target.value);
@@ -71,7 +70,6 @@ const ProductBoxes = () => {
     setTruckNumber(e.target.value);
     setErrorMessage("");
   };
-
 
   // const formSubmit = async (e) => {
   //   e.preventDefault();
@@ -111,7 +109,6 @@ const ProductBoxes = () => {
   //         date: selectedFixDate,
   //       };
 
-
   //       // Send the data to the product API
   //       const productResponse = await fetch(
   //         "https://grozziieget.zjweiting.com:3091/web-api-tht-1/api/dev/product_in_boxes",
@@ -140,7 +137,6 @@ const ProductBoxes = () => {
   //         productQuantity: product.productQuantity,
   //         date: selectedFixDate,
   //       };
-
 
   //       // Split productModels and modelQuantity if there are multiple values
   //       const productModels = product.productModels.split(",").map((model) => model.trim());
@@ -221,7 +217,9 @@ const ProductBoxes = () => {
     }
 
     if (!selectedFixDate) {
-      toast.error("Please select the fix date first.", { position: "top-center" });
+      toast.error("Please select the fix date first.", {
+        position: "top-center",
+      });
       setLoading(false);
       return;
     }
@@ -240,7 +238,9 @@ const ProductBoxes = () => {
             productPerBox: product.productQuantity,
             weightPerBox: parseFloat(product.weightPerBox),
             totalBox: product.totalBox,
-            individualTotalBoxWeight: parseFloat(product.individualTotalBoxWeight),
+            individualTotalBoxWeight: parseFloat(
+              product.individualTotalBoxWeight
+            ),
             totalPallet: product.palletNo,
             truckNumber: product.truckNumber,
             date: selectedFixDate,
@@ -257,15 +257,26 @@ const ProductBoxes = () => {
           );
 
           if (!productResponse.ok) {
-            throw new Error(`Failed to save product: ${productResponse.status} ${productResponse.statusText}`);
+            throw new Error(
+              `Failed to save product: ${productResponse.status} ${productResponse.statusText}`
+            );
           }
 
           // Split productModels and modelQuantity if there are multiple values
-          const productModels = product.productModels.split(",").map((model) => model.trim());
-          const productQuantities = product.modelQuantity.split(",").map((quantity) => quantity.trim());
-          const perProductTotalQuantity = product.perProductTotalQuantity.split(",").map((quantity) => quantity.trim());
+          const productModels = product.productModels
+            .split(",")
+            .map((model) => model.trim());
+          const productQuantities = product.modelQuantity
+            .split(",")
+            .map((quantity) => quantity.trim());
+          const perProductTotalQuantity = product.perProductTotalQuantity
+            .split(",")
+            .map((quantity) => quantity.trim());
 
-          if (productModels.length !== productQuantities.length || perProductTotalQuantity.length !== productQuantities.length) {
+          if (
+            productModels.length !== productQuantities.length ||
+            perProductTotalQuantity.length !== productQuantities.length
+          ) {
             throw new Error("Mismatch between product models and quantities.");
           }
 
@@ -282,7 +293,10 @@ const ProductBoxes = () => {
                   }
                 );
               } catch (error) {
-                console.error(`Failed to update office account for ${model}:`, error);
+                console.error(
+                  `Failed to update office account for ${model}:`,
+                  error
+                );
                 throw error;
               }
             })
@@ -291,17 +305,23 @@ const ProductBoxes = () => {
       );
 
       // Success toast and navigation
-      toast.success("Successfully uploaded to server", { position: "top-center" });
+      toast.success("Successfully uploaded to server", {
+        position: "top-center",
+      });
       navigate("/printInitialData");
-
     } catch (error) {
       console.error("Error occurred:", error);
 
       // Error handling based on type
       if (error.message.includes("Failed to fetch")) {
-        toast.error("Network Error. Please check your connection.", { position: "top-center" });
+        toast.error("Network Error. Please check your connection.", {
+          position: "top-center",
+        });
       } else if (error.response) {
-        toast.error(`API Error: ${error.response.status} ${error.response.statusText}`, { position: "top-center" });
+        toast.error(
+          `API Error: ${error.response.status} ${error.response.statusText}`,
+          { position: "top-center" }
+        );
       } else {
         toast.error(`Error: ${error.message}`, { position: "top-center" });
       }
@@ -309,7 +329,6 @@ const ProductBoxes = () => {
       setLoading(false); // ✅ Ensure loading state resets
     }
   };
-
 
   useEffect(() => {
     setLoading(true);
@@ -328,7 +347,7 @@ const ProductBoxes = () => {
       setFilteredProducts(sortedData);
 
       // Extract unique dates from the products
-      const uniqueDates = [...new Set(data.map(product => product.date))];
+      const uniqueDates = [...new Set(data.map((product) => product.date))];
       setDates(uniqueDates);
       setLoading(false);
     } catch (error) {
@@ -342,7 +361,6 @@ const ProductBoxes = () => {
 
   const handleToProductAdd = (e) => {
     e.preventDefault();
-
 
     // Create the product object
     const productData = {
@@ -359,31 +377,26 @@ const ProductBoxes = () => {
       totalBox,
       palletNo: selectedProductPallet,
       truckNumber,
-      date: selectedFixDate
+      date: selectedFixDate,
     };
 
     // Append the new product object to the array
     setProductList((prevProductList) => [...prevProductList, productData]);
-    setSelectedProductName("")
-    setAllProducts("")
-    setAllPerBoxQuantity("")
-    setAllModelQuantity("")
-    setSelectedProductModels("")
-    setPerBoxProducts(0)
-    setProductQuantity(0)
-    setTotalBox(0)
+    setSelectedProductName("");
+    setAllProducts("");
+    setAllPerBoxQuantity("");
+    setAllModelQuantity("");
+    setSelectedProductModels("");
+    setPerBoxProducts(0);
+    setProductQuantity(0);
+    setTotalBox(0);
     setSelectedProductPallet("");
     setTruckNumber("");
     setWeightPerBox(0);
     setIndividualTotalBoxWeight(0);
 
-
-
     // return;
   };
-
-
-
 
   const handleNameInputChange = (e) => {
     const [productName, productBrand] = e.target.value.split(","); // Split productName and productBrand
@@ -391,7 +404,8 @@ const ProductBoxes = () => {
     const models = filteredProducts
       .filter(
         (product) =>
-          product.productName === productName && product.productBrand === productBrand
+          product.productName === productName &&
+          product.productBrand === productBrand
       )
       .map((product) => ({
         modelNo: product.productModel,
@@ -413,9 +427,6 @@ const ProductBoxes = () => {
     setInputValues({});
   };
 
-
-
-
   const handleProductModelCheckboxChange = (e, model) => {
     const { value, checked } = e.target;
     setSelectedProductModels((prev) => ({
@@ -426,7 +437,11 @@ const ProductBoxes = () => {
     if (checked) {
       setModelData((prev) => ({
         ...prev,
-        [value]: { perBox: "", quantity: "", totalQuantity: model.totalQuantityPerProduct }, // Clear data when unchecked
+        [value]: {
+          perBox: "",
+          quantity: "",
+          totalQuantity: model.totalQuantityPerProduct,
+        }, // Clear data when unchecked
       }));
     }
   };
@@ -479,44 +494,44 @@ const ProductBoxes = () => {
     // Use updatedModelData in place of modelData for accurate calculations
 
     const TotalProduct = Object.keys(selectedProductModels) // Get all the model keys
-      .filter(model => selectedProductModels[model]) // Filter only the checked models
-      .join(', ');
+      .filter((model) => selectedProductModels[model]) // Filter only the checked models
+      .join(", ");
     setAllProducts(TotalProduct);
 
-
-
-
     const splitQuantity = Object.keys(updatedModelData) // Get all the model keys
-      .filter(model => selectedProductModels[model]) // Filter only the checked models
-      .map(model => updatedModelData[model]?.quantity) // Get the quantity for each checked model
-      .filter(quantity => quantity !== undefined) // Ensure we only take models that have quantities
-      .join(', '); // Join them into a string separated by commas
+      .filter((model) => selectedProductModels[model]) // Filter only the checked models
+      .map((model) => updatedModelData[model]?.quantity) // Get the quantity for each checked model
+      .filter((quantity) => quantity !== undefined) // Ensure we only take models that have quantities
+      .join(", "); // Join them into a string separated by commas
 
     setAllModelQuantity(splitQuantity); // Set the state with the resulting string
 
     const splitTotalQuantity = Object.keys(updatedModelData) // Get all the model keys
-      .filter(model => selectedProductModels[model]) // Filter only the checked models
-      .map(model => updatedModelData[model]?.totalQuantity) // Get the quantity for each checked model
-      .filter(totalQuantity => totalQuantity !== undefined) // Ensure we only take models that have quantities
-      .join(', '); // Join them into a string separated by commas
+      .filter((model) => selectedProductModels[model]) // Filter only the checked models
+      .map((model) => updatedModelData[model]?.totalQuantity) // Get the quantity for each checked model
+      .filter((totalQuantity) => totalQuantity !== undefined) // Ensure we only take models that have quantities
+      .join(", "); // Join them into a string separated by commas
 
     setTotalPerProductQuantity(splitTotalQuantity); // Set the state with the resulting string
 
     const splitPerBox = Object.keys(updatedModelData) // Get all the model keys
-      .filter(model => selectedProductModels[model]) // Filter only the checked models
-      .map(model => updatedModelData[model]?.perBox) // Get the quantity for each checked model
-      .filter(perBox => perBox !== undefined) // Ensure we only take models that have quantities
-      .join(', '); // Join them into a string separated by commas
+      .filter((model) => selectedProductModels[model]) // Filter only the checked models
+      .map((model) => updatedModelData[model]?.perBox) // Get the quantity for each checked model
+      .filter((perBox) => perBox !== undefined) // Ensure we only take models that have quantities
+      .join(", "); // Join them into a string separated by commas
 
     setAllPerBoxQuantity(splitPerBox); // Set the state with the resulting string
-
 
     const productPerBox = Object.values(updatedModelData) // Get all the values from the updated modelData object
       .reduce((sum, model) => sum + (parseInt(model.perBox) || 0), 0);
     setPerBoxProducts(productPerBox);
 
     const totalBox = Object.values(updatedModelData) // Get all the values from the updated modelData object
-      .map(model => Math.ceil((parseInt(model.quantity) || 0) / (parseInt(model.perBox) || 1))) // Calculate ceiling of quantity/perBox for each model
+      .map((model) =>
+        Math.ceil(
+          (parseInt(model.quantity) || 0) / (parseInt(model.perBox) || 1)
+        )
+      ) // Calculate ceiling of quantity/perBox for each model
       .reduce((max, current) => Math.max(max, current), 0); // Find the largest result
 
     setTotalBox(totalBox); // Set the totalBox with the largest value
@@ -525,8 +540,6 @@ const ProductBoxes = () => {
       .reduce((sum, model) => sum + (parseInt(model.quantity) || 0), 0);
     setProductQuantity(totalQuantity);
   };
-
-
 
   const handleDateChange = (event) => {
     const selectedDate = event.target.value;
@@ -542,8 +555,6 @@ const ProductBoxes = () => {
   const handleFixDateChange = (event) => {
     const selectedFixDate = event.target.value;
     setSelectedFixDate(selectedFixDate);
-
-
   };
 
   // Function to calculate total box weight when weight per box is input
@@ -559,19 +570,18 @@ const ProductBoxes = () => {
     setIndividualTotalBoxWeight(totalWeight);
   };
 
-
   return (
     <div>
       {/* Form Design for Products Boxes */}
       <div className="mt-5 lg:flex justify-center items-center mb-4">
-        <form className="card shadow-xl mt-5 p-3"  >
+        <form className="card shadow-xl mt-5 p-3">
           <div className="flex justify-between items-center bg-slate-500 p-3 rounded-lg my-6">
-            <h2 className="text-4xl font-bold text-info">
+            <h2 className="text-4xl font-bold text-info text-[#93E6FB]">
               Products Listed For Export
             </h2>
             <div className="flex space-x-4">
               <select
-                className="p-2 rounded-lg border border-gray-300"
+                className="p-2 rounded-lg border border-gray-300 !bg-white search-input w-[15vw]"
                 value={selectedDate}
                 onChange={handleDateChange} // Update selected date on change
               >
@@ -597,13 +607,18 @@ const ProductBoxes = () => {
                       </label>
                       <div className="input-group">
                         <select
-                          className="select select-secondary w-full focus:outline-none"
-                          value={`${selectedProductName},${selectedProductBrand}` || ""} // Include both productName and productBrand
+                          className="select select-secondary w-full focus:outline-none h-[50px] rounded-md border-2 border-[#93E6FB] "
+                          value={
+                            `${selectedProductName},${selectedProductBrand}` ||
+                            ""
+                          } // Include both productName and productBrand
                           name="productName"
                           required
                           onChange={handleNameInputChange}
                         >
-                          <option value="" className="mt-2">Pick product Name</option>
+                          <option value="" className="mt-2">
+                            Pick product Name
+                          </option>
                           {filteredProducts?.map((product, index) => (
                             <option
                               key={index}
@@ -626,59 +641,74 @@ const ProductBoxes = () => {
                         Select Models:
                       </label>
 
-                      <div className="flex flex-col space-y-4 overflow-scroll h-44">
-                        {Array.isArray(modelList) && modelList.map((model, index) => (
-                          <div key={index} className="flex items-center justify-between w-full bg-gray-100 p-2 rounded-md">
-                            {/* Checkbox for each model */}
-                            <div className="flex items-center space-x-2">
-                              <input
-                                className="checkbox checkbox-xs checkbox-info"
-                                type="checkbox"
-                                value={model?.modelNo}
-                                checked={!!selectedProductModels[model?.modelNo]} // Check if the model is selected
-                                onChange={(e) => handleProductModelCheckboxChange(e, model)}
-                              />
-                              {/* Display model name */}
-                              <label className="text-sm font-semibold">{model?.modelNo}</label>
-                            </div>
-
-                            {selectedProductModels[model?.modelNo] && (
-                              <div className="flex items-center space-x-4">
-                                {/* Input for perBox */}
+                      <div className="flex flex-col space-y-4 overflow-scroll h-44 custom-scrollbar">
+                        {Array.isArray(modelList) &&
+                          modelList.map((model, index) => (
+                            <div
+                              key={index}
+                              className="flex items-center justify-between w-full bg-gray-100 p-2 rounded-md"
+                            >
+                              {/* Checkbox for each model */}
+                              <div className="flex items-center space-x-2 ">
                                 <input
-                                  type="number"
-                                  min="0"
-                                  value={modelData[model?.modelNo]?.perBox || ""}
-                                  onChange={(e) => handlePerBoxValueChange(e, model,)}
-                                  placeholder="Per Box"
-                                  className="w-[100px] p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
+                                  className="checkbox checkbox-xs checkbox-info "
+                                  type="checkbox"
+                                  value={model?.modelNo}
+                                  checked={
+                                    !!selectedProductModels[model?.modelNo]
+                                  } // Check if the model is selected
+                                  onChange={(e) =>
+                                    handleProductModelCheckboxChange(e, model)
+                                  }
                                 />
-
-                                {/* Input for quantity */}
-                                <input
-                                  type="number"
-                                  min="0"
-                                  value={modelData[model?.modelNo]?.quantity || ""}
-                                  onChange={(e) => handleQuantityValueChange(e, model)}
-                                  placeholder="Product Quantity"
-                                  className="w-[170px] p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
-                                />
+                                {/* Display model name */}
+                                <label className="text-sm font-semibold">
+                                  {model?.modelNo}
+                                </label>
                               </div>
-                            )}
-                          </div>
-                        ))}
+
+                              {selectedProductModels[model?.modelNo] && (
+                                <div className="flex items-center space-x-4">
+                                  {/* Input for perBox */}
+                                  <input
+                                    type="number"
+                                    min="0"
+                                    value={
+                                      modelData[model?.modelNo]?.perBox || ""
+                                    }
+                                    onChange={(e) =>
+                                      handlePerBoxValueChange(e, model)
+                                    }
+                                    placeholder="Per Box"
+                                    className="w-[100px] p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
+                                  />
+
+                                  {/* Input for quantity */}
+                                  <input
+                                    type="number"
+                                    min="0"
+                                    value={
+                                      modelData[model?.modelNo]?.quantity || ""
+                                    }
+                                    onChange={(e) =>
+                                      handleQuantityValueChange(e, model)
+                                    }
+                                    placeholder="Product Quantity"
+                                    className="w-[170px] p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
+                                  />
+                                </div>
+                              )}
+                            </div>
+                          ))}
                       </div>
-
-
-
-
                     </div>
 
                     {/* Product Per Box */}
                     <div>
                       <label
                         className="text-lg font-semibold"
-                        htmlFor="productPerBox">
+                        htmlFor="productPerBox"
+                      >
                         Product Per Box
                       </label>
                       <input
@@ -695,7 +725,8 @@ const ProductBoxes = () => {
                     <div>
                       <label
                         className="text-lg font-semibold"
-                        htmlFor="weightPerBox">
+                        htmlFor="weightPerBox"
+                      >
                         Weight Per Box
                       </label>
                       <input
@@ -713,7 +744,8 @@ const ProductBoxes = () => {
                     <div>
                       <label
                         className="text-lg font-semibold"
-                        htmlFor="boxQuantity">
+                        htmlFor="boxQuantity"
+                      >
                         How Many Boxes
                       </label>
                       <input
@@ -731,7 +763,8 @@ const ProductBoxes = () => {
                     <div>
                       <label
                         className="text-lg font-semibold"
-                        htmlFor="individualTotalBoxWeight">
+                        htmlFor="individualTotalBoxWeight"
+                      >
                         Total Box Weight
                       </label>
                       <input
@@ -749,7 +782,8 @@ const ProductBoxes = () => {
                     <div>
                       <label
                         className="text-lg font-semibold"
-                        htmlFor="productQuantity">
+                        htmlFor="productQuantity"
+                      >
                         Product Quantity
                       </label>
                       <input
@@ -766,9 +800,7 @@ const ProductBoxes = () => {
 
                     {/* Pallet */}
                     <div className="">
-                      <label
-                        className="text-lg font-semibold"
-                        htmlFor="pallet">
+                      <label className="text-lg font-semibold" htmlFor="pallet">
                         Pallet Number
                       </label>
                       <input
@@ -789,7 +821,8 @@ const ProductBoxes = () => {
                     <div className="">
                       <label
                         className="text-lg font-semibold"
-                        htmlFor="truckNumber">
+                        htmlFor="truckNumber"
+                      >
                         Container Number
                       </label>
                       <input
@@ -814,7 +847,9 @@ const ProductBoxes = () => {
           <div className="flex flex-col md:flex-row justify-end items-center mx-7 py-5">
             <button
               className="btn btn-info px-10 active:scale-[.98] active:duration-75 hover:scale-[1.03] ease-in-out transition-all py-3 rounded-lg bg-violet-500 text-white font-bold hover:text-black"
-              type="submit" onClick={handleToProductAdd}>
+              type="submit"
+              onClick={handleToProductAdd}
+            >
               Add Products
             </button>
           </div>
@@ -830,7 +865,8 @@ const ProductBoxes = () => {
         <div
           className="overflow-x-auto add__scrollbar"
           ref={componentPDF}
-          style={{ width: "100%" }}>
+          style={{ width: "100%" }}
+        >
           <table className="table">
             <thead>
               <tr>
@@ -870,9 +906,7 @@ const ProductBoxes = () => {
         </div>
         {productList.length > 0 && (
           <div className="">
-            <label
-              className="text-lg font-semibold"
-              htmlFor="finalDate">
+            <label className="text-lg font-semibold" htmlFor="finalDate">
               Final Date
             </label>
             <select
@@ -887,16 +921,16 @@ const ProductBoxes = () => {
                 </option>
               ))}
             </select>
-            {errorMessage && (
-              <p className="text-red-500">{errorMessage}</p>
-            )}
-          </div>)}
+            {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+          </div>
+        )}
         {/* Save Button Below the Table */}
         {productList.length > 0 && (
           <div className="flex justify-end mt-4">
             <button
               className="btn btn-info font-bold px-6 py-2 text-purple-950 hover:text-purple-800"
-              onClick={formSubmit}>
+              onClick={formSubmit}
+            >
               {btnLoading ? "Saving" : "Save"}
             </button>
           </div>

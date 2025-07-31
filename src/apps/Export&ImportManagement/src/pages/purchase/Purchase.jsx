@@ -541,60 +541,94 @@ const Purchase = () => {
                   </p>
                 </div>
               ) : (
-                <table className="table">
-                  <thead>
-                    <tr>
-                      <th className="sticky top-0 bg-gray-200">Select</th>
-                      <th className="sticky top-0 bg-gray-200">Serial No</th>
-                      <th className="sticky top-0 bg-gray-200">Date</th>
-                      <th className="sticky top-0 bg-gray-200">Product Name</th>
-                      <th className="sticky top-0 bg-gray-200">
-                        Product Model
-                      </th>
-                      <th className="sticky top-0 bg-gray-200">Quantity</th>
-                      <th className="sticky top-0 bg-gray-200">Pallet No.</th>
-                      <th className="sticky top-0 bg-gray-200">Truck No.</th>
-                      {/* <th className="sticky top-0 bg-gray-200">Action</th> */}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {filteredData?.map((product, index) => {
-                      // const jsonStr = product.productModel.replace(
-                      //   /^"|"$/g,
-                      //   ""
-                      // );
-                      // const data = JSON.parse(jsonStr);
-                      // const result = data.join(",");
-                      return (
-                        <tr className={`hover cursor-pointer`} key={product.id}>
-                          <td>
-                            <input
-                              type="checkbox"
-                              className="checkbox checkbox-info"
-                              name="product"
-                              value={product.id}
-                              checked={selectedItems.includes(product.id)}
-                              onChange={() => handleCheckboxChange(product)}
-                              // onClick={() => handleProductCheck(product)}
-                            />
-                          </td>
-                          <td>{index + 1}</td>
-                          <td>{product.date}</td>
-                          <td>{product.productName}</td>
-                          <td>{product.productModel}</td>
-                          <td>{product.quantity}</td>
-                          <td>{product.totalPallet}</td>
-                          <td>{product.truckNumber}</td>
-                          {/* <td>
-                            <button onClick={() => handleDelete(product?.id)}>
-                              <AiOutlineDelete className="w-6 h-6 text-red-600" />
-                            </button>
-                          </td> */}
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
+                <div className="overflow-x-auto">
+                  <table className="w-full border-collapse bg-white shadow-sm">
+                    <thead>
+                      <tr className="bg-gray-100 border-b border-gray-200">
+                        <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">
+                          Select
+                        </th>
+                        <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">
+                          Serial No
+                        </th>
+                        <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">
+                          Date
+                        </th>
+                        <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">
+                          Product Name
+                        </th>
+                        <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">
+                          Product Model
+                        </th>
+                        <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">
+                          Quantity
+                        </th>
+                        <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">
+                          Pallet No.
+                        </th>
+                        <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">
+                          Truck No.
+                        </th>
+                      </tr>
+                    </thead>
+                  </table>
+
+                  <div className="max-h-[400px] overflow-y-auto custom-scrollbar">
+                    <table className="w-full border-collapse bg-white">
+                      <tbody>
+                        {filteredData && filteredData.length > 0 ? (
+                          filteredData.map((product, index) => (
+                            <tr
+                              key={product.id}
+                              className="border-b border-gray-100 hover:bg-gray-50 transition-colors duration-150 cursor-pointer"
+                            >
+                              <td className="px-4 py-3">
+                                <input
+                                  type="checkbox"
+                                  className="custom-checkbox"
+                                  name="product"
+                                  value={product.id}
+                                  checked={selectedItems.includes(product.id)}
+                                  onChange={() => handleCheckboxChange(product)}
+                                />
+                              </td>
+                              <td className="px-4 py-3 text-sm text-gray-900">
+                                {index + 1}
+                              </td>
+                              <td className="px-4 py-3 text-sm text-gray-900">
+                                {product.date}
+                              </td>
+                              <td className="px-4 py-3 text-sm text-gray-900">
+                                {product.productName}
+                              </td>
+                              <td className="px-4 py-3 text-sm text-gray-900">
+                                {product.productModel}
+                              </td>
+                              <td className="px-4 py-3 text-sm text-gray-900">
+                                {product.quantity}
+                              </td>
+                              <td className="px-4 py-3 text-sm text-gray-900">
+                                {product.totalPallet}
+                              </td>
+                              <td className="px-4 py-3 text-sm text-gray-900">
+                                {product.truckNumber}
+                              </td>
+                            </tr>
+                          ))
+                        ) : (
+                          <tr>
+                            <td
+                              colSpan={8}
+                              className="px-4 py-8 text-center text-gray-500"
+                            >
+                              No data found
+                            </td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
               )}
             </div>
           </div>

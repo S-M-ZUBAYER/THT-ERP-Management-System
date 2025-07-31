@@ -21,7 +21,7 @@ const NewProduct = () => {
   const [formData, setFormData] = useState({
     productName: "",
     chineseName: "",
-    malaysiaName: ""
+    malaysiaName: "",
   });
 
   const handleChange = (event) => {
@@ -70,8 +70,6 @@ const NewProduct = () => {
     setFilteredProducts(filtered);
   };
 
-
-
   // handle save button
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -105,7 +103,6 @@ const NewProduct = () => {
           toast.error("Error coming from server please try again later", {
             position: "top-center",
           })
-
         );
       setBtnLoading(false);
     }
@@ -191,7 +188,8 @@ const NewProduct = () => {
             <div className="mt-5 flex justify-end gap-y-4">
               <button
                 className="btn btn-info px-10 active:scale-[.98] active:duration-75 hover:scale-[1.03] ease-in-out transition-all py-3 rounded-lg bg-violet-500 text-white font-bold hover:text-black"
-                type="submit">
+                type="submit"
+              >
                 {btnLoading ? "Saving" : "Save"}
               </button>
             </div>
@@ -202,13 +200,13 @@ const NewProduct = () => {
       {/* Table data get from products database */}
       <div className="w-full lg:w-3/4 mx-auto">
         <div className="flex justify-between items-center bg-slate-500 p-[10px] rounded-lg my-6">
-          <h1 className="text-2xl text-info font-bold uppercase">
+          <h1 className="text-2xl text-info font-bold uppercase text-[#93E6FB]">
             Product's Name
           </h1>
           <input
             type="text"
             placeholder="Search Product"
-            className="p-2 rounded-lg border border-gray-300"
+            className="p-2 rounded-lg border border-gray-300 !bg-white search-input"
             value={searchTerm}
             onChange={handleSearch} // Update search term on input change
           />
@@ -228,32 +226,67 @@ const NewProduct = () => {
               </p>
             </div>
           ) : (
-            <table className="table">
-              {/* head */}
-              <thead>
-                <tr>
-                  <th className="sticky top-0 bg-gray-200">Serial No</th>
-                  <th className="sticky top-0 bg-gray-200">Product Name</th>
-                  <th className="sticky top-0 bg-gray-200">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredProducts?.map((product, index) => (
-                  <tr className="hover cursor-pointer" key={product.id}>
-                    <td>{index + 1}</td>
-                    <td>{product.productName}</td>
-                    <td className="flex space-x-10">
-                      <Link to={`/newproduct/${product.id}`}>
-                        <AiOutlineEdit className="w-6 h-6 text-purple-600" />
-                      </Link>
-                      <button onClick={() => handleDelete(product.id)}>
-                        <AiOutlineDelete className="w-6 h-6 text-red-600" />
-                      </button>
-                    </td>
+            <div className="overflow-x-auto">
+              <table className="w-full border-collapse bg-white shadow-sm">
+                <thead>
+                  <tr className="bg-gray-100 border-b border-gray-200">
+                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">
+                      Serial No
+                    </th>
+                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">
+                      Product Name
+                    </th>
+                    <th className="pr-16 py-3  text-sm font-medium text-gray-700 ">
+                      Actions
+                    </th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+              </table>
+
+              <div className="max-h-[400px] overflow-y-auto custom-scrollbar">
+                <table className="w-full border-collapse bg-white">
+                  <tbody>
+                    {filteredProducts && filteredProducts.length > 0 ? (
+                      filteredProducts.map((product, index) => (
+                        <tr
+                          key={product.id}
+                          className="border-b border-gray-100 hover:bg-gray-50 transition-colors duration-150 cursor-pointer"
+                        >
+                          <td className="px-4 py-3 text-sm text-gray-900">
+                            {index + 1}
+                          </td>
+                          <td className="px-4 py-3 text-sm text-gray-900 text-center">
+                            {product.productName}
+                          </td>
+                          <td className="px-4 py-3 ">
+                            <div className="flex space-x-10 justify-center">
+                              <Link to={`/newproduct/${product.id}`}>
+                                <AiOutlineEdit className="w-6 h-6 text-purple-600 hover:text-purple-700 transition-colors" />
+                              </Link>
+                              <button
+                                onClick={() => handleDelete(product.id)}
+                                className="hover:bg-red-50 p-1 rounded transition-colors"
+                              >
+                                <AiOutlineDelete className="w-6 h-6 text-red-600 hover:text-red-700" />
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td
+                          colSpan={3}
+                          className="px-4 py-8 text-center text-gray-500"
+                        >
+                          No data found
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
           )}
         </div>
       </div>
