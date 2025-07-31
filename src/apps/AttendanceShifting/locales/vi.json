@@ -1,0 +1,20 @@
+{
+    "shift schedule": "Lịch Làm Việc Theo Ca",
+    "Entry Time": "Thời gian vào",
+    "Exit Time": "Thời gian ra",
+    "Submit": "Gửi",
+    "Shift Schedule Table": "Bảng Lịch Làm Việc Theo Ca",
+    "Team": "Đội",
+    "Clear All Table Data": "Xóa Tất Cả Dữ Liệu Bảng",
+    "No Shift Data Available": "Không Có Dữ Liệu Ca Làm",
+    "Common Shift Times": "Giờ Làm Việc Thông Thường",
+    "note headline": "Giải Thích Thời Gian Thay Ca",
+    "Logically it's not Possible": "Về mặt logic, điều đó không thể xảy ra",
+    "Shift": "Ca làm việc",
+    "Action": "Hành động",
+    "Delete": "Xóa",
+    "note": "Nhóm 09 dùng để thiết lập thời gian thay ca, mặc định là nửa đêm (00:00). Nếu bạn chấm công sau 00:00, sẽ ghi vào cột của ngày hôm sau. Tuy nhiên, nếu thời gian tan ca muộn nhất của chúng ta vượt quá 00:00, chúng ta cần điều chỉnh thời gian của Nhóm 09 thủ công. Ví dụ, nếu bạn tan ca lúc 2:00 sáng, bạn cần thay đổi Nhóm 09 thành ít nhất 2:30 sáng (để tránh việc chấm công đúng 2:00 sáng, khiến dữ liệu bị chuyển sang ngày hôm sau). Thông thường, chúng tôi sẽ cài đặt thời gian này trễ hơn ít nhất 30 phút so với thời gian tan ca muộn nhất.",
+    "Team Name": "Tên Đội",
+    "Clear All": "Xóa Tất Cả",
+    "note 2": "Tối đa 3 lịch làm việc theo ca hoặc nhóm có thể được thiết lập!"
+}

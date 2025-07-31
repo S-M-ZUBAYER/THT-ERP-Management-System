@@ -7,6 +7,7 @@ import WowomartApp from "@/apps/WowomartManagement/src/App";
 // import ExportImportApp from "@/apps/ExportImportManagement/src/routers/Routers.jsx";
 import ExportImportApp from "../apps/Export&ImportManagement/src/App";
 import TranslatorApp from "../apps/Translator/src/TranslatorApp"; // ✅ default import now
+import AttendanceShiftingApp from "../apps/AttendanceShifting/App"; // ✅ default import now
 
 const AppRoutes = () => {
   return (
