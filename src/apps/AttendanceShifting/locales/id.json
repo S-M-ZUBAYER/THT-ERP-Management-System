@@ -1,0 +1,20 @@
+{
+    "shift schedule": "Jadwal Shift",
+    "Entry Time": "Waktu Masuk",
+    "Exit Time": "Waktu Keluar",
+    "Submit": "Kirim",
+    "Shift Schedule Table": "Jadwal Shift",
+    "Team": "Tim",
+    "Clear All Table Data": "Hapus Semua Data Tabel",
+    "No Shift Data Available": "Tidak Ada Data Shift Tersedia",
+    "Common Shift Times": "Waktu Shift Umum",
+    "note headline": "Penjelasan Waktu Pergantian Shift",
+    "Logically it's not Possible": "Secara logis, itu tidak mungkin",
+    "Shift": "Shift",
+    "Action": "Tindakan",
+    "Delete": "Hapus",
+    "note": "Grup 09 digunakan untuk mengatur waktu pergantian shift, yang secara default disetel pada tengah malam (00:00). Jika Anda masuk setelah 00:00, entri akan dicatat di kolom hari berikutnya. Namun, jika waktu pulang terakhir kami melebihi 00:00, kami perlu menyesuaikan waktu Grup 09 secara manual. Misalnya, jika Anda pulang jam 2:00 pagi, Anda perlu mengubah Grup 09 menjadi setidaknya 2:30 pagi (untuk menghindari pencatatan masuk pada pukul 2:00 yang akan memindahkan entri ke hari berikutnya). Biasanya, kami mengatur waktu ini setidaknya 30 menit setelah waktu pulang terakhir.",
+    "Team Name": "Nama Tim",
+    "Clear All": "Bersihkan Semua",
+    "note 2": "Maksimal 3 jadwal shift atau grup dapat diatur!"
+}
