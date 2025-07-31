@@ -3,7 +3,36 @@ import { Link } from "react-router-dom";
 import CarrierTableData from "./CarrierTableData";
 import ShippingDataTable from "./ShippingDataTable";
 
-const ExpensesForm = ({ handleToFinalSave, btnLoading, expenses, onExpenseSave, onTotalCostChange, rows, setRows, containerServiceProvider, setContainerServiceProvider, formData, setFormData, shipCostTK, setShipCostTK, shipCostUSD, setShipCostUSD, totalFareAmount, setTotalFareAmount, totalAitVat, setTotalAitVat, totalCarrierAmount, setTotalCarrierAmount, selectedExpensesList, setSelectedExpensesList, ipNo, invoiceNo, truckNo, transportCountry, transportPort }) => {
+const ExpensesForm = ({
+  handleToFinalSave,
+  btnLoading,
+  expenses,
+  onExpenseSave,
+  onTotalCostChange,
+  rows,
+  setRows,
+  containerServiceProvider,
+  setContainerServiceProvider,
+  formData,
+  setFormData,
+  shipCostTK,
+  setShipCostTK,
+  shipCostUSD,
+  setShipCostUSD,
+  totalFareAmount,
+  setTotalFareAmount,
+  totalAitVat,
+  setTotalAitVat,
+  totalCarrierAmount,
+  setTotalCarrierAmount,
+  selectedExpensesList,
+  setSelectedExpensesList,
+  ipNo,
+  invoiceNo,
+  truckNo,
+  transportCountry,
+  transportPort,
+}) => {
   const [selectedExpenses, setSelectedExpenses] = useState([]);
   const [remarks, setRemarks] = useState({});
   const [dates, setDates] = useState({});
@@ -69,20 +98,18 @@ const ExpensesForm = ({ handleToFinalSave, btnLoading, expenses, onExpenseSave, 
     .toFixed(2);
   onTotalCostChange(totalCost);
 
-
-
   return (
     <div className="p-4">
-      <div className=" overflow-x-auto add__scrollbar">
+      <div className=" overflow-x-auto add__scrollbar custom-scrollbar max-h-[400px] overflow-y-auto">
         {expenses.map((expense) => (
-          <div key={expense.id} className="mb-4 grid grid-cols-4 gap-3">
-            <label className="mb-2 flex items-center font-bold">
+          <div key={expense.id} className="mb-4 grid grid-cols-4 gap-3 ">
+            <label className="mb-2 flex items-center gap-2 font-bold">
               <input
                 type="checkbox"
                 value={expense.id}
                 checked={selectedExpenses.includes(String(expense.id))}
                 onChange={handleCheckboxChange}
-                className="mr-2 checkbox checkbox-info"
+                className="custom-checkbox"
               />
               {expense.particularExpenseName}
             </label>
@@ -128,7 +155,6 @@ const ExpensesForm = ({ handleToFinalSave, btnLoading, expenses, onExpenseSave, 
         invoiceNo={invoiceNo}
         truckNo={truckNo}
       ></CarrierTableData>
-
 
       <ShippingDataTable
         formData={formData}

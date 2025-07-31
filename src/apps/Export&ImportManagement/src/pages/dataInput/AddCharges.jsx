@@ -1,7 +1,7 @@
 /* eslint-disable no-restricted-globals */
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
 import { ClipLoader } from "react-spinners";
@@ -31,8 +31,6 @@ const AddCharges = () => {
     });
   };
 
-
-
   useEffect(() => {
     setLoading(true);
     fetchAccounts();
@@ -45,11 +43,10 @@ const AddCharges = () => {
         "https://grozziieget.zjweiting.com:3091/web-api-tht-1/api/dev/addcharges"
       );
 
-
       setCharges(response?.data);
       setFilteredCharges(response?.data); // Initially set filtered charges to the full list
       setLoading(false);
-    } catch (error) {
+    } catch {
       console.error("Error getting data from server!", {
         position: "top-center",
       });
@@ -63,8 +60,8 @@ const AddCharges = () => {
     setSearchTerm(value);
 
     // Filter charges based on search term for expensesName
-    const filtered = charges.filter((charge) =>
-      charge?.particularExpenseName?.toLowerCase()?.includes(value) // Filter by expensesName
+    const filtered = charges.filter(
+      (charge) => charge?.particularExpenseName?.toLowerCase()?.includes(value) // Filter by expensesName
     );
 
     setFilteredCharges(filtered);
@@ -96,13 +93,13 @@ const AddCharges = () => {
             },
           }
         )
-        .then((res) => {
+        .then(() => {
           toast.success("Data Successfully Uploaded to server", {
             position: "top-center",
           });
           fetchAccounts();
         })
-        .catch((err) => {
+        .catch(() => {
           toast.error("Error coming from server please try again later", {
             position: "top-center",
           });
@@ -112,7 +109,6 @@ const AddCharges = () => {
         });
     }
   };
-
 
   // data delete from server and also frontend
   const handleDelete = async (id) => {
@@ -126,7 +122,7 @@ const AddCharges = () => {
         );
         toast.warn("Data successfully Deleted!!", { position: "top-center" });
         fetchAccounts();
-      } catch (error) {
+      } catch {
         toast.error("You can't delete now. Please try again later!", {
           position: "top-center",
         });
@@ -176,11 +172,9 @@ const AddCharges = () => {
             <div className="mt-5 flex justify-end gap-y-4">
               <button
                 className="btn btn-info px-10 active:scale-[.98] active:duration-75 hover:scale-[1.03] ease-in-out transition-all py-3 rounded-lg bg-violet-500 text-white font-bold hover:text-black"
-                type="submit">
-                {
-                  btnLoading ? "Saving" : "Save"
-                }
-
+                type="submit"
+              >
+                {btnLoading ? "Saving" : "Save"}
               </button>
             </div>
           </div>
@@ -190,13 +184,13 @@ const AddCharges = () => {
       {/* Table data get from accouts input database */}
       <div className="w-full lg:w-3/4 mx-auto">
         <div className="flex justify-between items-center bg-slate-500 p-[10px] rounded-lg my-6">
-          <h1 className="text-2xl text-info font-bold uppercase">
+          <h1 className="text-2xl text-info font-bold uppercase text-[#93E6FB] ">
             Charges List
           </h1>
           <input
             type="text"
             placeholder="Search Charges..."
-            className="p-2 rounded-lg border border-gray-300"
+            className="p-2 rounded-lg border border-gray-300 !bg-white search-input"
             value={searchTerm} // Assuming searchTerm is part of your state
             onChange={handleSearch} // Assuming handleSearch is defined to handle input changes
           />

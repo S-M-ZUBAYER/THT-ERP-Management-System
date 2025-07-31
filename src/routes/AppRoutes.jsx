@@ -19,8 +19,8 @@ const AppRoutes = () => {
       <Route path="/export-import/*" element={<ExportImportApp />} />
       <Route path="/translator/*" element={<TranslatorApp />} />
       <Route
-        path="/attendance-shifting/*"
-        element={<AttendanceShiftingApp />}
+        path="*"
+        element={<div>Page not found. Please check the URL.</div>}
       />
     </Routes>
   );

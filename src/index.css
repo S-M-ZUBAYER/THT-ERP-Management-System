@@ -65,7 +65,7 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: transparent;
   cursor: pointer;
   transition: border-color 0.25s;
 }
@@ -86,7 +86,7 @@ button:focus-visible {
     color: #747bff;
   }
   button {
-    background-color: #f9f9f9;
+    background-color: transparent;
   }
 }
 
@@ -118,32 +118,6 @@ button:focus-visible {
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
   }
-  .dark {
-    --background: 0 0% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 9%;
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 0 0% 14.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 0 0% 83.1%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
-  }
 }
 
 @layer base {
@@ -152,6 +126,66 @@ button:focus-visible {
   }
   body {
     @apply bg-background text-foreground;
+  }
+
+  /* Set input backgrounds to transparent */
+  input,
+  textarea,
+  select {
+    background-color: transparent !important;
+    color: #213547 !important;
+  }
+
+  input:focus,
+  textarea:focus,
+  select:focus {
+    background-color: transparent !important;
+    color: #213547 !important;
+  }
+
+  /* Override for search inputs that need white background on focus */
+  .search-input:focus {
+    background-color: white !important;
+  }
+
+  /* Override for checkboxes to have proper styling */
+  input[type="checkbox"] {
+    background-color: white !important;
+    width: 24px !important;
+    height: 20px !important;
+  }
+
+  /* Custom checkbox styling */
+  .custom-checkbox {
+    width: 24px !important;
+    height: 20px !important;
+    background-color: white !important;
+    border: 2px solid #3b82f6 !important;
+    border-radius: 4px !important;
+    appearance: none !important;
+    cursor: pointer !important;
+    position: relative !important;
+  }
+
+  .custom-checkbox:checked {
+    background-color: #3b82f6 !important;
+    border-color: #3b82f6 !important;
+  }
+
+  .custom-checkbox:checked::after {
+    content: "✓" !important;
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    color: white !important;
+    font-size: 12px !important;
+    font-weight: bold !important;
+  }
+
+  .custom-checkbox:focus {
+    outline: none !important;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5) !important;
   }
 }
 
@@ -183,7 +217,7 @@ input:-webkit-autofill {
   box-shadow: 0 0 0px 1000px white inset !important;
   -webkit-box-shadow: 0 0 0px 1000px white inset !important;
   transition: background-color 5000s ease-in-out 0s;
-  color: #004368 !important;
+  color: transparent !important;
 }
 
 /*svg roller */
