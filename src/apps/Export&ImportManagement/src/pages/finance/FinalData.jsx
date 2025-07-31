@@ -38,7 +38,7 @@ const FinalData = () => {
   const [selectedFinance, setSelectedFinance] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { financeDetailsData, setFinanceDetailsData } = useContext(UserContext);
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState("");
   const [filteredFinalData, setFilteredFinalData] = useState([]);
   const openModal = (finance) => {
     setSelectedFinance(finance);
@@ -59,7 +59,12 @@ const FinalData = () => {
   }, []);
 
   const handlePageChange = ({ selected }) => {
-    setFilteredFinalData(finances.slice(selected * itemsPerPage, selected * itemsPerPage + itemsPerPage))
+    setFilteredFinalData(
+      finances.slice(
+        selected * itemsPerPage,
+        selected * itemsPerPage + itemsPerPage
+      )
+    );
     setCurrentPage(selected);
   };
 
@@ -69,8 +74,9 @@ const FinalData = () => {
         "https://grozziieget.zjweiting.com:3091/web-api-tht-1/api/dev/finance"
       );
       const sortedData = response?.data.sort((a, b) => b.id - a.id);
-      const finalData = sortedData.filter((data) => data.status === "finalData"
-      )
+      const finalData = sortedData.filter(
+        (data) => data.status === "finalData"
+      );
       setFinances(finalData);
       setFilteredFinalData(finalData.slice(0, itemsPerPage));
       setLoading(false);
@@ -93,7 +99,6 @@ const FinalData = () => {
   };
 
   const handleSelect = (date) => {
-
     const filtered = finances?.filter((finance) => {
       const financeDate = new Date(finance.date);
       return (
@@ -116,24 +121,22 @@ const FinalData = () => {
     generatePDF(finance);
   };
 
-
-
   const handleSearchChange = (e) => {
     const value = e.target.value.toLowerCase(); // Use the current input value
     setSearchValue(value);
 
     // Use `value` directly in the filter instead of `searchValue`
-    const filteredProducts = finances.filter((account) =>
-      account.transportWay.toLowerCase().includes(value) ||
-      account.truckNo.toLowerCase().includes(value) ||
-      account.transportCountry.toLowerCase().includes(value) ||
-      account.date.toLowerCase().includes(value) ||
-      account.invoiceNo.toLowerCase().includes(value) ||
-      account.epNo.toLowerCase().includes(value)
+    const filteredProducts = finances.filter(
+      (account) =>
+        account.transportWay.toLowerCase().includes(value) ||
+        account.truckNo.toLowerCase().includes(value) ||
+        account.transportCountry.toLowerCase().includes(value) ||
+        account.date.toLowerCase().includes(value) ||
+        account.invoiceNo.toLowerCase().includes(value) ||
+        account.epNo.toLowerCase().includes(value)
     );
     setFilteredFinalData(filteredProducts);
   };
-
 
   return (
     <>
@@ -142,19 +145,21 @@ const FinalData = () => {
           Export Products List
         </h1> */}
         <div className="flex justify-between items-center my-6 bg-slate-500 p-3 rounded-lg">
-          <h1 className="text-3xl text-info font-bold uppercase">
+          <h1 className="text-3xl text-info font-bold uppercase text-[#93E6FB] ">
             Export Products List
           </h1>
           <input
             type="text"
             placeholder="Search by date, model, pallet no, truck no"
-            className="border border-gray-300 p-2 rounded-md focus:outline-none"
+            className="border border-gray-300 p-2 rounded-md focus:outline-none !bg-white search-input w-[350px] "
             value={searchValue}
             onChange={handleSearchChange}
           />
         </div>
         <div className="mb-3 calendarWrap text-center w-3/4 mx-36">
-          <h3 className="mb-[8px] text-xl text-sky-400">Search By Date Range</h3>
+          <h3 className="mb-[8px] text-xl text-sky-400">
+            Search By Date Range
+          </h3>
           <input
             value={`${format(startDate, "MM/dd/yyyy")} to ${format(
               endDate,
@@ -192,9 +197,8 @@ const FinalData = () => {
                 Please wait ....
               </p>
             </div>
-          ) :
-
-            (<table className="min-w-full bg-white">
+          ) : (
+            <table className="min-w-full bg-white">
               <thead>
                 <tr className="w-full bg-gray-200 text-left">
                   <th className="py-2 px-4">Date</th>
@@ -214,9 +218,13 @@ const FinalData = () => {
                       <td className="py-2 px-4">{finalData.date}</td>
                       <td className="py-2 px-4">{finalData.truckNo}</td>
                       <td className="py-2 px-4">{finalData.transportPort}</td>
-                      <td className="py-2 px-4">{finalData.transportCountryName}</td>
+                      <td className="py-2 px-4">
+                        {finalData.transportCountryName}
+                      </td>
                       <td className="py-2 px-4">{finalData.invoiceNo}</td>
-                      <td className="py-2 px-4">{finalData.allTotalBoxWeight}</td>
+                      <td className="py-2 px-4">
+                        {finalData.allTotalBoxWeight}
+                      </td>
                       <td className="py-2 px-4">{finalData.totalCost}</td>
                       <td className=" flex justify-between items-center py-1">
                         <Link
@@ -245,7 +253,7 @@ const FinalData = () => {
                 )}
               </tbody>
             </table>
-            )}
+          )}
         </div>
 
         <ReactPaginate
@@ -254,7 +262,7 @@ const FinalData = () => {
           breakLabel={"..."}
           pageCount={Math.ceil(
             (finances.length > 0 ? finances.length : finances.length) /
-            itemsPerPage
+              itemsPerPage
           )}
           onPageChange={handlePageChange}
           containerClassName={"pagination flex gap-2 justify-center mt-4"}

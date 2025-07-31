@@ -226,13 +226,13 @@ const PrintingExInitialData = () => {
   return (
     <div className="w-full lg:w-3/4 mx-auto">
       <div className="flex justify-between items-center my-6 bg-slate-500 p-3 rounded-lg">
-        <h1 className="text-3xl text-info font-bold uppercase">
+        <h1 className="text-3xl text-info font-bold uppercase text-[#93E6FB] ">
           Select the Product
         </h1>
         <input
           type="text"
           placeholder="Search date, model, pallet no, truck no"
-          className="border border-gray-300 p-2 rounded-md focus:outline-none"
+          className="border border-gray-300 p-2 rounded-md focus:outline-none !bg-white"
           value={searchValue}
           onChange={handleSearchChange}
         />

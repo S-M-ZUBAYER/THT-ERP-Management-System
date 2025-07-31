@@ -17,6 +17,10 @@ const AppRoutes = () => {
       <Route path="/wowomart-management/*" element={<WowomartApp />} />
       <Route path="/export-import/*" element={<ExportImportApp />} />
       <Route path="/translator/*" element={<TranslatorApp />} />
+      <Route
+        path="*"
+        element={<div>Page not found. Please check the URL.</div>}
+      />
     </Routes>
   );
 };
