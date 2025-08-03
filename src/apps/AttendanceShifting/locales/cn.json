@@ -1,0 +1,20 @@
+{
+    "shift schedule": "班次表",
+    "Entry Time": "进入时间",
+    "Exit Time": "离开时间",
+    "Submit": "提交",
+    "Shift Schedule Table": "班次表",
+    "Team": "团队",
+    "Clear All Table Data": "清空所有表格数据",
+    "No Shift Data Available": "没有班次数据可用",
+    "Common Shift Times": "常见班次时间",
+    "note headline": "换班时间说明",
+    "Logically it's not Possible": "从逻辑上讲，这是不可能的",
+    "Shift": "班次",
+    "Action": "操作",
+    "Delete": "删除",
+    "note": "09组是设置换行时间， 默认凌晨零点。当00：00 后再打卡会打印到第二天的格子里，但当我们最晚的下班时间超过了00:00 ,就需要手动调整一下09组的时间点。 比如凌晨2点下班的话需要把09组修改到至少2：30（  避免2点整打卡超过2点回到第二天，所以我们一般设置的时候会将这个时间点设置为比最晚的下班时间延迟至少30分钟",
+    "Team Name": "团队名称",
+    "Clear All": "清除所有",
+    "note 2": "最多可设置 3 个轮班时间或组！"
+}

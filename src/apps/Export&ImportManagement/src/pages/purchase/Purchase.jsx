@@ -27,12 +27,10 @@ const Purchase = () => {
   const [finances, setFinances] = useState([]);
   const [btnLoading, setBtnLoading] = useState(false);
 
-
   // const [productChecks, setProductChecks] = useState([]);
 
-
   const [invoiceNo, setInvoiceNo] = useState("");
-  const [total, setTotal] = useState(0.00);
+  const [total, setTotal] = useState(0.0);
   const [ipNo, setIpNo] = useState("");
   const [truckNo, setTruckNo] = useState("");
   const [loading, setLoading] = useState(true);
@@ -60,19 +58,6 @@ const Purchase = () => {
 
   const productData = JSON.stringify(selectedItems);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
   // data get from office_accounts API
   const fetchAccounts = async () => {
     try {
@@ -89,8 +74,6 @@ const Purchase = () => {
       setLoading(false);
     }
   };
-
-
 
   const fetchBoxData = async () => {
     try {
@@ -154,12 +137,6 @@ const Purchase = () => {
     }
   };
 
-
-
-
-
-
-
   useEffect(() => {
     setLoading(true);
     //   getting transport data from server
@@ -177,9 +154,7 @@ const Purchase = () => {
     fetchPurchase();
   }, []);
 
-
-
-  const [selectedProduct, setSelectedProduct] = useState([])
+  const [selectedProduct, setSelectedProduct] = useState([]);
 
   const handleCheckboxChange = (product) => {
     // If no product is selected yet, just add the first one
@@ -196,8 +171,12 @@ const Purchase = () => {
         // Check if the product is already selected
         if (selectedItems.includes(product?.id)) {
           // Deselect the product: remove it from both selectedItems and selectedProduct
-          setSelectedItems(selectedItems.filter((item) => item !== product?.id));
-          setSelectedProduct(selectedProduct.filter((item) => item.id !== product?.id));
+          setSelectedItems(
+            selectedItems.filter((item) => item !== product?.id)
+          );
+          setSelectedProduct(
+            selectedProduct.filter((item) => item.id !== product?.id)
+          );
         } else {
           // Select the product: add it to both selectedItems and selectedProduct
           setSelectedItems([...selectedItems, product?.id]);
@@ -205,11 +184,12 @@ const Purchase = () => {
         }
       } else {
         // If the product's date is different, show a warning or prevent selection
-        alert("Selected product's date must match the previously selected product's date.");
+        alert(
+          "Selected product's date must match the previously selected product's date."
+        );
       }
     }
   };
-
 
   const handleTransportWay = (event) => {
     setTransportWay(event.target.value);
@@ -269,10 +249,6 @@ const Purchase = () => {
     setExpDate(event.target.value);
   };
 
-
-
-
-
   const [allTotalBoxWeight, setAllTotalBoxWeight] = useState(0);
 
   // Function to sum all individualTotalBoxWeight values
@@ -284,7 +260,7 @@ const Purchase = () => {
   useEffect(() => {
     // Set the total sum of all individualTotalBoxWeight
     setAllTotalBoxWeight(sumIndividualTotalBoxWeight());
-  }, [selectedProduct])
+  }, [selectedProduct]);
 
   // data send to server
   // const formSubmit = (e) => {
@@ -398,8 +374,6 @@ const Purchase = () => {
   //         })
   //       );
 
-
-
   //   };
   // }
 
@@ -500,19 +474,16 @@ const Purchase = () => {
 
       // Navigate after all operations are done
       navigate("/exportAndFinance");
-
     } catch (error) {
       toast.error("An error occurred, please try again later!", {
         position: "top-center",
       });
-
     } finally {
       setBtnLoading(false); // ✅ Reset loading state in all cases
     }
   };
 
-
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState("");
 
   // Handle input change and filter products
   const handleSearchChange = (e) => {
@@ -520,19 +491,17 @@ const Purchase = () => {
     setSearchValue(value);
 
     // Use `value` directly in the filter instead of `searchValue`
-    const filteredProducts = boxData.filter((account) =>
-      account.productName.toLowerCase().includes(value) ||
-      account.truckNumber.toLowerCase().includes(value) ||
-      account.productModel.toLowerCase().includes(value) ||
-      account.date.toLowerCase().includes(value) ||
-      account.totalPallet.toLowerCase().includes(value)
+    const filteredProducts = boxData.filter(
+      (account) =>
+        account.productName.toLowerCase().includes(value) ||
+        account.truckNumber.toLowerCase().includes(value) ||
+        account.productModel.toLowerCase().includes(value) ||
+        account.date.toLowerCase().includes(value) ||
+        account.totalPallet.toLowerCase().includes(value)
     );
 
     setFilteredData(filteredProducts);
   };
-
-
-
 
   return (
     <>
@@ -546,13 +515,13 @@ const Purchase = () => {
           {/* Table data get from accouts input database */}
           <div className="w-full lg:w-3/4 mx-auto">
             <div className="flex justify-between items-center my-6 bg-slate-500 p-3 rounded-lg">
-              <h1 className="text-3xl text-info font-bold uppercase">
+              <h1 className="text-3xl text-info font-bold uppercase text-[#93E6FB] ">
                 Select the Product
               </h1>
               <input
                 type="text"
                 placeholder="Search date, model, pallet no, truck no"
-                className="border border-gray-300 p-2 rounded-md focus:outline-none"
+                className="border border-gray-300 p-2 rounded-md focus:outline-none !bg-white search-input w-[320px] "
                 value={searchValue}
                 onChange={handleSearchChange}
               />
@@ -572,60 +541,94 @@ const Purchase = () => {
                   </p>
                 </div>
               ) : (
-                <table className="table">
-                  <thead>
-                    <tr>
-                      <th className="sticky top-0 bg-gray-200">Select</th>
-                      <th className="sticky top-0 bg-gray-200">Serial No</th>
-                      <th className="sticky top-0 bg-gray-200">Date</th>
-                      <th className="sticky top-0 bg-gray-200">Product Name</th>
-                      <th className="sticky top-0 bg-gray-200">
-                        Product Model
-                      </th>
-                      <th className="sticky top-0 bg-gray-200">Quantity</th>
-                      <th className="sticky top-0 bg-gray-200">Pallet No.</th>
-                      <th className="sticky top-0 bg-gray-200">Truck No.</th>
-                      {/* <th className="sticky top-0 bg-gray-200">Action</th> */}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {filteredData?.map((product, index) => {
-                      // const jsonStr = product.productModel.replace(
-                      //   /^"|"$/g,
-                      //   ""
-                      // );
-                      // const data = JSON.parse(jsonStr);
-                      // const result = data.join(",");
-                      return (
-                        <tr className={`hover cursor-pointer`} key={product.id}>
-                          <td>
-                            <input
-                              type="checkbox"
-                              className="checkbox checkbox-info"
-                              name="product"
-                              value={product.id}
-                              checked={selectedItems.includes(product.id)}
-                              onChange={() => handleCheckboxChange(product)}
-                            // onClick={() => handleProductCheck(product)}
-                            />
-                          </td>
-                          <td>{index + 1}</td>
-                          <td>{product.date}</td>
-                          <td>{product.productName}</td>
-                          <td>{product.productModel}</td>
-                          <td>{product.quantity}</td>
-                          <td>{product.totalPallet}</td>
-                          <td>{product.truckNumber}</td>
-                          {/* <td>
-                            <button onClick={() => handleDelete(product?.id)}>
-                              <AiOutlineDelete className="w-6 h-6 text-red-600" />
-                            </button>
-                          </td> */}
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
+                <div className="overflow-x-auto">
+                  <table className="w-full border-collapse bg-white shadow-sm">
+                    <thead>
+                      <tr className="bg-gray-100 border-b border-gray-200">
+                        <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">
+                          Select
+                        </th>
+                        <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">
+                          Serial No
+                        </th>
+                        <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">
+                          Date
+                        </th>
+                        <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">
+                          Product Name
+                        </th>
+                        <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">
+                          Product Model
+                        </th>
+                        <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">
+                          Quantity
+                        </th>
+                        <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">
+                          Pallet No.
+                        </th>
+                        <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">
+                          Truck No.
+                        </th>
+                      </tr>
+                    </thead>
+                  </table>
+
+                  <div className="max-h-[400px] overflow-y-auto custom-scrollbar">
+                    <table className="w-full border-collapse bg-white">
+                      <tbody>
+                        {filteredData && filteredData.length > 0 ? (
+                          filteredData.map((product, index) => (
+                            <tr
+                              key={product.id}
+                              className="border-b border-gray-100 hover:bg-gray-50 transition-colors duration-150 cursor-pointer"
+                            >
+                              <td className="px-4 py-3">
+                                <input
+                                  type="checkbox"
+                                  className="custom-checkbox"
+                                  name="product"
+                                  value={product.id}
+                                  checked={selectedItems.includes(product.id)}
+                                  onChange={() => handleCheckboxChange(product)}
+                                />
+                              </td>
+                              <td className="px-4 py-3 text-sm text-gray-900">
+                                {index + 1}
+                              </td>
+                              <td className="px-4 py-3 text-sm text-gray-900">
+                                {product.date}
+                              </td>
+                              <td className="px-4 py-3 text-sm text-gray-900">
+                                {product.productName}
+                              </td>
+                              <td className="px-4 py-3 text-sm text-gray-900">
+                                {product.productModel}
+                              </td>
+                              <td className="px-4 py-3 text-sm text-gray-900">
+                                {product.quantity}
+                              </td>
+                              <td className="px-4 py-3 text-sm text-gray-900">
+                                {product.totalPallet}
+                              </td>
+                              <td className="px-4 py-3 text-sm text-gray-900">
+                                {product.truckNumber}
+                              </td>
+                            </tr>
+                          ))
+                        ) : (
+                          <tr>
+                            <td
+                              colSpan={8}
+                              className="px-4 py-8 text-center text-gray-500"
+                            >
+                              No data found
+                            </td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
               )}
             </div>
           </div>
@@ -634,9 +637,9 @@ const Purchase = () => {
           <div className=" lg:flex justify-center items-center w-full lg:w-3/4 mx-auto ">
             <form
               className="bg-base-100 rounded-lg shadow-xl my-5 p-[12px]"
-              onSubmit={formSubmit}>
+              onSubmit={formSubmit}
+            >
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-
                 {/* Shipment Country */}
                 <div className="">
                   <label className="mb-[10px] lebel-text text-lg font-semibold">
@@ -650,7 +653,8 @@ const Purchase = () => {
                       aria-required
                       value={transportCountryName}
                       name="transportCountryName"
-                      onChange={handleTransportCountryName}>
+                      onChange={handleTransportCountryName}
+                    >
                       <option value="">---- Pick Shipment Country ----</option>
                       {/* {transportCountry?.map((product, index) => (
                         <option value={product.id} key={index}>
@@ -684,7 +688,8 @@ const Purchase = () => {
                       value={selectedTransportCountryPort}
                       name="transportCountryPort"
                       disabled={!transportCountryName}
-                      onChange={handleTransportCountryPort}>
+                      onChange={handleTransportCountryPort}
+                    >
                       <option value="">---- Pick Shipment Port ----</option>
                       {/* {transportCountry.map((port, index) => (
                         <option key={index} value={port.countryPort}>
@@ -719,7 +724,8 @@ const Purchase = () => {
                       name="transportWay"
                       required
                       aria-required
-                      onChange={handleTransportWay}>
+                      onChange={handleTransportWay}
+                    >
                       <option value="">---- Pick Transport Way ----</option>
                       {transportPath?.map((product, index) => (
                         <option value={product.transportWay} key={index}>
@@ -734,7 +740,8 @@ const Purchase = () => {
                   <div>
                     <label
                       className="lebel-text text-lg font-semibold"
-                      htmlFor="invoiceno">
+                      htmlFor="invoiceno"
+                    >
                       Invoice No.
                     </label>
                     <input
@@ -749,7 +756,6 @@ const Purchase = () => {
                     />
                   </div>
                 </div>
-
 
                 {/* Invoice Value */}
                 <div className="">
@@ -772,7 +778,9 @@ const Purchase = () => {
                 {/* Invoice Date */}
                 <div className="form-control lg:pr-2 text-center flex flex-col justify-center items-center">
                   <label className="text-center mb-2">
-                    <span className="lebel-text text-lg font-semibold">Invoice Date</span>
+                    <span className="lebel-text text-lg font-semibold">
+                      Invoice Date
+                    </span>
                   </label>
                   <input
                     type="date"
@@ -804,7 +812,6 @@ const Purchase = () => {
                   </div>
                 </div>
 
-
                 {/* Truck No. */}
                 <div className="">
                   <label className="text-lg font-semibold" htmlFor="ipNo">
@@ -824,7 +831,6 @@ const Purchase = () => {
                     />
                   </div>
                 </div>
-
 
                 {/* New from here  */}
                 {/* Zone. */}
@@ -866,7 +872,9 @@ const Purchase = () => {
                 {/* Permit Till date */}
                 <div className="form-control lg:pr-2 text-center flex flex-col justify-center items-center">
                   <label className="text-center mb-2">
-                    <span className="lebel-text text-lg font-semibold">Permit Till Date</span>
+                    <span className="lebel-text text-lg font-semibold">
+                      Permit Till Date
+                    </span>
                   </label>
                   <input
                     type="date"
@@ -899,7 +907,9 @@ const Purchase = () => {
                 {/* Export Date */}
                 <div className="form-control lg:pr-2 text-center flex flex-col justify-center items-center">
                   <label className="text-center mb-2">
-                    <span className="lebel-text text-lg font-semibold">Export Date</span>
+                    <span className="lebel-text text-lg font-semibold">
+                      Export Date
+                    </span>
                   </label>
                   <input
                     type="date"
@@ -931,7 +941,10 @@ const Purchase = () => {
                 </div>
                 {/* Consignee Name. */}
                 <div className="">
-                  <label className="text-lg font-semibold" htmlFor="consigneeName">
+                  <label
+                    className="text-lg font-semibold"
+                    htmlFor="consigneeName"
+                  >
                     Consignee Name
                   </label>
                   <div className="mt-3">
@@ -949,7 +962,10 @@ const Purchase = () => {
                 </div>
                 {/* consignee Address. */}
                 <div className="">
-                  <label className="text-lg font-semibold" htmlFor="consigneeAddress">
+                  <label
+                    className="text-lg font-semibold"
+                    htmlFor="consigneeAddress"
+                  >
                     Consignee Address
                   </label>
                   <div className="mt-3">
@@ -1003,7 +1019,10 @@ const Purchase = () => {
                 </div>
                 {/* Enterprise Employee. */}
                 <div className="">
-                  <label className="text-lg font-semibold" htmlFor="enterpriseEmp">
+                  <label
+                    className="text-lg font-semibold"
+                    htmlFor="enterpriseEmp"
+                  >
                     Enterprise Employee
                   </label>
                   <div className="mt-3">
@@ -1021,7 +1040,10 @@ const Purchase = () => {
                 </div>
                 {/* Verifying Officer. */}
                 <div className="">
-                  <label className="text-lg font-semibold" htmlFor="verifyingEmp">
+                  <label
+                    className="text-lg font-semibold"
+                    htmlFor="verifyingEmp"
+                  >
                     Verifying Officer
                   </label>
                   <div className="mt-3">
@@ -1055,10 +1077,7 @@ const Purchase = () => {
                     />
                   </div>
                 </div>
-
-
               </div>
-
             </form>
           </div>
           {/* button */}

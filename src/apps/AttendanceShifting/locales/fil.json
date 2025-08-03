@@ -1,0 +1,20 @@
+{
+    "shift schedule": "Iskedyul ng Paglilipat",
+    "Entry Time": "Oras ng Pagpasok",
+    "Exit Time": "Oras ng Paglabas",
+    "Submit": "Isumite",
+    "Shift Schedule Table": "Talahanayan ng Iskedyul ng Paglilipat",
+    "Team": "Koponan",
+    "Clear All Table Data": "I-clear ang Lahat ng Data ng Talahanayan",
+    "No Shift Data Available": "Walang Magagamit na Data ng Paglilipat",
+    "Common Shift Times": "Karaniwang Oras ng Paglilipat",
+    "note headline": "Paliwanag sa Oras ng Pagpapalit ng Shift",
+    "Logically it's not Possible": "Sa lohikal na paraan, hindi ito posible",
+    "Shift": "Paglipat o Shift",
+    "Action": "Aksyon",
+    "Delete": "Tanggalin",
+    "note": "Ang Group 09 ay ginagamit para sa pagtatakda ng oras ng pagpapalit ng shift, na default na naka-set sa hatingabi (00:00). Kung magtatrabaho ka pagkatapos ng 00:00, ang entry ay ilalagay sa column ng susunod na araw. Gayunpaman, kung ang huling oras ng pag-uwi natin ay lumampas sa 00:00, kailangan nating manu-manong ayusin ang oras para sa Group 09. Halimbawa, kung uuwi ka ng 2:00 AM, kailangan mong baguhin ang Group 09 sa hindi bababa sa 2:30 AM (upang maiwasan ang pag-tap in ng eksaktong 2:00 AM na magtutulak sa entry sa susunod na araw). Karaniwan, itinatakda namin ang oras na ito ng hindi bababa sa 30 minuto pagkatapos ng huling oras ng pag-uwi.",
+    "Team Name": "Pangalan ng Koponan",
+    "Clear All": "Burahin Lahat",
+    "note 2": "Maximum na 3 iskedyul ng shifting o grupo ang maaaring itakda!"
+}

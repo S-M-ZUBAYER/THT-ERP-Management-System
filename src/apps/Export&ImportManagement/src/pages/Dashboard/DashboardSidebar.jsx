@@ -24,7 +24,7 @@ import { FcPrint } from "react-icons/fc";
 import { GiTakeMyMoney } from "react-icons/gi";
 import { TbBrandElectronicArts } from "react-icons/tb";
 
-const DashboardSidebar = ({ children }) => {
+const DashboardSidebar = () => {
   const [open, setOpen] = useState(true);
   const userString = localStorage.getItem("user");
   const user = userString ? JSON.parse(userString) : null;
@@ -172,12 +172,12 @@ const DashboardSidebar = ({ children }) => {
                   key={index}
                   to={item.path}
                   className={({ isActive }) =>
-                    `flex items-center gap-x-4 pl-4 py-2 text-lg font-semibold rounded-md transition-all ${
+                    `flex items-center gap-x-4 pl-4 py-2 text-lg font-semibold rounded-md transition-all text-white ${
                       isActive ? "bg-cyan-800" : "hover:bg-blue-300"
                     }`
                   }
                 >
-                  <span className="text-2xl">{item.icon}</span>
+                  <span className="text-2xl  ">{item.icon}</span>
                   <span
                     className={`${!open && "hidden"} origin-left duration-300`}
                   >
