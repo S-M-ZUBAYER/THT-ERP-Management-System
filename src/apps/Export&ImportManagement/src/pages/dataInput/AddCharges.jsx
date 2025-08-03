@@ -210,34 +210,62 @@ const AddCharges = () => {
               </p>
             </div>
           ) : (
-            <table className="table">
-              {/* head */}
-              <thead>
-                <tr>
-                  <th className="sticky top-0 bg-gray-200">Serial No</th>
-                  <th className="sticky top-0 bg-gray-200">Expenses Name</th>
-                  <th className="sticky top-0 bg-gray-200">Expenses Cost</th>
-                  <th className="sticky top-0 bg-gray-200">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredCharges?.map((charge, index) => (
-                  <tr className="hover cursor-pointer" key={charge.id}>
-                    <td>{index + 1}</td>
-                    <td>{charge.particularExpenseName}</td>
-                    <td>{charge.particularExpenseCost * 1}</td>
-                    <td className="flex justify-evenly items-center">
-                      <Link to={`/addcharges/${charge.id}`}>
-                        <AiOutlineEdit className="w-6 h-6 text-purple-600" />
-                      </Link>
-                      <button onClick={() => handleDelete(charge?.id)}>
-                        <AiOutlineDelete className="w-6 h-6 text-red-600" />
-                      </button>
-                    </td>
+            <div className="overflow-x-auto">
+              <table className="w-full border-collapse bg-white shadow-sm">
+                <thead>
+                  <tr className="bg-gray-100 border-b border-gray-200">
+                    <th className="px-4 py-3  text-sm font-medium text-gray-700 text-left">
+                      Serial No
+                    </th>
+                    <th className="px-4 py-3 text-sm font-medium text-gray-700 text-center">
+                      Expenses Name
+                    </th>
+                    <th className="px-4 py-3 text-sm font-medium text-gray-700 text-center">
+                      Expenses Cost
+                    </th>
+                    <th className="px-4 py-3 text-sm font-medium text-gray-700 text-center">
+                      Actions
+                    </th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+              </table>
+
+              <div className="max-h-[400px] overflow-y-auto custom-scrollbar">
+                <table className="w-full border-collapse bg-white">
+                  <tbody>
+                    {filteredCharges?.map((charge, index) => (
+                      <tr
+                        key={charge.id}
+                        className="border-b border-gray-100 hover:bg-gray-50 transition-colors duration-150 cursor-pointer"
+                      >
+                        <td className="px-4 py-3 text-sm text-gray-900">
+                          {index + 1}
+                        </td>
+                        <td className="px-4 py-3 text-sm text-gray-900 text-center">
+                          {charge.particularExpenseName}
+                        </td>
+                        <td className="px-4 py-3 text-sm text-gray-900 text-center">
+                          {charge.particularExpenseCost * 1}
+                        </td>
+                        <td className="px-4 py-3">
+                          <div className="flex justify-evenly items-center">
+                            <Link to={`/addcharges/${charge.id}`}>
+                              <AiOutlineEdit className="w-6 h-6 text-purple-600 hover:text-purple-700 transition-colors" />
+                            </Link>
+                            <button
+                              onClick={() => handleDelete(charge?.id)}
+                              className="hover:bg-red-50 p-1 rounded transition-colors"
+                            >
+                              <AiOutlineDelete className="w-6 h-6 text-red-600 hover:text-red-700" />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
           )}
         </div>
       </div>

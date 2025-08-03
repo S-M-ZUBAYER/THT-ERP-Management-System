@@ -73,6 +73,16 @@ const LeftSection = ({ t, form, setForm, submit }) => {
             type="button"
             onClick={submit}
             className="w-auto md:w-full bg-[#004368] text-white font-semibold px-6 py-2.5 rounded-lg transition hover:bg-[#00314e] shadow-md"
+            style={{
+              backgroundColor: "#004368",
+              border: "none",
+              color: "white",
+              fontSize: "16px",
+              fontWeight: "bold",
+              outline: "none",
+              boxShadow: "none",
+              cursor: "pointer",
+            }}
           >
             {t("Submit")}
           </button>

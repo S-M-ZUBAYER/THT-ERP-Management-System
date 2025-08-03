@@ -2,7 +2,7 @@ import { useState } from "react";
 import image from "../constants/image";
 import { ChevronDown } from "lucide-react";
 
-const Dropdown = ({ changeLanguage }) => {
+const Navbar = ({ changeLanguage }) => {
   const [selectedLanguage, setSelectedLanguage] = useState({
     en: "English",
     img: image.usa,
@@ -62,6 +62,15 @@ const Dropdown = ({ changeLanguage }) => {
             className="flex items-center px-4 py-2 bg-transparent text-black rounded-md "
             aria-expanded={isOpen}
             aria-label="Toggle language selection"
+            style={{
+              backgroundColor: "transparent",
+              border: "none",
+              color: "black",
+              fontSize: "16px",
+              fontWeight: "bold",
+              outline: "none",
+              boxShadow: "none",
+            }}
           >
             <img
               src={selectedLanguage.img}
@@ -105,4 +114,4 @@ const Dropdown = ({ changeLanguage }) => {
   );
 };
 
-export default Dropdown;
+export default Navbar;

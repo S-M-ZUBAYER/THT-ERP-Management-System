@@ -326,46 +326,54 @@ const PurchaseFinance = () => {
                 <div className="max-h-[400px] overflow-y-auto custom-scrollbar">
                   <table className="w-full border-collapse bg-white">
                     <tbody>
-                      {filteredFinancePurchases?.map((product, index) => {
-                        return (
-                          <tr
-                            key={product.id}
-                            className="border-b border-gray-100 hover:bg-gray-50 transition-colors duration-150 cursor-pointer"
-                          >
-                            <td className="px-4 py-3">
-                              <input
-                                type="checkbox"
-                                className="custom-checkbox"
-                                name="product"
-                                value={product.id}
-                                checked={selectedItem === product.id}
-                                onChange={() => handleCheckboxChange(product)}
-                              />
-                            </td>
-                            <td className="px-4 py-3 text-sm text-gray-900">
-                              {index + 1}
-                            </td>
-                            <td className="px-4 py-3 text-sm text-gray-900">
-                              {product.date}
-                            </td>
-                            <td className="px-4 py-3 text-sm text-gray-900">
-                              {product.invoiceNo}
-                            </td>
-                            <td className="px-4 py-3 text-sm text-gray-900">
-                              {product.epNo}
-                            </td>
-                            <td className="px-4 py-3 text-sm text-gray-900">
-                              {product.truckNo}
-                            </td>
-                            <td className="px-4 py-3 text-sm text-gray-900">
-                              {product.transportCountryName}
-                            </td>
-                            <td className="px-4 py-3 text-sm text-gray-900">
-                              {product.transportPort}
-                            </td>
-                          </tr>
-                        );
-                      })}
+                      {filteredFinancePurchases.length === 0 ? (
+                        <tr>
+                          <td colSpan={10} className="text-center">
+                            No data found
+                          </td>
+                        </tr>
+                      ) : (
+                        filteredFinancePurchases?.map((product, index) => {
+                          return (
+                            <tr
+                              key={product.id}
+                              className="border-b border-gray-100 hover:bg-gray-50 transition-colors duration-150 cursor-pointer"
+                            >
+                              <td className="px-4 py-3">
+                                <input
+                                  type="checkbox"
+                                  className="custom-checkbox"
+                                  name="product"
+                                  value={product.id}
+                                  checked={selectedItem === product.id}
+                                  onChange={() => handleCheckboxChange(product)}
+                                />
+                              </td>
+                              <td className="px-4 py-3 text-sm text-gray-900">
+                                {index + 1}
+                              </td>
+                              <td className="px-4 py-3 text-sm text-gray-900">
+                                {product.date}
+                              </td>
+                              <td className="px-4 py-3 text-sm text-gray-900">
+                                {product.invoiceNo}
+                              </td>
+                              <td className="px-4 py-3 text-sm text-gray-900">
+                                {product.epNo}
+                              </td>
+                              <td className="px-4 py-3 text-sm text-gray-900">
+                                {product.truckNo}
+                              </td>
+                              <td className="px-4 py-3 text-sm text-gray-900">
+                                {product.transportCountryName}
+                              </td>
+                              <td className="px-4 py-3 text-sm text-gray-900">
+                                {product.transportPort}
+                              </td>
+                            </tr>
+                          );
+                        })
+                      )}
                     </tbody>
                   </table>
                 </div>

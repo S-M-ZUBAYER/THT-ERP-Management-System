@@ -4,10 +4,10 @@ import Login from "../pages/Login";
 import Dashboard from "../pages/Dashboard";
 import App from "@/apps/TaskManagement/src/App";
 import WowomartApp from "@/apps/WowomartManagement/src/App";
-// import ExportImportApp from "@/apps/ExportImportManagement/src/routers/Routers.jsx";
 import ExportImportApp from "../apps/Export&ImportManagement/src/App";
-import TranslatorApp from "../apps/Translator/src/TranslatorApp"; // ✅ default import now
-import AttendanceShiftingApp from "../apps/AttendanceShifting/App"; // ✅ default import now
+import TranslatorApp from "../apps/Translator/src/TranslatorApp";
+import AttendanceShiftingApp from "../apps/AttendanceShifting/App";
+import Animated404 from "@/apps/TaskManagement/src/components/404";
 
 const AppRoutes = () => {
   return (
@@ -19,9 +19,10 @@ const AppRoutes = () => {
       <Route path="/export-import/*" element={<ExportImportApp />} />
       <Route path="/translator/*" element={<TranslatorApp />} />
       <Route
-        path="*"
-        element={<div>Page not found. Please check the URL.</div>}
+        path="/attendance-shifting/*"
+        element={<AttendanceShiftingApp />}
       />
+      <Route path="*" element={<Animated404 />} />
     </Routes>
   );
 };
