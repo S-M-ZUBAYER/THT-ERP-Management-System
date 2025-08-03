@@ -3,7 +3,7 @@ import { ScheduleProvider } from "./context/useSchedule";
 
 function App() {
   return (
-    <div>
+    <div className="w-[80vw] mx-auto">
       <ScheduleProvider>
         <ShiftSchedule />
       </ScheduleProvider>

@@ -607,7 +607,7 @@ const ProductBoxes = () => {
                       </label>
                       <div className="input-group">
                         <select
-                          className="select select-secondary w-full focus:outline-none h-[50px] rounded-md border-2 border-[#93E6FB] "
+                          className="select select-secondary w-full focus:outline-none h-[60px] rounded-lg border-2 border-[#F3F4F6] "
                           value={
                             `${selectedProductName},${selectedProductBrand}` ||
                             ""

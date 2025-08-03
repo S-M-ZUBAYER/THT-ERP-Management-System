@@ -274,7 +274,10 @@ const NewBrand = () => {
                           </td>
                           <td className="px-4 py-3">
                             <div className="flex space-x-10 justify-center">
-                              <Link to={`/newbrand/${product.id}`}>
+                              <Link
+                                to={`/newbrand/${product.id}`}
+                                className="flex items-center justify-center"
+                              >
                                 <AiOutlineEdit className="w-6 h-6 text-purple-600 hover:text-purple-700 transition-colors" />
                               </Link>
                               <button

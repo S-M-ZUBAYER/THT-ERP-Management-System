@@ -47,7 +47,11 @@ const Navbar = () => {
               <DropdownMenuItem asChild>
                 <NavLink
                   to="/export-import/dashboard"
-                  className="text-black hover:bg-gray-200 hover:text-white px-3 py-2 rounded font-bold"
+                  className={({ isActive }) =>
+                    `text-black hover:bg-gray-200 hover:text-white px-3 py-2 rounded font-bold ${
+                      isActive ? "bg-gray-300" : ""
+                    }`
+                  }
                 >
                   Accounts
                 </NavLink>
@@ -55,7 +59,11 @@ const Navbar = () => {
               <DropdownMenuItem asChild>
                 <NavLink
                   to="/export-import/warehouse"
-                  className="text-black hover:bg-gray-200 hover:text-white px-3 py-2 rounded font-bold"
+                  className={({ isActive }) =>
+                    `text-black hover:bg-gray-200 hover:text-white px-3 py-2 rounded font-bold ${
+                      isActive ? "bg-gray-300" : ""
+                    }`
+                  }
                 >
                   Warehouse
                 </NavLink>
@@ -63,7 +71,11 @@ const Navbar = () => {
               <DropdownMenuItem asChild>
                 <NavLink
                   to="/export-import/admin"
-                  className="text-black hover:bg-gray-200 hover:text-white px-3 py-2 rounded font-bold"
+                  className={({ isActive }) =>
+                    `text-black hover:bg-gray-200 hover:text-white px-3 py-2 rounded font-bold ${
+                      isActive ? "bg-gray-300" : ""
+                    }`
+                  }
                 >
                   Admin
                 </NavLink>
@@ -82,19 +94,31 @@ const Navbar = () => {
         <nav className="hidden lg:flex gap-6 text-sm font-medium">
           <NavLink
             to="/export-import/dashboard"
-            className="text-black hover:bg-gray-200 hover:text-white px-3 py-2 rounded font-bold"
+            className={({ isActive }) =>
+              `text-black hover:bg-gray-200 hover:text-white px-3 py-2 rounded font-bold ${
+                isActive ? "bg-gray-300" : ""
+              }`
+            }
           >
             Accounts
           </NavLink>
           <NavLink
             to="/export-import/warehouse"
-            className="text-black hover:bg-gray-200 hover:text-white px-3 py-2 rounded font-bold"
+            className={({ isActive }) =>
+              `text-black hover:bg-gray-200 hover:text-white px-3 py-2 rounded font-bold ${
+                isActive ? "bg-gray-300" : ""
+              }`
+            }
           >
             Warehouse
           </NavLink>
           <NavLink
             to="/export-import/admin"
-            className="text-black hover:bg-gray-200 hover:text-white px-3 py-2 rounded font-bold"
+            className={({ isActive }) =>
+              `text-black hover:bg-gray-200 hover:text-white px-3 py-2 rounded font-bold ${
+                isActive ? "bg-gray-300" : ""
+              }`
+            }
           >
             Admin
           </NavLink>

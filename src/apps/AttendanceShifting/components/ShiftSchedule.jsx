@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ShiftScheduleTable from "./ShiftScheduleTable";
 import CommonShiftTimes from "./CommonShiftTimes";
 import { useTranslation } from "react-i18next";
-import DropDown from "./DropDown";
+import Navbar from "./Navbar";
 import ShiftInfo from "./ShiftInfo";
 import { useScheduleContext } from "../context/useSchedule";
 import useUpdateNotes from "../hooks/useUpdateNote";
@@ -16,13 +16,8 @@ export default function ShiftSchedule() {
 
   const { exitTime, calculateExitTime } = useScheduleContext();
 
-  const [note, setNote] = useState(t("note"));
-
-  const newNote = useUpdateNotes(exitTime, calculateExitTime);
-
-  useEffect(() => {
-    setNote(newNote);
-  }, [exitTime, calculateExitTime]);
+  // Optimized: Use the hook directly without unnecessary state
+  useUpdateNotes(exitTime, calculateExitTime);
 
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
@@ -79,7 +74,7 @@ export default function ShiftSchedule() {
 
   return (
     <div className="w-full h-screen bg-[#FFFFFF] overflow-y-auto relative pt-[62px] px-[10vw] ">
-      <DropDown changeLanguage={changeLanguage} />
+      <Navbar changeLanguage={changeLanguage} />
 
       <div className="w-[100%] flex flex-row  gap-4 mt-10 ">
         <div className="w-[30%] ">

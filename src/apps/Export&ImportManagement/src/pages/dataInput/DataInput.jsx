@@ -393,7 +393,10 @@ const DataInput = () => {
                           </td>
                           <td className="px-4 py-3 text-center">
                             <div className="flex justify-center gap-4">
-                              <Link to={`/datainput/${product.id}`}>
+                              <Link
+                                to={`/datainput/${product.id}`}
+                                className="flex items-center justify-center"
+                              >
                                 <AiOutlineEdit className="w-6 h-6 text-purple-600 hover:text-purple-800" />
                               </Link>
                               <button onClick={() => handleDelete(product.id)}>
