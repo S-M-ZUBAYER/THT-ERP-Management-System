@@ -1,0 +1,46 @@
+
+.chats {
+    padding: 3px;
+    /* overflow-y: scroll; */
+    display: flex;
+    flex-direction: column;
+  }
+  .avtar {
+    height: 40px;
+    margin: 5px 10px 0px 0px;
+    border-radius: 50%;
+    border: 1px solid rgb(132, 242, 172);
+    padding: 2px;
+    background-color: rgb(207, 248, 129);
+  }
+  
+  .chat {
+    display: flex;
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 10px;
+    width: 90%;
+  }
+  .chat p {
+    flex-grow: 1;
+  }
+  
+  .send .avtar {
+    order: 1;
+  }
+  .recieve .avtar {
+    order: 0;
+  }
+  
+  .send {
+    align-self: flex-end;
+    background-color: rgb(228, 157, 244);
+  }
+  .recieve {
+    background-color: rgb(195, 246, 67);
+  }
+  
+  .message-text {
+    margin: 1px;
+  }
+  

@@ -12,7 +12,7 @@ import attendanceShiftingLogo from "../assets/WebsiteImages/attendanceShiftingLo
 const websites = [
   {
     name: "THT-Customer Management System",
-    route: "/customer-management",
+    route: "/customer-management-system",
     img: customerManagementLogo,
   },
   {
