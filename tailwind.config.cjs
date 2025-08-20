@@ -189,7 +189,7 @@ module.exports = {
 	darkMode: ["class"],
 	content: [
 		"./index.html",
-		"./src/**/*.{js,ts,jsx,tsx}",
+		"./src/**/*.{js,jsx,ts,tsx}",   // 👈 include jsx/tsx
 	],
 	theme: {
 		extend: {
@@ -270,7 +270,7 @@ module.exports = {
 	},
 	plugins: [
 		require("tailwindcss-animate"),
-		require("daisyui"),
+		require("daisyui")
 	],
 	daisyui: {
 		themes: ["light", "dark"], // keep it minimal to avoid overriding shadcn styles
