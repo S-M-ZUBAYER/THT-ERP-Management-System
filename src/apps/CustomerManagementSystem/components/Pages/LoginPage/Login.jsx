@@ -11,7 +11,7 @@ import wechatLogo from "../../../Assets/Images/Icons/wechatLogo.png";
 import { toast } from "react-hot-toast";
 import BtnSpinner from "../../Shared/Loading/BtnSpinner";
 import axios from "axios";
-import { AuthContext } from "@/apps/CustomerManagementSystem/App";
+import { AuthContext } from "@/apps/CustomerManagementSystem/context/UserContext";
 import { AllProductContext } from "@/apps/CustomerManagementSystem/context/ProductContext";
 
 const Login = () => {
@@ -149,7 +149,7 @@ const Login = () => {
               );
               setLoading(false);
               form.reset();
-              navigate("/");
+              navigate("/customer-management-system");
             } else {
               toast.error(response.data.message);
               setLoading(false);
@@ -197,7 +197,7 @@ const Login = () => {
             "Welcome to THT-Space Electrical Company Ltd Customer service site"
           );
         }
-        navigate("/");
+        navigate("/customer-management-system");
       })
       .catch((err) => {
         console.log(err);
@@ -207,7 +207,7 @@ const Login = () => {
     signInWithFacebook()
       .then((result) => {
         const user = result.user;
-        navigate("/");
+        navigate("/customer-management-system");
       })
       .catch((err) => {
         console.log(err);
@@ -379,7 +379,10 @@ const Login = () => {
         </form>
         <div className="text-sm my-3">
           Don't have an account?{" "}
-          <Link className="font-semibold text-[#65ABFF]" to="/register">
+          <Link
+            className="font-semibold text-[#65ABFF]"
+            to="/customer-management-system/register"
+          >
             Create an account
           </Link>
         </div>

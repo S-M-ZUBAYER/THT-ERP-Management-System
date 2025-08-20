@@ -16,6 +16,7 @@ const Account = () => {
 
   //use useeContext to load data from  another components
   const {
+    logOut,
     userInfo,
     SocketDisconnect,
     loading,
