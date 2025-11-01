@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import emailjs from "emailjs-com";
 import { Link } from "react-router-dom";
-import img from "../../../Assets/Images/THT-Pic.jpg";
 import customerServiceImg from "../../../Assets/Images/customer service/Customer service.jpg";
-import axios from "axios";
 
 const Contact = () => {
   const [name, setName] = useState("");
@@ -85,8 +83,8 @@ const Contact = () => {
   // };
 
   return (
-    <div>
-      <section className="relative max-w-[1700px] h-[780px] w-full bg-[url(https://lh3.googleusercontent.com/p/AF1QipP1Nu_aPfi17TVr41iSkP6kZLbZhWEUVNlEsKRW=s680-w680-h510)] bg-cover bg-center bg-no-repeat">
+    <div className="w-full">
+      <section className='relative h-[780px] 2xl:max-w-[1700px] bg-[url("https://lh3.googleusercontent.com/p/AF1QipP1Nu_aPfi17TVr41iSkP6kZLbZhWEUVNlEsKRW=s680-w680-h510")] bg-cover bg-center bg-no-repeat'>
         <div className="absolute inset-0 bg-white/75 sm:bg-transparent sm:bg-gradient-to-r sm:from-white/95 sm:to-white/25"></div>
 
         <div className="relative mx-auto  px-4 py-32 sm:px-6 lg:flex lg:h-screen lg:items-center lg:px-8">
@@ -220,11 +218,6 @@ const Contact = () => {
             </button>
           </form>
         </div>
-
-        <img
-          className="mask mask-decagon"
-          src="https://img.daisyui.com/images/stock/photo-1567653418876-5bb0e566e1c2.webp"
-        />
       </div>
     </div>
   );

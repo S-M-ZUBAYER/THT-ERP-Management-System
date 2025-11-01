@@ -2,77 +2,82 @@ import { useContext, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 
 import axios from "axios";
-import { MdDelete, MdEdit } from 'react-icons/md';
+import { MdDelete, MdEdit } from "react-icons/md";
 import { AuthContext } from "../../../../../context/UserContext";
 import DisplaySpinner from "../../../../Shared/Loading/DisplaySpinner";
 
 function AddWifiModelHightWidth() {
-  const [selectedModelNo, setSelectedModelNo] = useState('');
-  const [selectedType, setSelectedType] = useState('');
-  const [selectedMusicStatus, setSelectedMusicStatus] = useState('');
-  const [selectedPID, setSelectedPID] = useState('');
+  const [selectedModelNo, setSelectedModelNo] = useState("");
+  const [selectedType, setSelectedType] = useState("");
+  const [selectedMusicStatus, setSelectedMusicStatus] = useState("");
+  const [selectedPID, setSelectedPID] = useState("");
   const [allModelNoList, setAllModelNoList] = useState([]);
-  const [defaultHeight, setDefaultHeight] = useState('');
-  const [defaultWidth, setDefaultWidth] = useState('');
-  const [maxHeight, setMaxHeight] = useState('');
-  const [maxWidth, setMaxWidth] = useState('');
+  const [defaultHeight, setDefaultHeight] = useState("");
+  const [defaultWidth, setDefaultWidth] = useState("");
+  const [maxHeight, setMaxHeight] = useState("");
+  const [maxWidth, setMaxWidth] = useState("");
   const [allModelInfo, setAllModelInfo] = useState([]);
-  const [sliderImageMark, setSliderImageMark] = useState('');
+  const [sliderImageMark, setSliderImageMark] = useState("");
   const [editModalData, setEditModalData] = useState(null);
-  const { loading, setLoading } = useContext(AuthContext)
-  const [baseUrl, setBaseUrl] = useState("https://grozziieget.zjweiting.com:8033");
+  const { loading, setLoading } = useContext(AuthContext);
+  const [baseUrl, setBaseUrl] = useState(
+    "https://grozziieget.zjweiting.com:8033"
+  );
   const allUrls = [
     {
       id: 1,
       serverName: "Global",
-      url: "https://grozziieget.zjweiting.com:8033"
+      url: "https://grozziieget.zjweiting.com:8033",
     },
     {
       id: 2,
       serverName: "China",
-      url: "https://jiapuv.com:8033"
-    }
-  ]
+      url: "https://jiapuv.com:8033",
+    },
+  ];
 
   useEffect(() => {
     fetch(`${baseUrl}/tht/modelNoList`)
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         console.log(data);
-        setAllModelNoList(data.map(modelNo => modelNo.modelNo))
-
+        setAllModelNoList(data.map((modelNo) => modelNo.modelNo));
       });
   }, [baseUrl]);
 
   // Make a GET request to fetch all model number for the specified category
   useEffect(() => {
     const apiUrl = `${baseUrl}/tht/allWifiModelInfo`;
-    axios.get(apiUrl)
+    axios
+      .get(apiUrl)
       .then((response) => {
         console.log(response.data);
         setAllModelInfo(response.data);
         setLoading(false);
       })
       .catch((error) => {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
         setLoading(false);
       });
   }, [baseUrl]);
 
-
-  //create a function to delete icon from the frontend and database both side 
+  //create a function to delete icon from the frontend and database both side
   const handleToDelete = async (id) => {
-    const confirmed = window.confirm('Are you sure you want to delete this model information?');
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this model information?"
+    );
     if (!confirmed) {
       return;
     }
     try {
       await axios.delete(`${baseUrl}/tht/wifiModelList/delete/${id}`);
-      toast.success('Model information deleted successfully');
+      toast.success("Model information deleted successfully");
       setAllModelInfo(allModelInfo.filter((model) => model.id !== id));
     } catch (error) {
-      console.error('Error deleting model information:', error);
-      toast.error('Failed to delete model information. Please try again later.');
+      console.error("Error deleting model information:", error);
+      toast.error(
+        "Failed to delete model information. Please try again later."
+      );
     }
   };
 
@@ -109,20 +114,43 @@ function AddWifiModelHightWidth() {
     }
     axios
       // .post('http://localhost:2000/tht/wifiModelHightWidth/add', { PID: selectedPID, modelNo: selectedModelNo, maxHeight, maxWidth, defaultHeight, defaultWidth, type: selectedType, musicValue: selectedMusicStatus, sliderImageMark: sliderImageMark })
-      .post(`${baseUrl}/tht/wifiModelHightWidth/add`, { PID: selectedPID, modelNo: selectedModelNo, maxHeight, maxWidth, defaultHeight, defaultWidth, type: selectedType, musicValue: selectedMusicStatus, sliderImageMark: sliderImageMark })
+      .post(`${baseUrl}/tht/wifiModelHightWidth/add`, {
+        PID: selectedPID,
+        modelNo: selectedModelNo,
+        maxHeight,
+        maxWidth,
+        defaultHeight,
+        defaultWidth,
+        type: selectedType,
+        musicValue: selectedMusicStatus,
+        sliderImageMark: sliderImageMark,
+      })
       .then((res) => {
         if (res.data.status === "success") {
-          setAllModelInfo([...allModelInfo, { PID: selectedPID, modelNo: selectedModelNo, maxHeight, maxWidth, defaultHeight, defaultWidth, type: selectedType, musicValue: selectedMusicStatus, sliderImageMark }])
+          setAllModelInfo([
+            ...allModelInfo,
+            {
+              PID: selectedPID,
+              modelNo: selectedModelNo,
+              maxHeight,
+              maxWidth,
+              defaultHeight,
+              defaultWidth,
+              type: selectedType,
+              musicValue: selectedMusicStatus,
+              sliderImageMark,
+            },
+          ]);
           toast.success("Model information uploaded successfully");
-          setDefaultHeight('')
-          setDefaultWidth('')
-          setMaxHeight('')
-          setMaxWidth('')
-          setSelectedModelNo('')
-          setSelectedType('')
-          setSelectedMusicStatus('')
-          setSelectedPID('')
-          setSliderImageMark('')
+          setDefaultHeight("");
+          setDefaultWidth("");
+          setMaxHeight("");
+          setMaxWidth("");
+          setSelectedModelNo("");
+          setSelectedType("");
+          setSelectedMusicStatus("");
+          setSelectedPID("");
+          setSliderImageMark("");
         } else {
           toast.error("Model information uploaded failed");
         }
@@ -131,7 +159,7 @@ function AddWifiModelHightWidth() {
         console.error(error); // Log the error to the console
         toast.error("An error occurred while uploading Model information"); // Show a toast for the error
       });
-  }
+  };
 
   const handleInputChange = (e) => {
     setSelectedModelNo(e.target.value);
@@ -152,7 +180,6 @@ function AddWifiModelHightWidth() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState("");
 
-
   const closeModal = () => setIsModalOpen(false);
 
   // Handle form input change
@@ -168,32 +195,34 @@ function AddWifiModelHightWidth() {
     try {
       // Send the PUT request to update the data in the backend
       // const response = await fetch('http://localhost:2000/tht/wifiModelHightWidth/update', {
-      const response = await fetch(`${baseUrl}/tht/wifiModelHightWidth/update`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await fetch(
+        `${baseUrl}/tht/wifiModelHightWidth/update`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
       const result = await response.json();
 
-      if (result.status === 'success') {
-        toast.success("Data updated successfully")
+      if (result.status === "success") {
+        toast.success("Data updated successfully");
         console.log("Data updated successfully");
         // Perform any other actions you need, like refreshing data, showing a success message, etc.
       } else {
         console.error("Error updating data:", result.message);
-        toast.error(result.message)
+        toast.error(result.message);
       }
     } catch (error) {
       console.error("Error submitting form:", error);
-      toast.error(error)
+      toast.error(error);
     }
 
     closeModal(); // Close modal after submission
   };
-
 
   // Handle edit functionality
   const handleToEdit = (data) => {
@@ -214,21 +243,20 @@ function AddWifiModelHightWidth() {
         editModalData
       );
 
-      toast.success('Model Information updated successfully');
+      toast.success("Model Information updated successfully");
       setAllModelInfo((prev) =>
-        prev.map((item) => (item.id === editModalData.id ? editModalData : item))
+        prev.map((item) =>
+          item.id === editModalData.id ? editModalData : item
+        )
       );
       setIsModalOpen(false);
     } catch (error) {
-      console.error('Error updating data:', error);
-      toast.error('Failed to update data');
+      console.error("Error updating data:", error);
+      toast.error("Failed to update data");
     }
   };
 
-
-
   return (
-
     <div>
       {/* Server Selected Tabs */}
       <div className="flex justify-center items-center mb-6 mt-3">
@@ -237,10 +265,11 @@ function AddWifiModelHightWidth() {
             <button
               key={index}
               onClick={() => setBaseUrl(server.url)}
-              className={`px-16 py-1 rounded-full text-xl ${server.url === baseUrl
-                ? "bg-[#004368] text-white font-bold"
-                : "text-gray-500 font-semibold"
-                }`}
+              className={`px-16 py-1 rounded-full text-xl ${
+                server.url === baseUrl
+                  ? "bg-[#004368] text-white font-bold"
+                  : "text-gray-500 font-semibold"
+              }`}
             >
               {server.serverName}
             </button>
@@ -248,12 +277,15 @@ function AddWifiModelHightWidth() {
         </div>
       </div>
 
-
-      <h2 className="text-3xl font-bold text-[#004368] mt-10">Available WiFi Printer Model Information</h2>
+      <h2 className="text-3xl font-bold text-[#004368] mt-10">
+        Available WiFi Printer Model Information
+      </h2>
 
       <div className="my-24 flex items-center justify-center px-4">
         <form className="w-full max-w-4xl bg-white shadow rounded-xl p-10 space-y-8 border border-gray-200">
-          <h2 className="text-2xl font-bold text-center text-[#004368]">Add WiFi Model Info</h2>
+          <h2 className="text-2xl font-bold text-center text-[#004368]">
+            Add WiFi Model Info
+          </h2>
 
           {/* PID Input */}
           <div>
@@ -269,7 +301,9 @@ function AddWifiModelHightWidth() {
 
           {/* Model Name */}
           <div>
-            <label className="block mb-2 text-gray-700 font-medium">Model Name</label>
+            <label className="block mb-2 text-gray-700 font-medium">
+              Model Name
+            </label>
             <input
               type="text"
               className="w-full bg-white px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#004368]"
@@ -281,7 +315,9 @@ function AddWifiModelHightWidth() {
 
           {/* Type Name */}
           <div>
-            <label className="block mb-2 text-gray-700 font-medium">Type Name</label>
+            <label className="block mb-2 text-gray-700 font-medium">
+              Type Name
+            </label>
             <input
               type="text"
               className="w-full bg-white px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#004368]"
@@ -293,7 +329,9 @@ function AddWifiModelHightWidth() {
 
           {/* Music Status */}
           <div>
-            <label className="block mb-2 text-gray-700 font-medium">Music Status</label>
+            <label className="block mb-2 text-gray-700 font-medium">
+              Music Status
+            </label>
             <input
               type="text"
               className="w-full bg-white px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#004368]"
@@ -305,7 +343,9 @@ function AddWifiModelHightWidth() {
 
           {/* Slider Image Mark */}
           <div>
-            <label className="block mb-2 text-gray-700 font-medium">Slider Image Mark</label>
+            <label className="block mb-2 text-gray-700 font-medium">
+              Slider Image Mark
+            </label>
             <input
               type="text"
               className="w-full bg-white px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#004368]"
@@ -317,7 +357,9 @@ function AddWifiModelHightWidth() {
 
           {/* Default Height & Width */}
           <div>
-            <label className="block mb-2 text-gray-700 font-medium">Default Height & Width</label>
+            <label className="block mb-2 text-gray-700 font-medium">
+              Default Height & Width
+            </label>
             <div className="flex gap-4">
               <input
                 type="text"
@@ -336,7 +378,9 @@ function AddWifiModelHightWidth() {
 
           {/* Max Height & Width */}
           <div>
-            <label className="block mb-2 text-gray-700 font-medium">Max Height & Width</label>
+            <label className="block mb-2 text-gray-700 font-medium">
+              Max Height & Width
+            </label>
             <div className="flex gap-4">
               <input
                 type="text"
@@ -365,101 +409,136 @@ function AddWifiModelHightWidth() {
         </form>
       </div>
 
-
-
-
       <div className=" min-h-screen">
         <h1 className="text-3xl font-bold text-[#004368] my-5">
           Available Printer Model Full Information
         </h1>
-        {
-          loading ?
-            <DisplaySpinner></DisplaySpinner>
-            :
-            allModelInfo && allModelInfo?.length === 0 ? <p className="text-2xl font-semibold text-amber-500">No Model Information Available For This Model !!!</p>
-              :
-              <div className="grid grid-cols-1 mx-1 md:mx-5  gap-4 text-center">
-                {/* Show all model information in a table */}
-                {
-                  <table className="border-collapse w-full">
-                    <thead>
-                      <tr className="bg-gradient-to-r from-teal-400 to-purple-400">
-                        <th className="border border-gray-400 px-4 py-2 text-white">PID</th>
-                        <th className="border border-gray-400 px-4 py-2 text-white">Model Name</th>
-                        <th className="border border-gray-400 px-4 py-2 text-white">Type</th>
-                        <th className="border border-gray-400 px-4 py-2 text-white">Default Hight</th>
-                        <th className="border border-gray-400 px-4 py-2 text-white">Default Width</th>
-                        <th className="border border-gray-400 px-4 py-2 text-white">Max Hight</th>
-                        <th className="border border-gray-400 px-4 py-2 text-white">Max Width</th>
-                        <th className="border border-gray-400 px-4 py-2 text-white">Music Status</th>
-                        <th className="border border-gray-400 px-4 py-2 text-white">Slider Mark</th>
-                        <th className="border border-gray-400 px-4 py-2 text-white">Actions</th>
+        {loading ? (
+          <DisplaySpinner></DisplaySpinner>
+        ) : allModelInfo && allModelInfo?.length === 0 ? (
+          <p className="text-2xl font-semibold text-amber-500">
+            No Model Information Available For This Model !!!
+          </p>
+        ) : (
+          <div className="grid grid-cols-1 mx-1 md:mx-5  gap-4 text-center">
+            {/* Show all model information in a table */}
+            {
+              <table className="border-collapse w-full mb-10">
+                <thead>
+                  <tr className="bg-gradient-to-r from-teal-400 to-purple-400">
+                    <th className="border border-gray-400 px-4 py-2 text-white">
+                      PID
+                    </th>
+                    <th className="border border-gray-400 px-4 py-2 text-white">
+                      Model Name
+                    </th>
+                    <th className="border border-gray-400 px-4 py-2 text-white">
+                      Type
+                    </th>
+                    <th className="border border-gray-400 px-4 py-2 text-white">
+                      Default Hight
+                    </th>
+                    <th className="border border-gray-400 px-4 py-2 text-white">
+                      Default Width
+                    </th>
+                    <th className="border border-gray-400 px-4 py-2 text-white">
+                      Max Hight
+                    </th>
+                    <th className="border border-gray-400 px-4 py-2 text-white">
+                      Max Width
+                    </th>
+                    <th className="border border-gray-400 px-4 py-2 text-white">
+                      Music Status
+                    </th>
+                    <th className="border border-gray-400 px-4 py-2 text-white">
+                      Slider Mark
+                    </th>
+                    <th className="border border-gray-400 px-4 py-2 text-white">
+                      Actions
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {allModelInfo && allModelInfo.length > 0 ? (
+                    allModelInfo.map((element) => (
+                      <tr
+                        className="border hover:bg-gradient-to-r hover:from-blue-100 hover:to-purple-100"
+                        key={element.id}
+                      >
+                        <td className="px-4 py-2 border">{element.PID}</td>
+                        <td className="px-4 py-2 border">{element.modelNo}</td>
+                        <td className="px-4 py-2 border">{element.type}</td>
+                        <td className="px-4 py-2 border">
+                          {element.defaultHeight}
+                        </td>
+                        <td className="px-4 py-2 border">
+                          {element.defaultWidth}
+                        </td>
+                        <td className="px-4 py-2 border">
+                          {element.maxHeight}
+                        </td>
+                        <td className="px-4 py-2 border">{element.maxWidth}</td>
+                        <td className="px-4 py-2 border">
+                          {element.musicValue}
+                        </td>
+                        <td className="px-4 py-2 border">
+                          {element.sliderImageMark}
+                        </td>
+                        <td className="px-4 py-2 border-r flex justify-evenly">
+                          <MdEdit
+                            onClick={() => handleToEdit(element)}
+                            className="text-blue-500 hover:cursor-pointer"
+                          />
+                          <MdDelete
+                            onClick={() => handleToDelete(element.id)}
+                            className="text-red-500 hover:cursor-pointer"
+                          />
+                        </td>
                       </tr>
-                    </thead>
-                    <tbody>
-                      {allModelInfo && allModelInfo.length > 0 ? (
-                        allModelInfo.map((element) => (
-                          <tr
-                            className="border hover:bg-gradient-to-r hover:from-blue-100 hover:to-purple-100"
-                            key={element.id}
-                          >
-                            <td className="px-4 py-2 border">{element.PID}</td>
-                            <td className="px-4 py-2 border">{element.modelNo}</td>
-                            <td className="px-4 py-2 border">{element.type}</td>
-                            <td className="px-4 py-2 border">{element.defaultHeight}</td>
-                            <td className="px-4 py-2 border">{element.defaultWidth}</td>
-                            <td className="px-4 py-2 border">{element.maxHeight}</td>
-                            <td className="px-4 py-2 border">{element.maxWidth}</td>
-                            <td className="px-4 py-2 border">{element.musicValue}</td>
-                            <td className="px-4 py-2 border">{element.sliderImageMark}</td>
-                            <td className="px-4 py-2 border-r flex justify-evenly">
-                              <MdEdit
-                                onClick={() => handleToEdit(element)}
-                                className="text-blue-500 hover:cursor-pointer"
-                              />
-                              <MdDelete
-                                onClick={() => handleToDelete(element.id)}
-                                className="text-red-500 hover:cursor-pointer"
-                              />
-                            </td>
-                          </tr>
-                        ))
-                      ) : (
-                        <tr>
-                          <td colSpan="2" className="text-center py-4">
-                            No Model information found.
-                          </td>
-                        </tr>
-                      )}
-                    </tbody>
-                  </table>
-                }
-              </div>
-        }
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="2" className="text-center py-4">
+                        No Model information found.
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            }
+          </div>
+        )}
 
         {/* Modal */}
         {isModalOpen && (
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-            <form onSubmit={handleEditSubmit} className="space-y-4 bg-white p-6 rounded-lg shadow-lg w-1/2">
+            <form
+              onSubmit={handleEditSubmit}
+              className="space-y-4 bg-white p-6 rounded-lg shadow-lg w-1/2"
+            >
               <h2 className="text-xl font-bold mb-4">{`Edit Model No ${editModalData?.modelNo} Information`}</h2>
 
               {/* Row 1 */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-gray-700 font-medium mb-1">Model No</label>
+                  <label className="block text-gray-700 font-medium mb-1">
+                    Model No
+                  </label>
                   <input
                     className="w-full border p-2 rounded bg-gray-100 text-slate-700 cursor-not-allowed"
                     type="text"
-                    value={editModalData?.modelNo || ''}
+                    value={editModalData?.modelNo || ""}
                     readOnly
                   />
                 </div>
                 <div>
-                  <label className="block text-gray-700 font-medium mb-1">PID</label>
+                  <label className="block text-gray-700 font-medium mb-1">
+                    PID
+                  </label>
                   <input
                     className="w-full border p-2 rounded bg-gray-100 text-slate-700 cursor-not-allowed"
                     type="text"
-                    value={editModalData?.PID || ''}
+                    value={editModalData?.PID || ""}
                     readOnly
                   />
                 </div>
@@ -468,22 +547,36 @@ function AddWifiModelHightWidth() {
               {/* Row 2 */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-gray-700 font-medium mb-1">Default Height</label>
+                  <label className="block text-gray-700 font-medium mb-1">
+                    Default Height
+                  </label>
                   <input
                     className="w-full border p-2 rounded bg-gray-50 text-slate-700 focus:ring focus:ring-blue-300"
                     type="text"
-                    value={editModalData?.defaultHeight || ''}
-                    onChange={(e) => setEditModalData({ ...editModalData, defaultHeight: e.target.value })}
+                    value={editModalData?.defaultHeight || ""}
+                    onChange={(e) =>
+                      setEditModalData({
+                        ...editModalData,
+                        defaultHeight: e.target.value,
+                      })
+                    }
                     placeholder="Enter Default Height"
                   />
                 </div>
                 <div>
-                  <label className="block text-gray-700 font-medium mb-1">Default Width</label>
+                  <label className="block text-gray-700 font-medium mb-1">
+                    Default Width
+                  </label>
                   <input
                     className="w-full border p-2 rounded bg-gray-50 text-slate-700 focus:ring focus:ring-blue-300"
                     type="number"
-                    value={editModalData?.defaultWidth || ''}
-                    onChange={(e) => setEditModalData({ ...editModalData, defaultWidth: e.target.value })}
+                    value={editModalData?.defaultWidth || ""}
+                    onChange={(e) =>
+                      setEditModalData({
+                        ...editModalData,
+                        defaultWidth: e.target.value,
+                      })
+                    }
                     placeholder="Enter Default Width"
                   />
                 </div>
@@ -492,22 +585,36 @@ function AddWifiModelHightWidth() {
               {/* Row 3 */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-gray-700 font-medium mb-1">Max Height</label>
+                  <label className="block text-gray-700 font-medium mb-1">
+                    Max Height
+                  </label>
                   <input
                     className="w-full border p-2 rounded bg-gray-50 text-slate-700 focus:ring focus:ring-blue-300"
                     type="number"
-                    value={editModalData?.maxHeight || ''}
-                    onChange={(e) => setEditModalData({ ...editModalData, maxHeight: e.target.value })}
+                    value={editModalData?.maxHeight || ""}
+                    onChange={(e) =>
+                      setEditModalData({
+                        ...editModalData,
+                        maxHeight: e.target.value,
+                      })
+                    }
                     placeholder="Enter Max Height"
                   />
                 </div>
                 <div>
-                  <label className="block text-gray-700 font-medium mb-1">Max Width</label>
+                  <label className="block text-gray-700 font-medium mb-1">
+                    Max Width
+                  </label>
                   <input
                     className="w-full border p-2 rounded bg-gray-50 text-slate-700 focus:ring focus:ring-blue-300"
                     type="number"
-                    value={editModalData?.maxWidth || ''}
-                    onChange={(e) => setEditModalData({ ...editModalData, maxWidth: e.target.value })}
+                    value={editModalData?.maxWidth || ""}
+                    onChange={(e) =>
+                      setEditModalData({
+                        ...editModalData,
+                        maxWidth: e.target.value,
+                      })
+                    }
                     placeholder="Enter Max Width"
                   />
                 </div>
@@ -516,22 +623,36 @@ function AddWifiModelHightWidth() {
               {/* Row 4 */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-gray-700 font-medium mb-1">Slider Image Mark</label>
+                  <label className="block text-gray-700 font-medium mb-1">
+                    Slider Image Mark
+                  </label>
                   <input
                     className="w-full border p-2 rounded bg-gray-50 text-slate-700 focus:ring focus:ring-blue-300"
                     type="text"
-                    value={editModalData?.sliderImageMark || ''}
-                    onChange={(e) => setEditModalData({ ...editModalData, sliderImageMark: e.target.value })}
+                    value={editModalData?.sliderImageMark || ""}
+                    onChange={(e) =>
+                      setEditModalData({
+                        ...editModalData,
+                        sliderImageMark: e.target.value,
+                      })
+                    }
                     placeholder="Enter Slider Image Mark"
                   />
                 </div>
                 <div>
-                  <label className="block text-gray-700 font-medium mb-1">Command</label>
+                  <label className="block text-gray-700 font-medium mb-1">
+                    Command
+                  </label>
                   <input
                     className="w-full border p-2 rounded bg-gray-50 text-slate-700 focus:ring focus:ring-blue-300"
                     type="text"
-                    value={editModalData?.type || ''}
-                    onChange={(e) => setEditModalData({ ...editModalData, type: e.target.value })}
+                    value={editModalData?.type || ""}
+                    onChange={(e) =>
+                      setEditModalData({
+                        ...editModalData,
+                        type: e.target.value,
+                      })
+                    }
                     placeholder="Enter Command"
                   />
                 </div>
@@ -540,12 +661,19 @@ function AddWifiModelHightWidth() {
               {/* Row 5 */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-gray-700 font-medium mb-1">Music Value</label>
+                  <label className="block text-gray-700 font-medium mb-1">
+                    Music Value
+                  </label>
                   <input
                     className="w-full border p-2 rounded bg-gray-50 text-slate-700 focus:ring focus:ring-blue-300"
                     type="text"
-                    value={editModalData?.musicValue || ''}
-                    onChange={(e) => setEditModalData({ ...editModalData, musicValue: e.target.value })}
+                    value={editModalData?.musicValue || ""}
+                    onChange={(e) =>
+                      setEditModalData({
+                        ...editModalData,
+                        musicValue: e.target.value,
+                      })
+                    }
                     placeholder="Enter Music Value"
                   />
                 </div>
@@ -574,6 +702,5 @@ function AddWifiModelHightWidth() {
     </div>
   );
 }
-
 
 export default AddWifiModelHightWidth;
