@@ -1,17 +1,16 @@
-import React, { useState, useEffect, useContext } from 'react';
-import Dashboard from './Dashboard';// Assume BtnSpinner is a reusable spinner component for loading states
-import { fetchData } from './apiService'; // Utility for fetching data
-import usersLogo from "../../../../Assets/Images/Admin/Users.png"
-import IconsLogo from "../../../../Assets/Images/Admin/icons.png"
-import mallLogo from "../../../../Assets/Images/Admin/Mall.png"
-import eventLogo from "../../../../Assets/Images/Admin/Event.png"
-import BluetoothLogo from "../../../../Assets/Images/Admin/bluetooth.jpg"
-import wifiLogo from "../../../../Assets/Images/Admin/wifi.jpg"
-import loginLogo from "../../../../Assets/Images/Admin/login.jpg"
-import iosLogo from "../../../../Assets/Images/Admin/ios.jpeg"
-import androidLogo from "../../../../Assets/Images/Admin/Android.jpg"
-import axios from 'axios';
-import { AuthContext } from '../../../../context/UserContext';
+import React, { useState, useEffect, useContext } from "react";
+import Dashboard from "./Dashboard"; // Assume BtnSpinner is a reusable spinner component for loading states
+import { fetchData } from "./apiService"; // Utility for fetching data
+import usersLogo from "../../../../Assets/Images/Admin/Users.png";
+import IconsLogo from "../../../../Assets/Images/Admin/icons.png";
+import mallLogo from "../../../../Assets/Images/Admin/Mall.png";
+import eventLogo from "../../../../Assets/Images/Admin/Event.png";
+import BluetoothLogo from "../../../../Assets/Images/Admin/bluetooth.jpg";
+import wifiLogo from "../../../../Assets/Images/Admin/wifi.jpg";
+import loginLogo from "../../../../Assets/Images/Admin/login.jpg";
+import iosLogo from "../../../../Assets/Images/Admin/ios.jpeg";
+import androidLogo from "../../../../Assets/Images/Admin/Android.jpg";
+import { AuthContext } from "../../../../context/UserContext";
 const AdminDashboard = () => {
   const { user } = useContext(AuthContext);
   const [userInfo, setUserInfo] = useState(null);
@@ -39,31 +38,96 @@ const AdminDashboard = () => {
     totalAppUserLoading: true,
   });
 
-  const today = new Date().toISOString().split('T')[0]; // Format: YYYY-MM-DD
+  const today = new Date().toISOString().split("T")[0]; // Format: YYYY-MM-DD
   useEffect(() => {
     // Simulated API calls to fetch data
-    fetchData('https://grozziieget.zjweiting.com:8033/tht/user-info', setUserInfo, 'userLoading', setLoading);
-    fetchData('https://grozziieget.zjweiting.com:8033/tht/allUsers', setAllUsers, 'userLoading', setLoading);
-    fetchData('https://grozziieget.zjweiting.com:8033/tht/categories', setCategories, 'categoriesLoading', setLoading);
-    fetchData('https://grozziieget.zjweiting.com:8033/tht/mallProducts', setMallProduct, 'mallLoading', setLoading);
-    fetchData('https://grozziieget.zjweiting.com:8033/tht/eventProducts', setEventProduct, 'eventLoading', setLoading);
-    fetchData(`https://grozziieget.zjweiting.com:3091/CustomerService-Chat/api/dev/logininfo/userByDate/${today}`, setTodayLoginApiCount, 'todayLoginApiCountLoading', setLoading);
-    fetchData('https://grozziieget.zjweiting.com:3091/CustomerService-Chat/api/dev/logininfo/total/sum', setLoginApiCount, 'modelLoginApiCountLoading', setLoading);
-    fetchData('https://grozziieget.zjweiting.com:8033/tht/apiCallCount', setModelApiCount, 'modelApiCountLoading', setLoading);
-    fetchData('https://grozziieget.zjweiting.com:3091/CustomerService-Chat/api/dev/logininfo/user/by/countrywise/deviceType', setDeviceTypeCount, 'deviceTypeCountLoading', setLoading);
-    fetchData('https://grozziieget.zjweiting.com:3091/CustomerService-Chat/api/dev/logininfo/user/by/deviceType', setDeviceTypeTotalCount, 'deviceTypeTotalCountLoading', setLoading);
-    fetchData('https://grozziieget.zjweiting.com:3091/CustomerService-Chat/api/dev/user/total/count', setTotalAppUser, 'totalAppUserLoading', setLoading);
+    fetchData(
+      "https://grozziieget.zjweiting.com:8033/tht/user-info",
+      setUserInfo,
+      "userLoading",
+      setLoading
+    );
+    fetchData(
+      "https://grozziieget.zjweiting.com:8033/tht/allUsers",
+      setAllUsers,
+      "userLoading",
+      setLoading
+    );
+    fetchData(
+      "https://grozziieget.zjweiting.com:8033/tht/categories",
+      setCategories,
+      "categoriesLoading",
+      setLoading
+    );
+    fetchData(
+      "https://grozziieget.zjweiting.com:8033/tht/mallProducts",
+      setMallProduct,
+      "mallLoading",
+      setLoading
+    );
+    fetchData(
+      "https://grozziieget.zjweiting.com:8033/tht/eventProducts",
+      setEventProduct,
+      "eventLoading",
+      setLoading
+    );
+    fetchData(
+      `https://grozziieget.zjweiting.com:3091/CustomerService-Chat/api/dev/logininfo/userByDate/${today}`,
+      setTodayLoginApiCount,
+      "todayLoginApiCountLoading",
+      setLoading
+    );
+    fetchData(
+      "https://grozziieget.zjweiting.com:3091/CustomerService-Chat/api/dev/logininfo/total/sum",
+      setLoginApiCount,
+      "modelLoginApiCountLoading",
+      setLoading
+    );
+    fetchData(
+      "https://grozziieget.zjweiting.com:8033/tht/apiCallCount",
+      setModelApiCount,
+      "modelApiCountLoading",
+      setLoading
+    );
+    fetchData(
+      "https://grozziieget.zjweiting.com:3091/CustomerService-Chat/api/dev/logininfo/user/by/countrywise/deviceType",
+      setDeviceTypeCount,
+      "deviceTypeCountLoading",
+      setLoading
+    );
+    fetchData(
+      "https://grozziieget.zjweiting.com:3091/CustomerService-Chat/api/dev/logininfo/user/by/deviceType",
+      setDeviceTypeTotalCount,
+      "deviceTypeTotalCountLoading",
+      setLoading
+    );
+    fetchData(
+      "https://grozziieget.zjweiting.com:3091/CustomerService-Chat/api/dev/user/total/count",
+      setTotalAppUser,
+      "totalAppUserLoading",
+      setLoading
+    );
   }, []);
 
   console.log(deviceTypeTotalCount, loading.deviceTypeTotalCountLoading);
 
-
   const handleCountRefresh = async () => {
-    setLoading(prev => ({ ...prev, todayLoginApiCountLoading: true, modelLoginApiCountLoading: true }));
-    await fetchData(`https://grozziieget.zjweiting.com:3091/CustomerService-Chat/api/dev/logininfo/userByDate/${today}`, setTodayLoginApiCount, 'todayLoginApiCountLoading');
-    await fetchData('https://grozziieget.zjweiting.com:3091/CustomerService-Chat/api/dev/logininfo/total/sum', setLoginApiCount, 'modelLoginApiCountLoading');
+    setLoading((prev) => ({
+      ...prev,
+      todayLoginApiCountLoading: true,
+      modelLoginApiCountLoading: true,
+    }));
+    await fetchData(
+      `https://grozziieget.zjweiting.com:3091/CustomerService-Chat/api/dev/logininfo/userByDate/${today}`,
+      setTodayLoginApiCount,
+      "todayLoginApiCountLoading"
+    );
+    await fetchData(
+      "https://grozziieget.zjweiting.com:3091/CustomerService-Chat/api/dev/logininfo/total/sum",
+      setLoginApiCount,
+      "modelLoginApiCountLoading"
+    );
   };
-
 
   return (
     <div className="admin-dashboard bg-[#FAFAFB]">

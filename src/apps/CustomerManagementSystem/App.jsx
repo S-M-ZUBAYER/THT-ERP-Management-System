@@ -122,8 +122,8 @@ import PrivateRoute from "./Routes/Routes/PrivateRoute/PrivateRoute";
 export const AuthContext = createContext();
 
 const CustomerManagementSystemApp = () => {
-  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(null);
 
   const SocketDisconnect = () => {
     console.log("Socket disconnected ✅");
@@ -174,341 +174,343 @@ const CustomerManagementSystemApp = () => {
 
   return (
     <AuthContext.Provider value={authInfo}>
-      <Routes>
-        {/* Main layout */}
-        <Route path="/" element={<Main />}>
-          <Route index element={<Home />} />
-          <Route path="/home" element={<Home />} />
-          <Route
-            path="/customer-1"
-            element={
-              <PrivateRoute>
-                <AutomaticChat />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="chineseCustomer"
-            element={
-              <PrivateRoute>
-                <AutomaticChat_CN />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="customer-2"
-            element={
-              <PrivateRoute>
-                <CustomerService_2 />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="account"
-            element={
-              <PrivateRoute>
-                <Account />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="translator"
-            element={
-              <PrivateRoute>
-                <Translator />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="detect"
-            element={
-              <PrivateRoute>
-                <Detect />
-              </PrivateRoute>
-            }
-          />
-          <Route path="contact" element={<Contact />} />
-          <Route path="image" element={<ImageResize />} />
-          <Route path="login" element={<Login />} />
-          <Route path="register" element={<Register />} />
-        </Route>
+      <div className="App lg:mx-0 xl:mx-20  2xl:mx-32 bg-white">
+        <Routes>
+          {/* Main layout */}
+          <Route path="/" element={<Main />}>
+            <Route index element={<Home />} />
+            <Route path="/home" element={<Home />} />
+            <Route
+              path="/customer-1"
+              element={
+                <PrivateRoute>
+                  <AutomaticChat />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="chineseCustomer"
+              element={
+                <PrivateRoute>
+                  <AutomaticChat_CN />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="customer-2"
+              element={
+                <PrivateRoute>
+                  <CustomerService_2 />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="account"
+              element={
+                <PrivateRoute>
+                  <Account />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="translator"
+              element={
+                <PrivateRoute>
+                  <Translator />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="detect"
+              element={
+                <PrivateRoute>
+                  <Detect />
+                </PrivateRoute>
+              }
+            />
+            <Route path="contact" element={<Contact />} />
+            <Route path="image" element={<ImageResize />} />
+            <Route path="login" element={<Login />} />
+            <Route path="register" element={<Register />} />
+          </Route>
 
-        {/* Admin routes */}
-        <Route
-          path="/admin"
-          element={
-            <PrivateRoute>
-              <Admin />
-            </PrivateRoute>
-          }
-        >
+          {/* Admin routes */}
           <Route
-            path="dashboard"
+            path="/admin"
             element={
               <PrivateRoute>
-                <AdminDashboard />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="users"
-            element={
-              <PrivateRoute>
-                <AllUsers />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="questionAnswer"
-            element={
-              <PrivateRoute>
-                <QandA />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="warehouse&cities"
-            element={
-              <PrivateRoute>
-                <WarehouseAndCities />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="modelHightWidth"
-            element={
-              <PrivateRoute>
-                <ModelHightWidth />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="wifiModelHightWidth"
-            element={
-              <PrivateRoute>
-                <AddWifiModelHightWidth />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="modelInfo/:modelNo"
-            element={
-              <PrivateRoute>
-                <ShowHightWidth />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="icon"
-            element={
-              <PrivateRoute>
-                <AddIconImg />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="icon/:name"
-            element={
-              <PrivateRoute>
-                <ShowIconImg />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="cityName/:name"
-            element={
-              <PrivateRoute>
-                <ShowCityList />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="backgroundImg"
-            element={
-              <PrivateRoute>
-                <AddBackgroundImg />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="adminBackgroundImg"
-            element={
-              <PrivateRoute>
-                <AddAdminBackgroundImg />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="backgroundImg/:name"
-            element={
-              <PrivateRoute>
-                <ShowBackgroundImg />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="adminBackgroundImg/:name"
-            element={
-              <PrivateRoute>
-                <ShowAdminBackgroundImg />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="mallProduct"
-            element={
-              <PrivateRoute>
-                <MallProducts />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="eventProduct"
-            element={
-              <PrivateRoute>
-                <EventProducts />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="shopifyInfo"
-            element={
-              <PrivateRoute>
-                <ShopifyInfo />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="userBaseBitmap"
-            element={
-              <PrivateRoute>
-                <UserBaseBitmap />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="powerBank"
-            element={
-              <PrivateRoute>
-                <VoltagePercentage />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="userBaseBitmap/showBitmap/:userId"
-            element={
-              <PrivateRoute>
-                <ShowBitmap />
-              </PrivateRoute>
-            }
-          />
-
-          {/* Product details nested */}
-          <Route
-            path="mallProduct/details/:model"
-            element={
-              <PrivateRoute>
-                <ProductDetails />
+                <Admin />
               </PrivateRoute>
             }
           >
             <Route
-              path="afterSales"
+              path="dashboard"
               element={
                 <PrivateRoute>
-                  <AfterSales />
+                  <AdminDashboard />
                 </PrivateRoute>
               }
             />
             <Route
-              path="inventory"
+              path="users"
               element={
                 <PrivateRoute>
-                  <Inventory />
+                  <AllUsers />
                 </PrivateRoute>
               }
             />
             <Route
-              path="invoice"
+              path="questionAnswer"
               element={
                 <PrivateRoute>
-                  <Invoice />
+                  <QandA />
                 </PrivateRoute>
               }
             />
             <Route
-              path="instruction"
+              path="warehouse&cities"
               element={
                 <PrivateRoute>
-                  <AfterSalesInstruction />
+                  <WarehouseAndCities />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="modelHightWidth"
+              element={
+                <PrivateRoute>
+                  <ModelHightWidth />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="wifiModelHightWidth"
+              element={
+                <PrivateRoute>
+                  <AddWifiModelHightWidth />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="modelInfo/:modelNo"
+              element={
+                <PrivateRoute>
+                  <ShowHightWidth />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="icon"
+              element={
+                <PrivateRoute>
+                  <AddIconImg />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="icon/:name"
+              element={
+                <PrivateRoute>
+                  <ShowIconImg />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="cityName/:name"
+              element={
+                <PrivateRoute>
+                  <ShowCityList />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="backgroundImg"
+              element={
+                <PrivateRoute>
+                  <AddBackgroundImg />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="adminBackgroundImg"
+              element={
+                <PrivateRoute>
+                  <AddAdminBackgroundImg />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="backgroundImg/:name"
+              element={
+                <PrivateRoute>
+                  <ShowBackgroundImg />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="adminBackgroundImg/:name"
+              element={
+                <PrivateRoute>
+                  <ShowAdminBackgroundImg />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="mallProduct"
+              element={
+                <PrivateRoute>
+                  <MallProducts />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="eventProduct"
+              element={
+                <PrivateRoute>
+                  <EventProducts />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="shopifyInfo"
+              element={
+                <PrivateRoute>
+                  <ShopifyInfo />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="userBaseBitmap"
+              element={
+                <PrivateRoute>
+                  <UserBaseBitmap />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="powerBank"
+              element={
+                <PrivateRoute>
+                  <VoltagePercentage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="userBaseBitmap/showBitmap/:userId"
+              element={
+                <PrivateRoute>
+                  <ShowBitmap />
+                </PrivateRoute>
+              }
+            />
+
+            {/* Product details nested */}
+            <Route
+              path="mallProduct/details/:model"
+              element={
+                <PrivateRoute>
+                  <ProductDetails />
+                </PrivateRoute>
+              }
+            >
+              <Route
+                path="afterSales"
+                element={
+                  <PrivateRoute>
+                    <AfterSales />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="inventory"
+                element={
+                  <PrivateRoute>
+                    <Inventory />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="invoice"
+                element={
+                  <PrivateRoute>
+                    <Invoice />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="instruction"
+                element={
+                  <PrivateRoute>
+                    <AfterSalesInstruction />
+                  </PrivateRoute>
+                }
+              />
+            </Route>
+
+            <Route
+              path="eventProduct/details/:model"
+              element={
+                <PrivateRoute>
+                  <ProductDetails />
+                </PrivateRoute>
+              }
+            >
+              <Route
+                path="afterSales"
+                element={
+                  <PrivateRoute>
+                    <AfterSales />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="inventory"
+                element={
+                  <PrivateRoute>
+                    <Inventory />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="invoice"
+                element={
+                  <PrivateRoute>
+                    <Invoice />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="instruction"
+                element={
+                  <PrivateRoute>
+                    <AfterSalesInstruction />
+                  </PrivateRoute>
+                }
+              />
+            </Route>
+
+            <Route
+              path="mallProduct/add"
+              element={
+                <PrivateRoute>
+                  <AddProduct />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="eventProduct/add"
+              element={
+                <PrivateRoute>
+                  <AddProduct />
                 </PrivateRoute>
               }
             />
           </Route>
 
-          <Route
-            path="eventProduct/details/:model"
-            element={
-              <PrivateRoute>
-                <ProductDetails />
-              </PrivateRoute>
-            }
-          >
-            <Route
-              path="afterSales"
-              element={
-                <PrivateRoute>
-                  <AfterSales />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="inventory"
-              element={
-                <PrivateRoute>
-                  <Inventory />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="invoice"
-              element={
-                <PrivateRoute>
-                  <Invoice />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="instruction"
-              element={
-                <PrivateRoute>
-                  <AfterSalesInstruction />
-                </PrivateRoute>
-              }
-            />
-          </Route>
-
-          <Route
-            path="mallProduct/add"
-            element={
-              <PrivateRoute>
-                <AddProduct />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="eventProduct/add"
-            element={
-              <PrivateRoute>
-                <AddProduct />
-              </PrivateRoute>
-            }
-          />
-        </Route>
-
-        {/* Fallback */}
-        <Route path="*" element={<ErrorPage />} />
-      </Routes>
+          {/* Fallback */}
+          <Route path="*" element={<ErrorPage />} />
+        </Routes>
+      </div>
     </AuthContext.Provider>
   );
 };

@@ -13,7 +13,7 @@ const Navbar = () => {
   const [isCustomerOpen, setIsCustomerOpen] = useState(false);
   const [isAdminOpen, setIsAdminOpen] = useState(false);
 
-  const { user, serviceCountry, userInfo } = useContext(AuthContext);
+  const { user, serviceCountry } = useContext(AuthContext);
   // const { showData } = useContext(AllProductContext);
 
   const toggleMenu = () => setIsOpen(!isOpen);
@@ -24,7 +24,7 @@ const Navbar = () => {
   return (
     <header aria-label="Site Header" className="bg-white  sticky top-0 z-50">
       <div className="mx-auto px-6 md:px-0">
-        <div className="flex h-16 items-center justify-between">
+        <div className="flex h-16 items-center justify-evenly">
           <div className="relative visible lg:hidden">
             {user?.isAdmin === "true" && (
               <button
@@ -44,102 +44,102 @@ const Navbar = () => {
                   <ul
                     data-aos="fade-up-right"
                     data-aos-duration="2000"
-                    className="menu w-full text-start"
+                    className="menu w-full text-start px-3 py-3"
                   >
                     {user?.isAdmin === "true" && (
                       <>
-                        <li>
+                        <li className="mb-5">
                           <Link
                             to="/customer-management-system/admin/users"
-                            className="sm:text-xs md:text-base text-gray-700"
+                            className="sm:text-xs md:text-base text-gray-700 font-normal"
                           >
                             All Users
                           </Link>
                         </li>
-                        <li>
+                        <li className="mb-5">
                           <Link
                             to="/customer-management-system/admin/questionAnswer"
-                            className="sm:text-xs md:text-base text-gray-700"
+                            className="sm:text-xs md:text-base text-gray-700 font-normal"
                           >
                             Add Q&A, Profile, Support Link
                           </Link>
                         </li>
-                        <li>
+                        <li className="mb-5">
                           <Link
                             to="/customer-management-system/admin/warehouse&cities"
-                            className="sm:text-xs md:text-base text-gray-700"
+                            className="sm:text-xs md:text-base text-gray-700 font-normal"
                           >
                             Add Warehouse&Cities
                           </Link>
                         </li>
-                        <li>
+                        <li className="mb-5">
                           <Link
                             to="/customer-management-system/admin/modelHightWidth"
-                            className="sm:text-xs md:text-base text-gray-700"
+                            className="sm:text-xs md:text-base text-gray-700 font-normal"
                           >
                             Add Bluetooth Model H&W
                           </Link>
                         </li>
-                        <li>
+                        <li className="mb-5">
                           <Link
                             to="/customer-management-system/admin/wifiModelHightWidth"
-                            className="sm:text-xs md:text-base text-gray-700"
+                            className="sm:text-xs md:text-base text-gray-700 font-normal"
                           >
                             Add Wifi Model H&W
                           </Link>
                         </li>
-                        <li>
+                        <li className="mb-5">
                           <Link
                             to="/customer-management-system/admin/icon"
-                            className="sm:text-xs md:text-base text-gray-700"
+                            className="sm:text-xs md:text-base text-gray-700 font-normal"
                           >
                             Add Icons
                           </Link>
                         </li>
-                        <li>
+                        <li className="mb-5">
                           <Link
                             to="/customer-management-system/admin/backgroundImg"
-                            className="sm:text-xs md:text-base text-gray-700"
+                            className="sm:text-xs md:text-base text-gray-700 font-normal"
                           >
                             Add Background Image & Video
                           </Link>
                         </li>
-                        <li>
+                        <li className="mb-5">
                           <Link
                             to="/customer-management-system/admin/mallProduct"
-                            className="sm:text-xs md:text-base text-gray-700"
+                            className="sm:text-xs md:text-base text-gray-700 font-normal"
                           >
                             Add Mall Products
                           </Link>
                         </li>
-                        <li>
+                        <li className="mb-5">
                           <Link
                             to="/customer-management-system/admin/eventProduct"
-                            className="sm:text-xs md:text-base text-gray-700"
+                            className="sm:text-xs md:text-base text-gray-700 font-normal"
                           >
                             Add Event Products
                           </Link>
                         </li>
-                        <li>
+                        <li className="mb-5">
                           <Link
                             to="/customer-management-system/admin/shopifyInfo"
-                            className="sm:text-xs md:text-base text-gray-700"
+                            className="sm:text-xs md:text-base text-gray-700 font-normal"
                           >
                             Add Shopify & Others Info
                           </Link>
                         </li>
-                        <li>
+                        <li className="mb-5">
                           <Link
                             to="/customer-management-system/admin/userBaseBitmap"
-                            className="sm:text-xs md:text-base text-gray-700"
+                            className="sm:text-xs md:text-base text-gray-700 font-normal"
                           >
                             User Base Bitmap
                           </Link>
                         </li>
-                        <li>
+                        <li className="mb-5">
                           <Link
                             to="/customer-management-system/admin/powerBank"
-                            className="sm:text-xs md:text-base text-gray-700"
+                            className="sm:text-xs md:text-base text-gray-700 font-normal"
                           >
                             Power Bank
                           </Link>
@@ -168,7 +168,7 @@ const Navbar = () => {
               <ul className="flex items-center gap-6 text-base ">
                 <li>
                   <Link
-                    className="text-gray-500 transition hover:font-semibold hover:text-zinc-900"
+                    className="text-gray-500 font-normal transition hover:font-semibold hover:text-zinc-900"
                     to="/customer-management-system/home"
                   >
                     Home
@@ -178,7 +178,7 @@ const Navbar = () => {
                   <li>
                     <div className="relative">
                       <button
-                        className="flex justify-between items-center  text-gray-500 transition hover:font-semibold hover:text-zinc-900"
+                        className="flex justify-between items-center font-normal text-gray-500 transition hover:font-semibold hover:text-zinc-900"
                         onClick={toggleMenu}
                       >
                         Customer Service
@@ -195,7 +195,7 @@ const Navbar = () => {
                             <Link
                               to="/customer-management-system/customer-1"
                               onClick={toggleMenu}
-                              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  hover:font-semibold hover:text-zinc-900"
+                              className="block px-4 py-2 text-sm font-normal text-gray-700 hover:bg-gray-100  hover:font-semibold hover:text-zinc-900"
                               role="menuitem"
                             >
                               Automatic Service
@@ -203,7 +203,7 @@ const Navbar = () => {
                             <Link
                               to="/customer-management-system/customer-2"
                               onClick={toggleMenu}
-                              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:font-semibold hover:text-zinc-900"
+                              className="block px-4 py-2 text-sm font-normal text-gray-700 hover:bg-gray-100 hover:font-semibold hover:text-zinc-900"
                               role="menuitem"
                             >
                               Manual Service
@@ -219,7 +219,7 @@ const Navbar = () => {
                   <li>
                     <div className="relative">
                       <button
-                        className="flex justify-between items-center  text-gray-500 transition hover:font-semibold hover:text-zinc-900"
+                        className="flex justify-between items-center font-normal  text-gray-500 transition hover:font-semibold hover:text-zinc-900"
                         onClick={toggleMenu}
                       >
                         Chinese Customer Service
@@ -236,7 +236,7 @@ const Navbar = () => {
                             <Link
                               to="/customer-management-system/chineseCustomer"
                               onClick={toggleMenu}
-                              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:font-semibold hover:text-zinc-900"
+                              className="block px-4 py-2 text-sm font-normal text-gray-700 hover:bg-gray-100 hover:font-semibold hover:text-zinc-900"
                               role="menuitem"
                             >
                               Chinese Service
@@ -244,7 +244,7 @@ const Navbar = () => {
                             <Link
                               to="/customer-management-system/customer-2"
                               onClick={toggleMenu}
-                              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:font-semibold hover:text-zinc-900"
+                              className="block px-4 py-2 text-sm font-normal text-gray-700 hover:bg-gray-100 hover:font-semibold hover:text-zinc-900"
                               role="menuitem"
                             >
                               Manual Service
@@ -259,7 +259,7 @@ const Navbar = () => {
                 {user?.isAdmin === "true" && (
                   <li>
                     <Link
-                      className="text-gray-500 transition hover:font-semibold hover:text-zinc-900"
+                      className="text-gray-500 font-normal transition hover:font-semibold hover:text-zinc-900"
                       to="/customer-management-system/admin/dashboard"
                     >
                       Admin
@@ -267,17 +267,9 @@ const Navbar = () => {
                   </li>
                 )}
 
-                {/* <li>
-                  <Link
-                    className="text-gray-500 transition hover:font-semibold hover:text-zinc-900"
-                    to="/translator"
-                  >
-                    Translator
-                  </Link>
-                </li> */}
                 <li>
                   <a
-                    className="text-gray-500 transition hover:font-semibold hover:text-zinc-900"
+                    className="text-gray-500 transition font-normal hover:font-semibold hover:text-zinc-900"
                     href="https://grozziieget.zjweiting.com:8032/"
                     target="_blank"
                     rel="noopener noreferrer"
@@ -288,7 +280,7 @@ const Navbar = () => {
 
                 <li>
                   <Link
-                    className="text-gray-500 transition hover:font-semibold hover:text-zinc-900"
+                    className="text-gray-500 transition font-normal hover:font-semibold hover:text-zinc-900"
                     to="/customer-management-system/detect"
                   >
                     Detect
@@ -296,7 +288,7 @@ const Navbar = () => {
                 </li>
                 <li>
                   <Link
-                    className="text-gray-500 transition hover:font-semibold hover:text-zinc-900"
+                    className="text-gray-500 transition font-normal hover:font-semibold hover:text-zinc-900"
                     to="/customer-management-system/account"
                   >
                     Account
@@ -305,7 +297,7 @@ const Navbar = () => {
 
                 <li>
                   <Link
-                    className="text-gray-500 transition hover:font-semibold hover:text-zinc-900"
+                    className="text-gray-500 transition font-normal hover:font-semibold hover:text-zinc-900"
                     to="/customer-management-system/contact"
                   >
                     Contact
