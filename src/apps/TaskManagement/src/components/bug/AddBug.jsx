@@ -66,7 +66,8 @@ const AddBug = () => {
   const [fileAttachment, setFileAttachment] = useState(null);
   const modalRef = useRef(null);
   const { id, projectName, fetchBugsById } = useBugData();
-  const user = JSON.parse(localStorage.getItem("user"));
+  // const user = JSON.parse(localStorage.getItem("user"));
+  const user = JSON.parse(localStorage.getItem("taskUser"));
   const { sendMessage } = useWebSocket();
 
   useEffect(() => {

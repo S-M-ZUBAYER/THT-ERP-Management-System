@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAuthStore from "../store/auth";
 import { Card, CardContent } from "@/components/ui/card";
@@ -8,6 +8,7 @@ import exportImportLogo from "../assets/WebsiteImages/exportImportLogo.jpg";
 import taskManagementLogo from "../assets/WebsiteImages/taskManagmentLogo.jpg";
 import translatorLogo from "../assets/WebsiteImages/translatorLogo.jpg";
 import attendanceShiftingLogo from "../assets/WebsiteImages/attendanceShiftingLogo.jpg";
+import PermissionModal from "./PermissionModal";
 
 const websites = [
   {
@@ -45,6 +46,7 @@ const websites = [
 export default function Dashboard() {
   const navigate = useNavigate();
   const user = useAuthStore((state) => state.user);
+  const [showPermissionModal, setShowPermissionModal] = useState(false);
 
   useEffect(() => {
     const savedUser = JSON.parse(localStorage.getItem("user"));
@@ -57,6 +59,35 @@ export default function Dashboard() {
 
   const handleRouteNavigate = (site) => {
     if (!site.route) return;
+
+    if (!user) {
+      setShowPermissionModal(true);
+      return;
+    }
+
+    const {
+      thtManagement,
+      taskManagement,
+      wowomartManagement,
+      ExportImportManagement,
+    } = user;
+
+    const routePermissions = {
+      "/customer-management-system": thtManagement,
+      "/translator": thtManagement,
+      "/task-management": taskManagement,
+      "/wowomart-management": wowomartManagement,
+      "/export-import": ExportImportManagement,
+    };
+
+    if (routePermissions.hasOwnProperty(site.route)) {
+      const hasPermission = routePermissions[site.route];
+      if (!hasPermission) {
+        setShowPermissionModal(true);
+        return;
+      }
+    }
+
     navigate(site.route);
   };
 
@@ -85,6 +116,11 @@ export default function Dashboard() {
           </Card>
         ))}
       </div>
+      {/* Modal */}
+      <PermissionModal
+        show={showPermissionModal}
+        onClose={() => setShowPermissionModal(false)}
+      />
     </div>
   );
 }

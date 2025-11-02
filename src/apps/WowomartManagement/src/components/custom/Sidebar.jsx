@@ -128,7 +128,7 @@ export default function Sidebar() {
             className="flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium text-red-500 hover:text-red-600 transition-all bg-zinc-900"
             onClick={() => {
               console.log("Logging out...");
-              localStorage.clear();
+              localStorage.removeItem("wowomartUser");
               navigate("/log-in", { replace: true });
               window.location.reload();
             }}
