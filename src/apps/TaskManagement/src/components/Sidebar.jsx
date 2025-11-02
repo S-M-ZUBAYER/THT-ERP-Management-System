@@ -113,7 +113,8 @@ const Sidebar = () => {
             color: "#fb8500",
           }}
           onClick={() => {
-            localStorage.removeItem("user");
+            // localStorage.removeItem("user");
+            localStorage.removeItem("taskUser");
             window.location.href = "/task-management/sign-in";
           }}
         >

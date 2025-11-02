@@ -20,7 +20,8 @@ const navData = [
 ];
 
 export default function Navbar() {
-  const storedUser = localStorage.getItem("user");
+  // const storedUser = localStorage.getItem("user");
+  const storedUser = localStorage.getItem("wowomartUser");
   const user = storedUser ? JSON.parse(storedUser) : null;
   const [isOpen, setIsOpen] = useState(false);
 
