@@ -15,8 +15,8 @@ import image from "../../constants/image";
 // import image from "@/constants/image";
 
 const navData = [
-  { label: "Log In", path: "/log-in" },
-  { label: "Sign up", path: "/sign-up" },
+  { label: "Log In", path: "/wowomart-management/log-in" },
+  { label: "Sign up", path: "/wowomart-management/sign-up" },
 ];
 
 export default function Navbar() {

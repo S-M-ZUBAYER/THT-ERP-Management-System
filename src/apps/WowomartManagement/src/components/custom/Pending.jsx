@@ -180,7 +180,7 @@ export function Pending() {
     setSelectedId(id);
     setDialogType(type);
     if (type === "view") {
-      navigate("/seller-details", { state: { id } });
+      navigate("/wowomart-management/seller-details", { state: { id } });
     } else {
       setDialogOpen(true);
     }
@@ -191,7 +191,10 @@ export function Pending() {
       case "update":
         setDialogOpen(false);
         setTimeout(
-          () => navigate("/update-seller", { state: { id: selectedId } }),
+          () =>
+            navigate("/wowomart-management/update-seller", {
+              state: { id: selectedId },
+            }),
           0
         );
         break;

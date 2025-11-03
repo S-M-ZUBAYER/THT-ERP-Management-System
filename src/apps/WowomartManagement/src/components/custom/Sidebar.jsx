@@ -129,7 +129,7 @@ export default function Sidebar() {
             onClick={() => {
               console.log("Logging out...");
               localStorage.removeItem("wowomartUser");
-              navigate("/log-in", { replace: true });
+              navigate("/wowomart-management/log-in");
               window.location.reload();
             }}
             style={{ backgroundColor: "white", outline: "none" }}
