@@ -162,12 +162,11 @@ export default function Login() {
       }
 
       const userInfo = data[0];
-      const userWithPlainPassword = { ...userInfo, password };
 
       // 2️⃣ Save user & DUser locally
-      useAuthStore.getState().setUser(userWithPlainPassword);
-      localStorage.setItem("user", JSON.stringify(userWithPlainPassword));
-      if (userWithPlainPassword?.thtManagement) {
+      useAuthStore.getState().setUser(userInfo);
+      localStorage.setItem("user", JSON.stringify(userInfo));
+      if (userInfo?.thtManagement) {
         localStorage.setItem(
           "DUser",
           JSON.stringify({ email, password, selectedShops })
@@ -206,7 +205,7 @@ export default function Login() {
       } catch (err) {
         console.error("Chat registration error:", err);
       }
-      console.log(userInfo.ExportImportManagement, "Start export import");
+
       // 4️⃣ Check ExportImportManagement condition
       if (userInfo.ExportImportManagement === 1) {
         try {
@@ -218,7 +217,6 @@ export default function Login() {
               password: password,
             }
           );
-          console.log(exportRes, "exportRes");
 
           if (exportRes.data === true) {
             // Fetch user data from export system
@@ -229,12 +227,18 @@ export default function Login() {
             const matchedExportUser = exportUserRes.data.find(
               (u) => u.userEmail === email
             );
-            console.log(matchedExportUser, "matchedExportUser");
+
             if (matchedExportUser) {
               // Update the stored user with export management details
+              const { userName, userEmail, role, admin } =
+                matchedExportUser || {};
+
               const mergedUser = {
-                ...userWithPlainPassword,
-                ...matchedExportUser,
+                ...userInfo,
+                userName,
+                userEmail,
+                role,
+                admin,
               };
               localStorage.setItem("user", JSON.stringify(mergedUser));
               useAuthStore.getState().setUser(mergedUser);
@@ -263,7 +267,6 @@ export default function Login() {
           );
 
           const taskData = await taskRes.json();
-          console.log(taskData.result, "Task management login result");
 
           if (taskRes.ok && !taskData.error) {
             localStorage.setItem("taskUser", JSON.stringify(taskData.result));
@@ -289,7 +292,6 @@ export default function Login() {
           );
 
           const wowomartData = await wowomartRes.json();
-          console.log(wowomartData.user, "Wowomart login user");
 
           if (wowomartRes.ok && !wowomartData.error) {
             localStorage.setItem(

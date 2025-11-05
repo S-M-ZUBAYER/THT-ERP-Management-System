@@ -1,7 +1,8 @@
 // src/routes/AppRoutes.jsx
 import { Routes, Route } from "react-router-dom";
 import Login from "../pages/Login";
-import Dashboard from "../pages/Dashboard";
+// import Dashboard from "../pages/Dashboard";
+import Dashboard from "../pages/DashboardPage/Dashboard";
 import TaskmanagementApp from "@/apps/TaskManagement/src/App";
 import WowomartApp from "@/apps/WowomartManagement/src/App";
 import ExportImportApp from "../apps/Export&ImportManagement/src/App";
@@ -9,12 +10,17 @@ import TranslatorApp from "../apps/Translator/src/TranslatorApp";
 import AttendanceShiftingApp from "../apps/AttendanceShifting/App";
 import Animated404 from "@/apps/TaskManagement/src/components/404";
 import CustomerManagementSystemApp from "@/apps/CustomerManagementSystem/App";
+import Contact from "@/pages/Contact";
+import Setting from "@/pages/SettingPage/Setting";
 
 const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<Login />} />
+      <Route path="/Home" element={<Dashboard />} />
       <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/settings" element={<Setting />} />
+      <Route path="/contact" element={<Contact />} />
       <Route path="/task-management/*" element={<TaskmanagementApp />} />
       <Route path="/wowomart-management/*" element={<WowomartApp />} />
       <Route path="/export-import/*" element={<ExportImportApp />} />
