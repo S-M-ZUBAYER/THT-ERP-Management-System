@@ -4,7 +4,7 @@ import { Navigate, Outlet, useLocation } from "react-router-dom";
 const PrivateRoute = () => {
   const location = useLocation();
   // const [user,setUser] = useState()
-  const user = JSON.parse(localStorage.getItem("values"));
+  const user = JSON.parse(localStorage.getItem("user"));
   if (!user) {
     return (
       <Navigate to="/export-import/login" state={{ from: location }} replace />

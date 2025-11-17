@@ -4,7 +4,6 @@ import useAuthStore from "../../store/auth";
 import { Card, CardContent } from "@/components/ui/card";
 import PermissionModal from "../PermissionModal";
 import Navbar from "../SharedPage/Navbar";
-// import EditProfileModal from "./EditProfileModal";
 import WebsiteCard from "./WebsiteCard";
 import wowomartLogo from "../../assets/WebsiteImages/wowmartDashboard.jpg";
 import customerManagementLogo from "../../assets/WebsiteImages/customerManagement.jpg";
@@ -12,8 +11,6 @@ import exportImportLogo from "../../assets/WebsiteImages/exportImportLogo.jpg";
 import taskManagementLogo from "../../assets/WebsiteImages/taskManagmentLogo.jpg";
 import translatorLogo from "../../assets/WebsiteImages/translatorLogo.jpg";
 import attendanceShiftingLogo from "../../assets/WebsiteImages/attendanceShiftingLogo.jpg";
-import EditProfileModal from "./EditProfileModal";
-import toast from "react-hot-toast";
 
 const websites = [
   {
@@ -48,14 +45,6 @@ export default function Dashboard() {
   const navigate = useNavigate();
   const user = useAuthStore((state) => state.user);
   const [showPermissionModal, setShowPermissionModal] = useState(false);
-  const [showEditModal, setShowEditModal] = useState(false);
-  const [formData, setFormData] = useState({});
-
-  useEffect(() => {
-    setFormData(user);
-  }, [user]);
-
-  console.log(formData, "formdata");
 
   useEffect(() => {
     const savedUser = JSON.parse(localStorage.getItem("user"));
@@ -76,6 +65,7 @@ export default function Dashboard() {
     const routePermissions = {
       "/customer-management-system": thtManagement,
       "/translator": thtManagement,
+      "/attendance-shifting": thtManagement,
       "/task-management": taskManagement,
       "/wowomart-management": wowomartManagement,
       "/export-import": ExportImportManagement,
@@ -86,60 +76,9 @@ export default function Dashboard() {
     navigate(site.route);
   };
 
-  // ✅ handle update user
-  const handleUpdateUser = async () => {
-    if (!formData?.id) {
-      console.error("User ID missing");
-      return;
-    }
-
-    try {
-      // Optionally show a loader here
-      const response = await fetch(
-        `https://grozziieget.zjweiting.com:8033/tht/users/update/${formData.id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            name: formData.name,
-            phone: formData.phone,
-            designation: formData.designation,
-            language: formData.language,
-            country: formData.country,
-            department: formData.department,
-          }),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to update user information");
-      }
-
-      const data = await response.json();
-      console.log("✅ User updated successfully:", data, response);
-      toast.success("✅ User updated successfully");
-      // Update localStorage and Zustand store
-      localStorage.setItem("user", JSON.stringify(formData));
-      useAuthStore.getState().setUser(formData);
-
-      // Close modal
-      setShowEditModal(false);
-    } catch (error) {
-      console.error("❌ Error updating user:", error);
-      alert("Failed to update user. Please try again.");
-    }
-  };
-
-  // ✅ handle input change
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
   return (
     <div className="min-h-screen bg-white text-gray-800 flex flex-col items-center px-6 py-10">
-      <Navbar setShowEditModal={setShowEditModal} />
+      <Navbar />
 
       <h1 className="text-3xl md:text-4xl font-extrabold text-center mb-2 pt-8">
         Welcome to
@@ -162,15 +101,6 @@ export default function Dashboard() {
           />
         ))}
       </div>
-
-      <EditProfileModal
-        showEditModal={showEditModal}
-        setShowEditModal={setShowEditModal}
-        formData={formData}
-        setFormData={setFormData}
-        handleChange={handleChange}
-        handleUpdateUser={handleUpdateUser}
-      />
 
       <PermissionModal
         show={showPermissionModal}

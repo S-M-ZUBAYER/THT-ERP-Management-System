@@ -21,7 +21,7 @@ export default function EditProfileModal({
         {/* Profile Image */}
         <div className="flex flex-col items-center mb-6">
           <img
-            src={formData.image}
+            src={formData?.image}
             alt="User"
             className="w-28 h-28 rounded-full object-cover border border-blue-400 mb-2"
           />
@@ -34,7 +34,7 @@ export default function EditProfileModal({
             <label className="text-sm font-medium text-gray-700">Name</label>
             <input
               name="name"
-              value={formData.name || ""}
+              value={formData?.name || ""}
               onChange={handleChange}
               className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 outline-none"
             />
@@ -44,7 +44,7 @@ export default function EditProfileModal({
           <div>
             <label className="text-sm font-medium text-gray-700">Email</label>
             <input
-              value={formData.email || ""}
+              value={formData?.email || ""}
               readOnly
               className="w-full border border-gray-200 bg-gray-100 rounded-lg px-4 py-2.5 text-sm text-gray-600"
             />
@@ -55,7 +55,7 @@ export default function EditProfileModal({
             <label className="text-sm font-medium text-gray-700">Phone</label>
             <input
               name="phone"
-              value={formData.phone || ""}
+              value={formData?.phone || ""}
               onChange={handleChange}
               className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 outline-none"
             />
@@ -66,7 +66,7 @@ export default function EditProfileModal({
             <label className="text-sm font-medium text-gray-700">Country</label>
             <input
               name="country"
-              value={formData.country || ""}
+              value={formData?.country || ""}
               onChange={handleChange}
               className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 outline-none"
             />
@@ -79,7 +79,7 @@ export default function EditProfileModal({
             </label>
             <input
               name="language"
-              value={formData.language || ""}
+              value={formData?.language || ""}
               onChange={handleChange}
               className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 outline-none"
             />
@@ -92,22 +92,38 @@ export default function EditProfileModal({
             </label>
             <input
               name="designation"
-              value={formData.designation || ""}
+              value={formData?.designation || ""}
               onChange={handleChange}
               className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 outline-none"
             />
           </div>
 
           {/* Department */}
-          <div>
-            <label className="text-sm font-medium text-gray-700">
+          <div className="mb-6">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
               Department
             </label>
-            <input
-              name="department"
-              value={formData.department || ""}
+            {/* <select
+              id="department"
+              name="department" // important for handleChange to work
+              value={formData?.department || ""} // bind to department
               onChange={handleChange}
-              className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 outline-none"
+              className="w-full border border-gray-300 rounded-md p-2 bg-white text-gray-800 focus:ring-2 focus:ring-blue-500 outline-none"
+            >
+              <option value="">Select Department</option>
+              <option value="Customer Service Officer">
+                Customer Service Officer
+              </option>
+              <option value="Sales">Sales</option>
+              <option value="Research & Development">
+                Research & Development
+              </option>
+              <option value="Accounts">Accounts</option>
+            </select> */}
+            <input
+              value={formData?.department}
+              readOnly
+              className="w-full border border-gray-200 bg-gray-100 rounded-lg px-4 py-2.5 text-sm text-gray-600"
             />
           </div>
 
@@ -115,21 +131,21 @@ export default function EditProfileModal({
           <div>
             <label className="text-sm font-medium text-gray-700">Leader</label>
             <input
-              value={formData.leader ? "True" : "False"}
+              value={formData?.leader ? "True" : "False"}
               readOnly
               className="w-full border border-gray-200 bg-gray-100 rounded-lg px-4 py-2.5 text-sm text-gray-600"
             />
           </div>
 
           {/* Super Admin (editable checkbox) */}
-          <div className="flex items-center gap-3">
+          {/* <div className="flex items-center gap-3">
             <label className="text-sm font-medium text-gray-700">
               Super Admin
             </label>
             <input
               type="checkbox"
               name="superAdmin"
-              checked={!!formData.superAdmin}
+              checked={!!formData?.superAdmin}
               onChange={(e) =>
                 handleChange({
                   target: {
@@ -140,29 +156,29 @@ export default function EditProfileModal({
               }
               className="checkbox checkbox-primary"
             />
-          </div>
+          </div> */}
         </form>
 
         {/* Permissions */}
         <div className="grid grid-cols-2 md:grid-cols-3 gap-2 text-sm text-gray-700 pt-6">
           <p>
-            <strong>isAdmin:</strong> {String(formData.isAdmin)}
+            <strong>isAdmin:</strong> {String(formData?.isAdmin)}
           </p>
           <p>
             <strong>thtManagement:</strong>{" "}
-            {formData.thtManagement === 1 ? "true" : "false"}
+            {formData?.thtManagement === 1 ? "true" : "false"}
           </p>
           <p>
             <strong>taskManagement:</strong>{" "}
-            {formData.taskManagement === 1 ? "true" : "false"}
+            {formData?.taskManagement === 1 ? "true" : "false"}
           </p>
           <p>
             <strong>wowomartManagement:</strong>{" "}
-            {formData.wowomartManagement === 1 ? "true" : "false"}
+            {formData?.wowomartManagement === 1 ? "true" : "false"}
           </p>
           <p>
             <strong>ExportImportManagement:</strong>{" "}
-            {formData.ExportImportManagement === 1 ? "true" : "false"}
+            {formData?.ExportImportManagement === 1 ? "true" : "false"}
           </p>
         </div>
 

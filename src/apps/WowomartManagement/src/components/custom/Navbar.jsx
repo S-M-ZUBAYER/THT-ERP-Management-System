@@ -15,8 +15,8 @@ import image from "../../constants/image";
 // import image from "@/constants/image";
 
 const navData = [
-  { label: "Log In", path: "/wowomart-management/log-in" },
-  { label: "Sign up", path: "/wowomart-management/sign-up" },
+  { label: "Log In", path: "/login" },
+  { label: "Sign up", path: "/register" },
 ];
 
 export default function Navbar() {
@@ -45,7 +45,11 @@ export default function Navbar() {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Avatar className="cursor-pointer">
-              <AvatarImage src="https://github.com/shadcn.png" />
+              <AvatarImage
+                src={
+                  user?.image ? user?.image : "https://github.com/shadcn.png"
+                }
+              />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
           </DropdownMenuTrigger>

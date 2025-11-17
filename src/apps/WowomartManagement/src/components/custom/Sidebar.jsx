@@ -128,8 +128,10 @@ export default function Sidebar() {
             className="flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium text-red-500 hover:text-red-600 transition-all bg-zinc-900"
             onClick={() => {
               console.log("Logging out...");
+              localStorage.removeItem("user");
+              localStorage.removeItem("taskUser");
               localStorage.removeItem("wowomartUser");
-              navigate("/wowomart-management/log-in");
+              navigate("/login");
               window.location.reload();
             }}
             style={{ backgroundColor: "white", outline: "none" }}

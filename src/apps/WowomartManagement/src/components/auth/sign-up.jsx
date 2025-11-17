@@ -60,7 +60,7 @@ export default function Signup() {
       }
 
       toast.success(data.message || "Registered successfully");
-      navigate("/wowomart-management/log-in", { replace: true });
+      navigate("/login", { replace: true });
     } catch (error) {
       toast.error(error.message || "Something went wrong");
     } finally {
@@ -193,7 +193,7 @@ export default function Signup() {
         </div>
         <div className="mt-6">
           <NavLink
-            to={"/wowomart-management/log-in"}
+            to={"/login"}
             className="text-sm text-blue-600 hover:underline"
           >
             Already have an account?

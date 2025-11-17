@@ -12,11 +12,22 @@ import Animated404 from "@/apps/TaskManagement/src/components/404";
 import CustomerManagementSystemApp from "@/apps/CustomerManagementSystem/App";
 import Contact from "@/pages/Contact";
 import Setting from "@/pages/SettingPage/Setting";
+import Register from "@/pages/Register";
+import MainPrivateRoute from "@/pages/SharedPage/MainPrivateRoute";
 
 const AppRoutes = () => {
   return (
     <Routes>
-      <Route path="/" element={<Login />} />
+      <Route
+        path="/"
+        element={
+          <MainPrivateRoute>
+            <Dashboard />
+          </MainPrivateRoute>
+        }
+      />
+      <Route path="/logIn" element={<Login />} />
+      <Route path="/register" element={<Register />} />
       <Route path="/Home" element={<Dashboard />} />
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/settings" element={<Setting />} />

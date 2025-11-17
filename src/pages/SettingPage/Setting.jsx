@@ -12,6 +12,8 @@ const Setting = () => {
   });
   const [loading, setLoading] = useState(true);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -43,16 +45,7 @@ const Setting = () => {
     };
 
     fetchUsers();
-  }, []);
-
-  // ✅ Whenever tab changes, auto-select first user from that list
-  useEffect(() => {
-    if (userData[activeTab]?.length > 0) {
-      setSelectedUser(userData[activeTab][0]);
-    } else {
-      setSelectedUser(null);
-    }
-  }, [activeTab, userData]);
+  }, [activeTab]);
 
   return (
     <div className="min-h-screen bg-white text-gray-800 flex flex-col items-center px-4 sm:px-6 py-8 w-full max-w-9xl">
@@ -63,7 +56,10 @@ const Setting = () => {
         {["admin", "leader", "employee"].map((tab) => (
           <button
             key={tab}
-            onClick={() => setActiveTab(tab)}
+            onClick={() => {
+              setActiveTab(tab);
+              setSearchTerm("");
+            }}
             className={`px-5 py-2 rounded-full font-medium transition text-sm sm:text-base ${
               activeTab === tab
                 ? "bg-[#004368] text-white"
@@ -82,12 +78,22 @@ const Setting = () => {
           <AdminList
             activeTab={activeTab}
             userData={userData[activeTab]}
+            setUserData={setUserData}
             selectedUser={selectedUser}
             setSelectedUser={setSelectedUser}
+            currentUser={currentUser}
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
           />
         </div>
         <div className="flex-1">
-          <EmployeeSettings activeTab={activeTab} selectedUser={selectedUser} />
+          <EmployeeSettings
+            activeTab={activeTab}
+            selectedUser={selectedUser}
+            setSelectedUser={setSelectedUser}
+            setUserData={setUserData}
+            currentUser={currentUser}
+          />
         </div>
       </div>
 

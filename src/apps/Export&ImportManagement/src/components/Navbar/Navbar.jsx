@@ -18,7 +18,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     logoutUser();
-    navigate("/export-import");
+    navigate("/");
   };
 
   return (
@@ -153,7 +153,7 @@ const Navbar = () => {
               </Button>
             </NavLink>
           )}
-          <NavLink to="/export-import/signup">
+          {/* <NavLink to="/export-import/signup">
             <Button
               style={{
                 color: "black",
@@ -165,7 +165,7 @@ const Navbar = () => {
             >
               Create New User
             </Button>
-          </NavLink>
+          </NavLink> */}
         </div>
       </div>
     </header>

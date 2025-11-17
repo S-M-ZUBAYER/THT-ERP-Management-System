@@ -113,9 +113,10 @@ const Sidebar = () => {
             color: "#fb8500",
           }}
           onClick={() => {
-            // localStorage.removeItem("user");
+            localStorage.removeItem("user");
+            localStorage.removeItem("wowomartUser");
             localStorage.removeItem("taskUser");
-            window.location.href = "/task-management/sign-in";
+            window.location.href = "/login";
           }}
         >
           <img src={icons.LogOut} alt="log out" className="w-5" /> Log out

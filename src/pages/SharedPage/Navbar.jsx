@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -10,19 +10,32 @@ import {
 } from "lucide-react";
 import GrozziieLogo from "../../assets/WebsiteImages/GrozziieLogo.svg";
 import useAuthStore from "../../store/auth";
+import EditProfileModal from "../DashboardPage/EditProfileModal";
+import toast from "react-hot-toast";
 
-export default function Navbar({ setShowEditModal }) {
+export default function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
-  const user = useAuthStore((state) => state.user);
+  const [user, setUser] = useState(null);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const [formData, setFormData] = useState({});
+
+  useEffect(() => {
+    const saved = JSON.parse(localStorage.getItem("user"));
+    setUser(saved);
+    setFormData(saved);
+  }, []);
+
+  console.log(formData, "formdata");
+  console.log(user);
 
   const handleLogout = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("taskUser");
     localStorage.removeItem("wowomartUser");
-    navigate("/");
+    navigate("/login");
   };
 
   // helper function for active styling
@@ -32,6 +45,69 @@ export default function Navbar({ setShowEditModal }) {
         ? "text-[#004368] text-base font-semibold "
         : "text-[#272727] text-base font-medium hover:text-[#004368]"
     }`;
+
+  // ✅ handle update user
+  const handleUpdateUser = async () => {
+    if (!formData?.id) {
+      console.error("User ID missing");
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `https://grozziieget.zjweiting.com:8033/tht/users/update/${formData.id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: formData.name,
+            phone: formData.phone,
+            designation: formData.designation,
+            language: formData.language,
+            country: formData.country,
+            department: formData.department,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to update user information");
+      }
+
+      const data = await response.json();
+      console.log("✅ User updated successfully:", data);
+
+      // 🔵 Merge old + updated values
+      const oldUser = JSON.parse(localStorage.getItem("user"));
+
+      const updatedUser = {
+        ...oldUser,
+        name: formData.name,
+        phone: formData.phone,
+        designation: formData.designation,
+        language: formData.language,
+        country: formData.country,
+        department: formData.department,
+      };
+
+      // Save merged user
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+      useAuthStore.getState().setUser(updatedUser);
+      setUser(updatedUser);
+      toast.success("User updated successfully");
+      setShowEditModal(false);
+    } catch (error) {
+      console.error("❌ Error updating user:", error);
+      alert("Failed to update user. Please try again.");
+    }
+  };
+
+  // ✅ handle input change
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   return (
     <div className="w-full flex justify-between items-center max-w-9xl mb-4 ">
@@ -72,7 +148,13 @@ export default function Navbar({ setShowEditModal }) {
       </div>
 
       <div className="flex items-center gap-4 relative">
-        <button className="p-2 rounded-full border hover:bg-gray-100 border-blue-300 transition">
+        <button
+          onClick={() => navigate("/settings")}
+          className={[
+            getNavClass("/settings"),
+            "p-2 rounded-full border hover:bg-gray-100 border-blue-300 transition",
+          ].join(" ")}
+        >
           <Settings size={18} />
         </button>
 
@@ -84,7 +166,7 @@ export default function Navbar({ setShowEditModal }) {
         >
           {user?.image ? (
             <img
-              src={user.image}
+              src={user?.image}
               alt="User"
               className="w-8 h-8 rounded-full object-cover border border-blue-300"
             />
@@ -130,6 +212,14 @@ export default function Navbar({ setShowEditModal }) {
           )}
         </AnimatePresence>
       </div>
+      <EditProfileModal
+        showEditModal={showEditModal}
+        setShowEditModal={setShowEditModal}
+        formData={formData}
+        setFormData={setFormData}
+        handleChange={handleChange}
+        handleUpdateUser={handleUpdateUser}
+      />
     </div>
   );
 }

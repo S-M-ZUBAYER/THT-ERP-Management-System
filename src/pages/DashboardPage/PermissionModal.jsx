@@ -8,6 +8,7 @@ export default function PermissionModal({ show, onClose }) {
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/40"
     >
       <Dialog.Panel className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md text-center">
+        <div className="text-5xl text-red-500 mb-4">⚠️</div>
         <Dialog.Title className="text-lg font-semibold text-gray-800 mb-3">
           Permission Denied
         </Dialog.Title>

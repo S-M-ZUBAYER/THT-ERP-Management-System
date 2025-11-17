@@ -52,86 +52,6 @@ export default function Login() {
     );
   };
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   if (!email || !password) {
-  //     toast.error("Please input all the information properly");
-  //     return;
-  //   }
-
-  //   setLoading(true);
-
-  //   try {
-  //     const res = await fetch(
-  //       "https://grozziieget.zjweiting.com:8033/tht/login",
-  //       {
-  //         method: "POST",
-  //         headers: { "Content-Type": "application/json" },
-  //         body: JSON.stringify({ email, password }),
-  //       }
-  //     );
-
-  //     const data = await res.json();
-
-  //     if (!res.ok || !data || !data[0]) {
-  //       toast.error("Invalid User");
-  //       setLoading(false);
-  //       return;
-  //     }
-
-  //     const userInfo = data[0];
-  //     const userWithPlainPassword = { ...userInfo, password };
-  //     useAuthStore.getState().setUser(userWithPlainPassword);
-  //     localStorage.setItem("user", JSON.stringify(userWithPlainPassword));
-  //     localStorage.setItem(
-  //       "DUser",
-  //       JSON.stringify({ email, password, selectedShops })
-  //     );
-
-  //     // Chatting API call
-  //     const chatUrl =
-  //       serviceCountry === "CN"
-  //         ? "https://jiapuv.com:3091/CustomerService-ChatCN/api/dev/user/signIn"
-  //         : "https://grozziieget.zjweiting.com:3091/CustomerService-Chat/api/dev/user/signIn";
-
-  //     try {
-  //       const chatRes = await axios.post(chatUrl, {
-  //         userEmail: email,
-  //         userPassword: password,
-  //         deviceType: "web",
-  //       });
-
-  //       if (chatRes.status === 200) {
-  //         localStorage.setItem(
-  //           "chattingUser",
-  //           JSON.stringify({
-  //             userName: chatRes.data.userName,
-  //             userId: chatRes.data.userId,
-  //             userEmail: chatRes.data.userEmail,
-  //             role: "customer_service",
-  //             designation: chatRes.data.designation,
-  //             country: chatRes.data.country,
-  //           })
-  //         );
-  //         localStorage.setItem("serviceCountry", serviceCountry);
-  //       } else {
-  //         toast.error(chatRes.data.message);
-  //       }
-  //     } catch (err) {
-  //       console.error("Chat registration error:", err);
-  //     }
-
-  //     toast.success("Login successful");
-  //     navigate(from, { replace: true });
-  //   } catch (err) {
-  //     console.error("Login error:", err);
-  //     toast.error("Invalid User");
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -269,7 +189,13 @@ export default function Login() {
           const taskData = await taskRes.json();
 
           if (taskRes.ok && !taskData.error) {
-            localStorage.setItem("taskUser", JSON.stringify(taskData.result));
+            const user = {
+              ...taskData.result, // all existing backend user fields
+              image: userInfo.image, // add image path from userInfo
+            };
+
+            localStorage.setItem("taskUser", JSON.stringify(user));
+
             toast.success("Task Management Login Successful");
           } else {
             toast.error("Task Management login failed");
@@ -294,10 +220,11 @@ export default function Login() {
           const wowomartData = await wowomartRes.json();
 
           if (wowomartRes.ok && !wowomartData.error) {
-            localStorage.setItem(
-              "wowomartUser",
-              JSON.stringify(wowomartData.user)
-            );
+            const user = {
+              ...wowomartData.user, // all existing backend user fields
+              image: userInfo.image, // add image path from userInfo
+            };
+            localStorage.setItem("wowomartUser", JSON.stringify(user));
             toast.success("Wowomart Management Login Successful");
           } else {
             toast.error("Wowomart Management login failed");
@@ -418,6 +345,16 @@ export default function Login() {
                   )}
                 </Button>
               </form>
+              {/* ✅ Add "Create Account" link below */}
+              <div className="text-center mt-4 text-sm text-gray-600">
+                Don’t have an account?{" "}
+                <span
+                  onClick={() => navigate("/register")}
+                  className="text-[#004368] font-medium cursor-pointer hover:underline"
+                >
+                  Create an account
+                </span>
+              </div>
             </div>
           </div>
         </div>
