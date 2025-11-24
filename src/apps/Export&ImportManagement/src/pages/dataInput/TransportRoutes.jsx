@@ -169,13 +169,13 @@ const TransportRoutes = () => {
               <table className="w-full border-collapse bg-white shadow-sm">
                 <thead>
                   <tr className="bg-gray-100 border-b border-gray-200">
-                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">
+                    <th className="px-4 py-2 text-left text-base font-medium text-gray-600">
                       Serial No
                     </th>
-                    <th className="px-4 py-3 text-left w-[20vw] text-sm font-medium text-gray-700">
+                    <th className="px-4 py-2 text-left w-[20vw] text-base font-medium text-gray-600">
                       Transport Way
                     </th>
-                    <th className="px-4 py-3 text-right text-sm font-medium text-gray-700">
+                    <th className="px-4 py-2 text-right text-base font-medium text-gray-600">
                       Action
                     </th>
                   </tr>

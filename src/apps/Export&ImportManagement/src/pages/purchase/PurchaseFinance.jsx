@@ -295,28 +295,28 @@ const PurchaseFinance = () => {
                 <table className="w-full border-collapse bg-white shadow-sm">
                   <thead>
                     <tr className="bg-gray-100 border-b border-gray-200">
-                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">
+                      <th className="px-4 py-3 text-left text-base font-medium text-gray-700">
                         Select
                       </th>
-                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">
+                      <th className="px-4 py-3 text-left text-base font-medium text-gray-700">
                         Serial No
                       </th>
-                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">
+                      <th className="px-4 py-3 text-left text-base font-medium text-gray-700">
                         Date
                       </th>
-                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">
+                      <th className="px-4 py-3 text-left text-base font-medium text-gray-700">
                         Invoice No.
                       </th>
-                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">
+                      <th className="px-4 py-3 text-left text-base font-medium text-gray-700">
                         EP No.
                       </th>
-                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">
+                      <th className="px-4 py-3 text-left text-base font-medium text-gray-700">
                         Container No
                       </th>
-                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">
+                      <th className="px-4 py-3 text-left text-base font-medium text-gray-700">
                         Country Name
                       </th>
-                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">
+                      <th className="px-4 py-3 text-left text-base font-medium text-gray-700">
                         Port Name
                       </th>
                     </tr>
@@ -324,7 +324,7 @@ const PurchaseFinance = () => {
                 </table>
 
                 <div className="max-h-[400px] overflow-y-auto custom-scrollbar">
-                  <table className="w-full border-collapse bg-white">
+                  <table className="w-full border-collapse bg-white min-h-96">
                     <tbody>
                       {filteredFinancePurchases.length === 0 ? (
                         <tr>
@@ -349,25 +349,25 @@ const PurchaseFinance = () => {
                                   onChange={() => handleCheckboxChange(product)}
                                 />
                               </td>
-                              <td className="px-4 py-3 text-sm text-gray-900">
+                              <td className="px-4 py-3 text-base text-gray-900">
                                 {index + 1}
                               </td>
-                              <td className="px-4 py-3 text-sm text-gray-900">
+                              <td className="px-4 py-3 text-base text-gray-900">
                                 {product.date}
                               </td>
-                              <td className="px-4 py-3 text-sm text-gray-900">
+                              <td className="px-4 py-3 text-base text-gray-900">
                                 {product.invoiceNo}
                               </td>
-                              <td className="px-4 py-3 text-sm text-gray-900">
+                              <td className="px-4 py-3 text-base text-gray-900">
                                 {product.epNo}
                               </td>
-                              <td className="px-4 py-3 text-sm text-gray-900">
+                              <td className="px-4 py-3 text-base text-gray-900">
                                 {product.truckNo}
                               </td>
-                              <td className="px-4 py-3 text-sm text-gray-900">
+                              <td className="px-4 py-3 text-base text-gray-900">
                                 {product.transportCountryName}
                               </td>
-                              <td className="px-4 py-3 text-sm text-gray-900">
+                              <td className="px-4 py-3 text-base text-gray-900">
                                 {product.transportPort}
                               </td>
                             </tr>

@@ -211,7 +211,7 @@ export function Create() {
     setSelectedId(id);
     setDialogType(type);
     if (type === "view") {
-      navigate("/seller-details", { state: { id } });
+      navigate("/wowomart-management/seller-details", { state: { id } });
     } else {
       setDialogOpen(true);
     }
@@ -223,7 +223,7 @@ export function Create() {
         setDialogOpen(false);
         setTimeout(
           () =>
-            navigate("/update-seller", {
+            navigate("/wowomart-management/update-seller", {
               state: { id: selectedId, route: "/created" },
             }),
           0

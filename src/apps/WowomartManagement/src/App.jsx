@@ -36,12 +36,14 @@ const Layout = () => (
 );
 
 const ProtectedRoute = ({ children }) => {
-  const user = JSON.parse(localStorage.getItem("user"));
+  // const user = JSON.parse(localStorage.getItem("user"));
+  const user = JSON.parse(localStorage.getItem("wowomartUser"));
   return user ? children : <Navigate to="/wowomart/log-in" replace />;
 };
 
 const ProtectedAdminRoute = ({ children }) => {
-  const user = JSON.parse(localStorage.getItem("user"));
+  // const user = JSON.parse(localStorage.getItem("user"));
+  const user = JSON.parse(localStorage.getItem("wowomartUser"));
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 

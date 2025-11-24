@@ -8,7 +8,8 @@ export const useUserData = () => {
 
   useEffect(() => {
     try {
-      const storedUser = localStorage.getItem("user");
+      // const storedUser = localStorage.getItem("user");
+      const storedUser = localStorage.getItem("taskUser");
       if (storedUser) {
         const parsedUser = JSON.parse(storedUser);
         setUser(parsedUser);

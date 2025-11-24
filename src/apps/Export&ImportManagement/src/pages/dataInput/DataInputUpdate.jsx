@@ -46,7 +46,7 @@ const DataInputUpdate = () => {
           toast.success("Successfully Data Updated!!", {
             position: "top-center",
           });
-          navigate("/datainput");
+          navigate("/export-import/datainput");
         })
         .catch((error) =>
           toast.error("Something went wrong try again later", {
@@ -149,12 +149,16 @@ const DataInputUpdate = () => {
               {error && <p className="text-red-600">{error}</p>}
             </div>
             <div className="mt-5 flex justify-end gap-y-4">
-              <Link to="/dashboard" className="btn btn-info px-10 mx-5">
+              <Link
+                to="/export-import/datainput"
+                className="bg-cyan-400 text-black rounded-lg px-10 mx-5 flex justify-center items-center"
+              >
                 Back
               </Link>
               <button
                 className="btn btn-info px-10 active:scale-[.98] active:duration-75 hover:scale-[1.03] ease-in-out transition-all py-3 rounded-lg bg-violet-500 text-white font-bold hover:text-black"
-                type="submit">
+                type="submit"
+              >
                 Save
               </button>
             </div>

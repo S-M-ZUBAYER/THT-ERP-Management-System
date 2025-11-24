@@ -15,12 +15,13 @@ import image from "../../constants/image";
 // import image from "@/constants/image";
 
 const navData = [
-  { label: "Log In", path: "/log-in" },
-  { label: "Sign up", path: "/sign-up" },
+  { label: "Log In", path: "/login" },
+  { label: "Sign up", path: "/register" },
 ];
 
 export default function Navbar() {
-  const storedUser = localStorage.getItem("user");
+  // const storedUser = localStorage.getItem("user");
+  const storedUser = localStorage.getItem("wowomartUser");
   const user = storedUser ? JSON.parse(storedUser) : null;
   const [isOpen, setIsOpen] = useState(false);
 
@@ -44,7 +45,11 @@ export default function Navbar() {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Avatar className="cursor-pointer">
-              <AvatarImage src="https://github.com/shadcn.png" />
+              <AvatarImage
+                src={
+                  user?.image ? user?.image : "https://github.com/shadcn.png"
+                }
+              />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
           </DropdownMenuTrigger>

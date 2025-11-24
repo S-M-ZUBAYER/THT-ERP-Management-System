@@ -200,7 +200,7 @@ export function CouponUserList() {
       customerTag: customerTag,
     });
     if (type === "view") {
-      navigate("/coupon-user-details", { state: { id } });
+      navigate("/wowomart-management/coupon-user-details", { state: { id } });
     } else {
       setDialogOpen(true);
     }
@@ -213,7 +213,10 @@ export function CouponUserList() {
       case "update":
         setDialogOpen(false);
         setTimeout(
-          () => navigate("/update-seller", { state: { id: selectedId } }),
+          () =>
+            navigate("/wowomart-management/update-seller", {
+              state: { id: selectedId },
+            }),
           0
         );
         break;

@@ -214,16 +214,16 @@ const AddCharges = () => {
               <table className="w-full border-collapse bg-white shadow-sm">
                 <thead>
                   <tr className="bg-gray-100 border-b border-gray-200">
-                    <th className="px-4 py-3  text-sm font-medium text-gray-700 text-left">
+                    <th className="px-4 py-3  text-base font-medium text-gray-700 text-left">
                       Serial No
                     </th>
-                    <th className="px-4 py-3 text-sm font-medium text-gray-700 text-center">
+                    <th className="px-4 py-3 text-base font-medium text-gray-700 text-center">
                       Expenses Name
                     </th>
-                    <th className="px-4 py-3 text-sm font-medium text-gray-700 text-center">
+                    <th className="px-4 py-3 text-base font-medium text-gray-700 text-center">
                       Expenses Cost
                     </th>
-                    <th className="px-4 py-3 text-sm font-medium text-gray-700 text-center">
+                    <th className="px-4 py-3 text-base font-medium text-gray-700 text-center">
                       Actions
                     </th>
                   </tr>
@@ -238,16 +238,16 @@ const AddCharges = () => {
                         key={charge.id}
                         className="border-b border-gray-100 hover:bg-gray-50 transition-colors duration-150 cursor-pointer"
                       >
-                        <td className="px-4 py-3 text-sm text-gray-900">
+                        <td className="px-4 py-2 text-sm text-gray-900">
                           {index + 1}
                         </td>
-                        <td className="px-4 py-3 text-sm text-gray-900 text-center">
+                        <td className="px-4 py-2 text-sm text-gray-900 text-center">
                           {charge.particularExpenseName}
                         </td>
-                        <td className="px-4 py-3 text-sm text-gray-900 text-center">
+                        <td className="px-4 py-2 text-sm text-gray-900 text-center">
                           {charge.particularExpenseCost * 1}
                         </td>
-                        <td className="px-4 py-3">
+                        <td className="px-4 py-2">
                           <div className="flex justify-evenly items-center">
                             <Link to={`/addcharges/${charge.id}`}>
                               <AiOutlineEdit className="w-6 h-6 text-purple-600 hover:text-purple-700 transition-colors" />

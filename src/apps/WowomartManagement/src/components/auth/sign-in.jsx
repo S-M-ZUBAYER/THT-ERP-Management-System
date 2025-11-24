@@ -40,10 +40,11 @@ export default function Signin() {
       console.log(data.user);
 
       if (res.ok && !data.error) {
-        localStorage.setItem("user", JSON.stringify(data.user));
+        // localStorage.setItem("user", JSON.stringify(data.user));
+        localStorage.setItem("wowomartUser", JSON.stringify(data.user));
 
         toast.success("Login successful");
-        navigate("/", { replace: true });
+        navigate("/wowomart-management", { replace: true });
         window.location.reload();
       } else {
         throw new Error(data.error || "Login failed");
