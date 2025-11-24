@@ -7,8 +7,8 @@ const Footer = () => {
   return (
     <footer className=" bg-slate-200">
       <div className="footer  px-7 md:px-20 py-10 flex justify-around">
-        <div className="text-sm space-y-1">
-          <span className="font-bold text-gray-600 text-sm mb-1 block">
+        <div className="text-base space-y-1">
+          <span className="font-bold text-gray-500 text-base mb-4 block">
             Services
           </span>
           <p className="text-gray-600">Customer Care</p>
@@ -17,8 +17,8 @@ const Footer = () => {
           <p className="text-gray-600">Data Analysis</p>
         </div>
 
-        <div className="text-xs space-y-1">
-          <span className="font-semibold text-gray-500 mb-1 block">
+        <div className="space-y-1 text-base">
+          <span className="font-semibold text-gray-500 text-base mb-4 block">
             Company
           </span>
           <p className="text-gray-600">About us</p>
@@ -27,19 +27,21 @@ const Footer = () => {
           <p className="text-gray-600">Press kit</p>
         </div>
 
-        <div className="text-xs space-y-1">
-          <span className="font-semibold text-gray-500 mb-1 block">
+        <div className="text-base space-y-1">
+          <span className="font-semibold text-gray-500 text-base mb-4 block">
             Company
           </span>
-          <p className="text-gray-600">Career</p>
+          <p className="text-gray-600 ">Career</p>
           <p className="text-gray-600">Portal</p>
           <p className="text-gray-600">News</p>
           <p className="text-gray-600">Products</p>
         </div>
 
         <div className="">
-          <span className=" font-bold text-gray-400 mb-2">Contact Us</span>
-          <div className="grid grid-flow-col gap-2">
+          <span className=" font-bold text-gray-500 text-base mb-2">
+            Contact Us
+          </span>
+          <div className="flex justify-start items-center gap-6 mb-2 mt-4">
             <a
               href="https://bd.linkedin.com/company/thtuepz"
               className="cursor-pointer"
@@ -62,12 +64,12 @@ const Footer = () => {
               <BsWechat className="w-4 h-4 rounded" />
             </a>
           </div>
-          <div className="text-[12px] font-semibold">
-            <div className="flex items-center gap-1">
+          <div className="text-base  text-gray-500 ">
+            <div className="flex items-center gap-2 mb-1">
               <BsFillTelephoneFill className="w-4 h-4" />
               09638-322304
             </div>
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-2">
               <AiOutlineMail className="w-4 h-4 rounded" />
               thtuepz@gmail.com
             </div>
@@ -76,8 +78,8 @@ const Footer = () => {
       </div>
       <hr className="border solid h-[3px] w-3/4 mx-auto bg-sky-500" />
       <div className=" mt-5 text-lg flex items-center justify-center mx-16 mb-3">
-        <div className="text-[11px]">
-          <span className="font-semibold text-[13px]">&copy; 2023.</span> All
+        <div className="text-[15px]">
+          <span className="font-semibold text-[16px]">&copy; 2023.</span> All
           rights reserved by THT-space electrical company Ltd.
         </div>
       </div>

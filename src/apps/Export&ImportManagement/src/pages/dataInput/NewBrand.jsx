@@ -162,7 +162,7 @@ const NewBrand = () => {
                 </span>
               </label>
               <select
-                className="select border-2 border-gray-100 w-full"
+                className="select border-2 border-gray-100 w-full py-[10px] rounded-lg"
                 id="selectOption"
                 value={formData.productName}
                 name="productName"
@@ -238,16 +238,16 @@ const NewBrand = () => {
               <table className="w-full border-collapse bg-white shadow-sm">
                 <thead>
                   <tr className="bg-gray-100 border-b border-gray-200">
-                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">
+                    <th className="px-4 py-3 text-left text-text-base font-medium text-gray-600">
                       Serial No
                     </th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">
+                    <th className="px-4 py-3 text-left text-text-base font-medium text-gray-600">
                       Product Name
                     </th>
-                    <th className="pr-16 py-3  text-sm font-medium text-gray-700">
+                    <th className="pr-16 py-3  text-text-base font-medium text-gray-600">
                       Product Brand
                     </th>
-                    <th className="pr-16 py-3 text-sm font-medium text-gray-700">
+                    <th className="pr-16 py-3 text-text-base font-medium text-gray-600">
                       Actions
                     </th>
                   </tr>
@@ -263,19 +263,19 @@ const NewBrand = () => {
                           key={product.id}
                           className="border-b border-gray-100 hover:bg-gray-50 transition-colors duration-150 cursor-pointer"
                         >
-                          <td className="px-4 py-3 text-sm text-gray-900">
+                          <td className="px-4 py-2 text-base text-gray-900">
                             {index + 1}
                           </td>
-                          <td className="px-4 py-3 text-sm text-gray-900 text-center">
+                          <td className="px-4 py-2 text-base text-gray-900 text-center">
                             {product.productName}
                           </td>
-                          <td className="px-4 py-3 text-sm text-gray-900 text-center">
+                          <td className="px-4 py-2 text-base text-gray-900 text-center">
                             {product.productBrand}
                           </td>
-                          <td className="px-4 py-3">
+                          <td className="px-4 py-2">
                             <div className="flex space-x-10 justify-center">
                               <Link
-                                to={`/newbrand/${product.id}`}
+                                to={`/export-import/newbrand/${product.id}`}
                                 className="flex items-center justify-center"
                               >
                                 <AiOutlineEdit className="w-6 h-6 text-purple-600 hover:text-purple-700 transition-colors" />

@@ -18,21 +18,19 @@ const ParagraphModal = ({ text }) => {
   return (
     <div className="relative">
       {/* Paragraph Display */}
-      <p className="text-sm leading-7 my-3 font-light opacity-80 hover:text-gray-700 transition-all duration-300 ease-in-out cursor-pointer">
-        {content}
-        {text.split(" ").length > 15 && (
-          <button
-            onClick={handleSeeMore}
-            style={{
-              color: "blue",
-              backgroundColor: "transparent",
-              border: "none",
-              boxShadow: "none",
-              outline: "none",
-            }}
-          >
-            See More
-          </button>
+      <p className="text-base leading-7 my-3 font-light opacity-80 hover:text-gray-700 transition duration-300">
+        {text.split(" ").length > 15 ? (
+          <>
+            {content}...
+            <button
+              onClick={handleSeeMore}
+              className="mt-2 w-full flex justify-center text-blue-600 hover:underline focus:outline-none"
+            >
+              See More
+            </button>
+          </>
+        ) : (
+          content
         )}
       </p>
 

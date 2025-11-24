@@ -585,7 +585,7 @@ const Purchase = () => {
                               <td className="px-4 py-3">
                                 <input
                                   type="checkbox"
-                                  className="custom-checkbox"
+                                  className="accent-cyan-500 cursor-pointer"
                                   name="product"
                                   value={product.id}
                                   checked={selectedItems.includes(product.id)}
@@ -647,7 +647,7 @@ const Purchase = () => {
                   </label>
                   <div className="mt-3">
                     <select
-                      className="select select-info w-full"
+                      className="w-full border border-cyan-200 rounded-md p-3 bg-transparent focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500"
                       id="selectOption"
                       required
                       aria-required
@@ -681,7 +681,7 @@ const Purchase = () => {
                   </label>
                   <div className="mt-3">
                     <select
-                      className="select select-info w-full"
+                      className="w-full border border-cyan-200 rounded-md p-3 bg-transparent focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500"
                       id="selectOption"
                       required
                       aria-required
@@ -718,7 +718,7 @@ const Purchase = () => {
                   </label>
                   <div className="mt-3">
                     <select
-                      className="select select-info w-full"
+                      className="w-full border border-cyan-200 rounded-md p-3 bg-transparent focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500"
                       id="selectOption"
                       value={transportWay}
                       name="transportWay"
@@ -739,13 +739,13 @@ const Purchase = () => {
                 <div className="">
                   <div>
                     <label
-                      className="lebel-text text-lg font-semibold"
+                      className="lebel-text text-lg font-semibold "
                       htmlFor="invoiceno"
                     >
                       Invoice No.
                     </label>
                     <input
-                      className="w-full border-[1px] border-info rounded-md p-3 mt-3 bg-transparent"
+                      className="w-full border mt-2 border-cyan-200 rounded-md p-3 bg-transparent focus:outline-none focus:border-cyan-300 focus:ring-1 focus:ring-cyan-300"
                       placeholder="Invoice No"
                       type="text"
                       name="invoiceno"
@@ -760,11 +760,11 @@ const Purchase = () => {
                 {/* Invoice Value */}
                 <div className="">
                   <div>
-                    <label className="text-lg font-semibold" htmlFor="ipNo">
+                    <label className="text-lg font-semibold">
                       Invoice Value(USD)
                     </label>
                     <input
-                      className="w-full border-[1px] border-info rounded-md p-3 mt-3 bg-transparent"
+                      className="w-full border mt-2 border-cyan-200 rounded-md p-3 bg-transparent focus:outline-none focus:border-cyan-300 focus:ring-1 focus:ring-cyan-300"
                       placeholder="Expense"
                       type="number"
                       name="total"
@@ -776,8 +776,8 @@ const Purchase = () => {
                   </div>
                 </div>
                 {/* Invoice Date */}
-                <div className="form-control lg:pr-2 text-center flex flex-col justify-center items-center">
-                  <label className="text-center mb-2">
+                <div className="">
+                  <label className="text-start mb-2">
                     <span className="lebel-text text-lg font-semibold">
                       Invoice Date
                     </span>
@@ -789,7 +789,7 @@ const Purchase = () => {
                     required
                     aria-required
                     value={invoiceDate}
-                    className="select-info text-lg w-full border-[1px] border-info rounded-md p-[9px] mt-1 bg-transparent"
+                    className="w-full border border-cyan-200 rounded-md p-3 bg-transparent focus:outline-none focus:border-cyan-300 focus:ring-1 focus:ring-cyan-300"
                   />
                 </div>
 
@@ -800,7 +800,7 @@ const Purchase = () => {
                       EP No.
                     </label>
                     <input
-                      className="w-full border-[1px] border-info rounded-md p-3 mt-3 bg-transparent"
+                      className="w-full border border-cyan-200 rounded-md mt-2 p-3 bg-transparent focus:outline-none focus:border-cyan-300 focus:ring-1 focus:ring-cyan-300"
                       placeholder="EP No."
                       type="text"
                       name="ipNo"
@@ -820,7 +820,7 @@ const Purchase = () => {
                   <div className="mt-3">
                     <input
                       type="text"
-                      className="input input-info w-full"
+                      className="w-full border border-cyan-200 rounded-md p-3 bg-transparent focus:outline-none focus:border-cyan-300 focus:ring-1 focus:ring-cyan-300"
                       id="truckNoInput"
                       value={truckNo}
                       name="truckNo"
@@ -841,7 +841,7 @@ const Purchase = () => {
                   <div className="mt-3">
                     <input
                       type="text"
-                      className="input input-info w-full"
+                      className="w-full border border-cyan-200 rounded-md p-3 bg-transparent focus:outline-none focus:border-cyan-300 focus:ring-1 focus:ring-cyan-300"
                       id="zone"
                       value={zone}
                       name="zone"
@@ -859,7 +859,7 @@ const Purchase = () => {
                   <div className="mt-3">
                     <input
                       type="text"
-                      className="input input-info w-full"
+                      className="w-full border border-cyan-200 rounded-md p-3 bg-transparent focus:outline-none focus:border-cyan-300 focus:ring-1 focus:ring-cyan-300"
                       id="loadPlace"
                       value={loadfrom}
                       name="loadfrom"
@@ -870,7 +870,7 @@ const Purchase = () => {
                   </div>
                 </div>
                 {/* Permit Till date */}
-                <div className="form-control lg:pr-2 text-center flex flex-col justify-center items-center">
+                <div className="">
                   <label className="text-center mb-2">
                     <span className="lebel-text text-lg font-semibold">
                       Permit Till Date
@@ -883,7 +883,7 @@ const Purchase = () => {
                     required
                     aria-required
                     value={permitedDate}
-                    className="select-info text-lg w-full border-[1px] border-info rounded-md p-[9px] mt-1 bg-transparent"
+                    className="w-full border border-cyan-200 rounded-md mt-2 p-3 bg-transparent focus:outline-none focus:border-cyan-300 focus:ring-1 focus:ring-cyan-300"
                   />
                 </div>
                 {/* Export No. */}
@@ -894,7 +894,7 @@ const Purchase = () => {
                   <div className="mt-3">
                     <input
                       type="text"
-                      className="input input-info w-full"
+                      className="w-full border border-cyan-200 rounded-md p-3 bg-transparent focus:outline-none focus:border-cyan-300 focus:ring-1 focus:ring-cyan-300"
                       id="expNo"
                       value={expNo}
                       name="expNo"
@@ -905,7 +905,7 @@ const Purchase = () => {
                   </div>
                 </div>
                 {/* Export Date */}
-                <div className="form-control lg:pr-2 text-center flex flex-col justify-center items-center">
+                <div className="">
                   <label className="text-center mb-2">
                     <span className="lebel-text text-lg font-semibold">
                       Export Date
@@ -918,7 +918,7 @@ const Purchase = () => {
                     required
                     aria-required
                     value={ExpDate}
-                    className="select-info text-lg w-full border-[1px] border-info rounded-md p-[9px] mt-1 bg-transparent"
+                    className="w-full border border-cyan-200 rounded-md p-3 bg-transparent focus:outline-none focus:border-cyan-300 focus:ring-1 focus:ring-cyan-300"
                   />
                 </div>
                 {/* CM Value. */}
@@ -929,7 +929,7 @@ const Purchase = () => {
                   <div className="mt-3">
                     <input
                       type="text"
-                      className="input input-info w-full"
+                      className="w-full border border-cyan-200 rounded-md p-3 bg-transparent focus:outline-none focus:border-cyan-300 focus:ring-1 focus:ring-cyan-300"
                       id="cmValue"
                       value={cmValue}
                       name="cmValue"
@@ -950,7 +950,7 @@ const Purchase = () => {
                   <div className="mt-3">
                     <input
                       type="text"
-                      className="input input-info w-full"
+                      className="w-full border border-cyan-200 rounded-md p-3 bg-transparent focus:outline-none focus:border-cyan-300 focus:ring-1 focus:ring-cyan-300"
                       id="consigneeName"
                       value={consigneeName}
                       name="consigneeName"
@@ -971,7 +971,7 @@ const Purchase = () => {
                   <div className="mt-3">
                     <input
                       type="text"
-                      className="input input-info w-full"
+                      className="w-full border border-cyan-200 rounded-md p-3 bg-transparent focus:outline-none focus:border-cyan-300 focus:ring-1 focus:ring-cyan-300"
                       id="consigneeAddress"
                       value={consigneeAddress}
                       name="consigneeAddress"
@@ -989,7 +989,7 @@ const Purchase = () => {
                   <div className="mt-3">
                     <input
                       type="text"
-                      className="input input-info w-full"
+                      className="w-full border border-cyan-200 rounded-md p-3 bg-transparent focus:outline-none focus:border-cyan-300 focus:ring-1 focus:ring-cyan-300"
                       id="bankName"
                       value={bankName}
                       name="bankName"
@@ -1007,7 +1007,7 @@ const Purchase = () => {
                   <div className="mt-3">
                     <input
                       type="text"
-                      className="input input-info w-full"
+                      className="w-full border border-cyan-200 rounded-md p-3 bg-transparent focus:outline-none focus:border-cyan-300 focus:ring-1 focus:ring-cyan-300"
                       id="sCCMT"
                       value={sCCMT}
                       name="sCCMT"
@@ -1028,7 +1028,7 @@ const Purchase = () => {
                   <div className="mt-3">
                     <input
                       type="text"
-                      className="input input-info w-full"
+                      className="w-full border border-cyan-200 rounded-md p-3 bg-transparent focus:outline-none focus:border-cyan-300 focus:ring-1 focus:ring-cyan-300"
                       id="enterpriseEmp"
                       value={enterpriseEmp}
                       name="enterpriseEmp"
@@ -1049,7 +1049,7 @@ const Purchase = () => {
                   <div className="mt-3">
                     <input
                       type="text"
-                      className="input input-info w-full"
+                      className="w-full border border-cyan-200 rounded-md p-3 bg-transparent focus:outline-none focus:border-cyan-300 focus:ring-1 focus:ring-cyan-300"
                       id="verifyingEmp"
                       value={verifyingEmp}
                       name="verifyingEmp"
@@ -1067,7 +1067,7 @@ const Purchase = () => {
                   <div className="mt-3">
                     <input
                       type="text"
-                      className="input input-info w-full"
+                      className="w-full border border-cyan-200 rounded-md p-3 bg-transparent focus:outline-none focus:border-cyan-300 focus:ring-1 focus:ring-cyan-300"
                       id="permitEmp"
                       value={permitEmp}
                       name="verifyingEmp"

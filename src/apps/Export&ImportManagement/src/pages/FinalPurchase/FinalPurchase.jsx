@@ -178,7 +178,7 @@ const FinalPurchase = () => {
           ) : (
             <table className="min-w-full bg-white">
               <thead>
-                <tr className="w-full bg-gray-200 text-left">
+                <tr className="w-full bg-gray-200 text-gray-700 text-left text-[17px]">
                   <th className="py-2 px-4">Date</th>
                   <th className="py-2 px-4">Truck No</th>
                   <th className="py-2 px-4">Port</th>
@@ -192,7 +192,7 @@ const FinalPurchase = () => {
               <tbody>
                 {filteredPurchases.length > 0 ? (
                   filteredPurchases.map((purchase) => (
-                    <tr key={purchase.id} className="border-b">
+                    <tr key={purchase.id} className="border-b  text-[17px]">
                       <td className="py-2 px-4">{purchase.date}</td>
                       <td className="py-2 px-4">{purchase.truckNo}</td>
                       <td className="py-2 px-4">{purchase.transportPort}</td>
@@ -216,7 +216,7 @@ const FinalPurchase = () => {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="6" className="text-center py-4">
+                    <td colSpan="6" className="text-center text-[17px] py-4">
                       No matching records found.
                     </td>
                   </tr>

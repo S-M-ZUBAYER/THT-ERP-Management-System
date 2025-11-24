@@ -91,7 +91,7 @@ const Navbar = () => {
           </NavLink>
         </div>
 
-        <nav className="hidden lg:flex gap-6 text-sm font-medium">
+        <nav className="hidden lg:flex gap-6 text-base font-medium">
           <NavLink
             to="/export-import/dashboard"
             className={({ isActive }) =>

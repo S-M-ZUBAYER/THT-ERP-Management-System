@@ -176,7 +176,7 @@ const AddCFLevel = () => {
       </h1>
 
       <div className="mb-4">
-        <label className="block text-sm font-bold mb-2">
+        <label className="block text-base font-bold mb-2">
           Service Provider Name
         </label>
         <input
@@ -189,7 +189,7 @@ const AddCFLevel = () => {
       </div>
 
       <div className="mb-4">
-        <label className="block text-sm font-bold mb-2">
+        <label className="block text-base font-bold mb-2">
           Add C&F Commission Level
         </label>
         <input
@@ -202,7 +202,7 @@ const AddCFLevel = () => {
       </div>
 
       <div className="mb-4">
-        <label className="block text-sm font-bold mb-2">
+        <label className="block text-base font-bold mb-2">
           C&F Commission Type
         </label>
         <div className="flex items-center space-x-4">
@@ -291,12 +291,12 @@ const AddCFLevel = () => {
               <tbody>
                 {cfLevels.map((level, index) => (
                   <tr key={index} className="hover:bg-gray-50">
-                    <td className="py-2 px-4 border-b">{level.name}</td>
-                    <td className="py-2 px-4 border-b">{level.level}</td>
-                    <td className="py-2 px-4 border-b">
+                    <td className="py-1 px-4 border-b">{level.name}</td>
+                    <td className="py-1 px-4 border-b">{level.level}</td>
+                    <td className="py-1 px-4 border-b">
                       {level.status || "Not Fixed"}
                     </td>
-                    <td className="py-2 px-4 border-b flex justify-around">
+                    <td className="py-1 px-4 border-b flex justify-around">
                       <button
                         onClick={() => openModal(level)}
                         className="text-blue-500 hover:text-blue-700"
