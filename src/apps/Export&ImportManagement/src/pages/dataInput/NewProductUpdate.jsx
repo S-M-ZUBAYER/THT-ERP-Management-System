@@ -18,7 +18,7 @@ const NewProductUpdate = () => {
       )
       .then((res) => {
         setFormData(res?.data);
-        setLoading(false)
+        setLoading(false);
       })
       .catch((error) =>
         console.error("Error coming from server please try again later", {
@@ -76,12 +76,16 @@ const NewProductUpdate = () => {
               />
             </div>
             <div className="mt-5 flex justify-end gap-y-4">
-              <Link to="/newproduct" className="btn btn-info px-10 mx-5">
+              <Link
+                to="/export-import/newproduct"
+                className="bg-cyan-400 text-black rounded-lg px-10 mx-5 flex justify-center items-center"
+              >
                 Back
               </Link>
               <button
                 className="btn btn-info px-10 active:scale-[.98] active:duration-75 hover:scale-[1.03] ease-in-out transition-all py-3 rounded-lg bg-violet-500 text-white font-bold hover:text-black"
-                type="submit">
+                type="submit"
+              >
                 Save
               </button>
             </div>

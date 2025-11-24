@@ -7,8 +7,6 @@ import Carousel from "./Carousel";
 import { Link } from "react-router-dom";
 
 const Home = () => {
-  console.log("home from customer");
-
   return (
     <div>
       <Carousel></Carousel>

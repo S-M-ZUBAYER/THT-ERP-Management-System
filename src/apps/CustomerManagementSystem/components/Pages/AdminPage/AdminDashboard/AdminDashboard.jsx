@@ -24,9 +24,13 @@ const AdminDashboard = () => {
   const [deviceTypeCount, setDeviceTypeCount] = useState({});
   const [deviceTypeTotalCount, setDeviceTypeTotalCount] = useState({});
   const [totalAppUser, setTotalAppUser] = useState(0);
+  const [todayAppSignUpUser, setTodayAppSignUpUser] = useState(0);
+  const [yesterdayAppSignUpUser, setYesterdayAppSignUpUser] = useState(0);
+  const [DBYAppSignUpUser, setDBYAppSignUpUser] = useState(0);
 
   const [loading, setLoading] = useState({
     userLoading: true,
+    dateWiseSignUpLoading: true,
     categoriesLoading: true,
     mallLoading: true,
     eventLoading: true,
@@ -39,8 +43,35 @@ const AdminDashboard = () => {
   });
 
   const today = new Date().toISOString().split("T")[0]; // Format: YYYY-MM-DD
+  // Yesterday
+  const yesterdayDate = new Date();
+  yesterdayDate.setDate(yesterdayDate.getDate() - 1);
+  const yesterday = yesterdayDate.toISOString().split("T")[0];
+
+  // Day Before Yesterday
+  const dbyDate = new Date();
+  dbyDate.setDate(dbyDate.getDate() - 2);
+  const dayBeforeYesterday = dbyDate.toISOString().split("T")[0];
   useEffect(() => {
     // Simulated API calls to fetch data
+    fetchData(
+      `https://grozziieget.zjweiting.com:3091/CustomerService-Chat/api/dev/logininfo/singup/userByDate/${today}`,
+      setTodayAppSignUpUser,
+      "dateWiseSignUpLoading",
+      setLoading
+    );
+    fetchData(
+      `https://grozziieget.zjweiting.com:3091/CustomerService-Chat/api/dev/logininfo/singup/userByDate/${yesterday}`,
+      setYesterdayAppSignUpUser,
+      "dateWiseSignUpLoading",
+      setLoading
+    );
+    fetchData(
+      `https://grozziieget.zjweiting.com:3091/CustomerService-Chat/api/dev/logininfo/singup/userByDate/${dayBeforeYesterday}`,
+      setDBYAppSignUpUser,
+      "dateWiseSignUpLoading",
+      setLoading
+    );
     fetchData(
       "https://grozziieget.zjweiting.com:8033/tht/user-info",
       setUserInfo,
@@ -116,16 +147,44 @@ const AdminDashboard = () => {
       ...prev,
       todayLoginApiCountLoading: true,
       modelLoginApiCountLoading: true,
+      dateWiseSignUpLoading: true,
     }));
+
+    // Refresh Login Counts
     await fetchData(
       `https://grozziieget.zjweiting.com:3091/CustomerService-Chat/api/dev/logininfo/userByDate/${today}`,
       setTodayLoginApiCount,
-      "todayLoginApiCountLoading"
+      "todayLoginApiCountLoading",
+      setLoading
     );
+
     await fetchData(
       "https://grozziieget.zjweiting.com:3091/CustomerService-Chat/api/dev/logininfo/total/sum",
       setLoginApiCount,
-      "modelLoginApiCountLoading"
+      "modelLoginApiCountLoading",
+      setLoading
+    );
+
+    // Refresh Sign-Up Counts
+    await fetchData(
+      `https://grozziieget.zjweiting.com:3091/CustomerService-Chat/api/dev/logininfo/singup/userByDate/${today}`,
+      setTodayAppSignUpUser,
+      "dateWiseSignUpLoading",
+      setLoading
+    );
+
+    await fetchData(
+      `https://grozziieget.zjweiting.com:3091/CustomerService-Chat/api/dev/logininfo/singup/userByDate/${yesterday}`,
+      setYesterdayAppSignUpUser,
+      "dateWiseSignUpLoading",
+      setLoading
+    );
+
+    await fetchData(
+      `https://grozziieget.zjweiting.com:3091/CustomerService-Chat/api/dev/logininfo/singup/userByDate/${dayBeforeYesterday}`,
+      setDBYAppSignUpUser,
+      "dateWiseSignUpLoading",
+      setLoading
     );
   };
 
@@ -134,6 +193,10 @@ const AdminDashboard = () => {
       <Dashboard
         user={user}
         totalAppUser={totalAppUser}
+        todayAppSignUpUser={todayAppSignUpUser}
+        yesterdayAppSignUpUser={yesterdayAppSignUpUser}
+        DBYAppSignUpUser={DBYAppSignUpUser}
+        dateWiseSignUpLoading={loading.dateWiseSignUpLoading}
         TotalAppUserLoading={loading.totalAppUserLoading}
         userInfo={userInfo}
         handleCount={handleCountRefresh}

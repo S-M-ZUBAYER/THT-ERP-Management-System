@@ -97,7 +97,7 @@ const NewProduct = () => {
             position: "top-center",
           });
           setBtnLoading(false);
-          navigate("/newbrand");
+          navigate("/export-import/newbrand");
         })
         .catch((err) =>
           toast.error("Error coming from server please try again later", {
@@ -230,13 +230,13 @@ const NewProduct = () => {
               <table className="w-full border-collapse bg-white shadow-sm">
                 <thead>
                   <tr className="bg-gray-100 border-b border-gray-200">
-                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">
+                    <th className="px-4 py-3 text-left text-base font-medium text-gray-600">
                       Serial No
                     </th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">
+                    <th className="px-4 py-3 text-left text-base font-medium text-gray-600">
                       Product Name
                     </th>
-                    <th className="pr-16 py-3  text-sm font-medium text-gray-700 ">
+                    <th className="pr-16 py-3  text-base font-medium text-gray-600 ">
                       Actions
                     </th>
                   </tr>
@@ -252,13 +252,13 @@ const NewProduct = () => {
                           key={product.id}
                           className="border-b border-gray-100 hover:bg-gray-50 transition-colors duration-150 cursor-pointer"
                         >
-                          <td className="px-4 py-3 text-sm text-gray-900">
+                          <td className="px-4 py-2 text-sm text-gray-900">
                             {index + 1}
                           </td>
-                          <td className="px-4 py-3 text-sm text-gray-900 text-center">
+                          <td className="px-4 py-2 text-sm text-gray-900 text-center">
                             {product.productName}
                           </td>
-                          <td className="px-4 py-3 ">
+                          <td className="px-4 py-2 ">
                             <div className="flex space-x-10 justify-center">
                               <Link
                                 to={`/newproduct/${product.id}`}

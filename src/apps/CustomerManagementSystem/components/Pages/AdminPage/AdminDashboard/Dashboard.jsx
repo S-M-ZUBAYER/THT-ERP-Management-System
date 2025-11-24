@@ -11,6 +11,10 @@ const Dashboard = ({
   user,
   userInfo,
   totalAppUser,
+  todayAppSignUpUser,
+  yesterdayAppSignUpUser,
+  DBYAppSignUpUser,
+  dateWiseSignUpLoading,
   totalAppUserLoading,
   handleCount,
   userLoading,
@@ -90,12 +94,37 @@ const Dashboard = ({
 
   const secondRowCard = [
     {
+      title: "Sign Up Count",
+      logo: loginLogo,
+      data: [
+        {
+          logo: usersLogo,
+          label: "D-B-Y",
+          count: dateWiseSignUpLoading ? <BtnSpinner /> : DBYAppSignUpUser,
+        },
+        {
+          logo: usersLogo,
+          label: "Yesterday",
+          count: dateWiseSignUpLoading ? (
+            <BtnSpinner />
+          ) : (
+            yesterdayAppSignUpUser
+          ),
+        },
+        {
+          logo: loginLogo,
+          label: "Today",
+          count: dateWiseSignUpLoading ? <BtnSpinner /> : todayAppSignUpUser,
+        },
+      ],
+    },
+    {
       title: "Log In Count",
       logo: loginLogo,
       data: [
         {
           logo: loginLogo,
-          label: "Today Log In",
+          label: "Today",
           count: todayLoginApiCountLoading ? (
             <BtnSpinner />
           ) : (
@@ -104,18 +133,18 @@ const Dashboard = ({
         },
         {
           logo: usersLogo,
-          label: "Total Log In",
+          label: "Total",
           count: modelLoginApiCountLoading ? <BtnSpinner /> : loginApiCount,
         },
       ],
     },
     {
-      title: "Wi-Fi",
+      title: "Wi-Fi Count",
       logo: wifiLogo,
       data: [
         {
           logo: wifiLogo,
-          label: "Today Wi-fi Count",
+          label: "Today",
           count: modelApiCountLoading ? (
             <BtnSpinner />
           ) : (
@@ -124,7 +153,7 @@ const Dashboard = ({
         },
         {
           logo: wifiManyLogo,
-          label: "Total Wi-fi Count",
+          label: "Total",
           count: modelApiCountLoading ? (
             <BtnSpinner />
           ) : (
@@ -134,12 +163,12 @@ const Dashboard = ({
       ],
     },
     {
-      title: "Bluetooth",
+      title: "Bluetooth Count",
       logo: BluetoothLogo,
       data: [
         {
           logo: BluetoothLogo,
-          label: "Today Bluetooth Count",
+          label: "Today",
           count: modelApiCountLoading ? (
             <BtnSpinner />
           ) : (
@@ -148,7 +177,7 @@ const Dashboard = ({
         },
         {
           logo: BluetoothManyLogo,
-          label: "Total Bluetooth Count",
+          label: "Total",
           count: modelApiCountLoading ? (
             <BtnSpinner />
           ) : (
@@ -158,7 +187,6 @@ const Dashboard = ({
       ],
     },
   ];
-  console.log(user, "user for dashboard");
 
   return (
     <div>
@@ -215,7 +243,7 @@ const Dashboard = ({
             </Link>
           ))}
         </div>
-        <div className="container grid grid-cols-1 mt-6 md:mt-0  sm:grid-cols-2 xl:grid-cols-3 xl:mt-0 gap-6 mx-auto">
+        <div className="container grid grid-cols-1 mt-6 md:mt-0  sm:grid-cols-2 xl:grid-cols-4 xl:mt-0 gap-6 mx-auto">
           {secondRowCard.map((item, index) => (
             <div
               key={index}
@@ -232,7 +260,7 @@ const Dashboard = ({
                     alt={`${item.title} logo`}
                   />
                 </div>
-                <p className="text-2xl font-semibold text-gray-500">
+                <p className="text-xl font-semibold text-gray-500">
                   {item.title}
                 </p>
               </div>
@@ -241,10 +269,10 @@ const Dashboard = ({
               <div className="flex justify-start gap-10 pl-1">
                 {item.data.map((dataItem, dataIndex) => (
                   <div key={dataIndex} className="flex flex-col items-start">
-                    <p className="text-sm font-medium text-gray-800">
+                    <p className="text-sm font-normal text-gray-800">
                       {dataItem.label}
                     </p>
-                    <p className="text-2xl font-bold text-gray-800">
+                    <p className="text-xl font-bold text-gray-800">
                       {dataItem.count}
                     </p>
                   </div>

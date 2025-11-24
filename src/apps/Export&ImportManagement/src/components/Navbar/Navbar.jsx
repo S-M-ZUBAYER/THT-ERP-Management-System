@@ -18,7 +18,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     logoutUser();
-    navigate("/export-import");
+    navigate("/");
   };
 
   return (
@@ -91,7 +91,7 @@ const Navbar = () => {
           </NavLink>
         </div>
 
-        <nav className="hidden lg:flex gap-6 text-sm font-medium">
+        <nav className="hidden lg:flex gap-6 text-base font-medium">
           <NavLink
             to="/export-import/dashboard"
             className={({ isActive }) =>
@@ -153,7 +153,7 @@ const Navbar = () => {
               </Button>
             </NavLink>
           )}
-          <NavLink to="/export-import/signup">
+          {/* <NavLink to="/export-import/signup">
             <Button
               style={{
                 color: "black",
@@ -165,7 +165,7 @@ const Navbar = () => {
             >
               Create New User
             </Button>
-          </NavLink>
+          </NavLink> */}
         </div>
       </div>
     </header>

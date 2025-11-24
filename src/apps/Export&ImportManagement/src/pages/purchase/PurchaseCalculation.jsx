@@ -109,8 +109,9 @@ const ExpensesForm = ({
                 value={expense.id}
                 checked={selectedExpenses.includes(String(expense.id))}
                 onChange={handleCheckboxChange}
-                className="custom-checkbox"
+                className="accent-cyan-500 cursor-pointer"
               />
+
               {expense.particularExpenseName}
             </label>
             <input

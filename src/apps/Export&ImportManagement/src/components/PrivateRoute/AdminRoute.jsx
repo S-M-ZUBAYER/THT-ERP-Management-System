@@ -16,7 +16,7 @@ const AdminRoute = () => {
     return <Outlet />;
   } else {
     toast.error("You don't have permission to access this route");
-    return <Navigate to="/export-import`" state={{ from: location }} replace />;
+    return <Navigate to="/export-import" state={{ from: location }} replace />;
   }
 };
 

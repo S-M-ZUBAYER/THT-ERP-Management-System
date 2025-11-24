@@ -215,16 +215,16 @@ const TransportCountry = () => {
                 <table className="min-w-full bg-white border-collapse">
                   <thead className="sticky top-0 z-10 bg-gray-100">
                     <tr className="border-b border-gray-200">
-                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">
+                      <th className="px-4 py-2 text-left text-base font-medium text-gray-600">
                         Serial No
                       </th>
-                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">
+                      <th className="px-4 py-2 text-left text-base font-medium text-gray-600">
                         Country Name
                       </th>
-                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">
+                      <th className="px-4 py-2 text-left text-base font-medium text-gray-600">
                         Country Port
                       </th>
-                      <th className="px-4 py-3 text-center text-sm font-medium text-gray-700">
+                      <th className="px-4 py-2 text-center text-base font-medium text-gray-600">
                         Actions
                       </th>
                     </tr>

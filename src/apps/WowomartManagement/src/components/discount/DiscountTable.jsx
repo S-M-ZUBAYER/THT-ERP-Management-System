@@ -196,7 +196,7 @@ export function DiscountTable() {
     setSelectedId(id);
     setDialogType(type);
     if (type === "view") {
-      navigate("/discount-details", { state: { id } });
+      navigate("/wowomart-management/discount-details", { state: { id } });
     } else {
       setDialogOpen(true);
     }

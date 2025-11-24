@@ -215,18 +215,28 @@ const FinalData = () => {
                 {filteredFinalData.length > 0 ? (
                   filteredFinalData.map((finalData) => (
                     <tr key={finalData.id} className="border-b">
-                      <td className="py-2 px-4">{finalData.date}</td>
-                      <td className="py-2 px-4">{finalData.truckNo}</td>
-                      <td className="py-2 px-4">{finalData.transportPort}</td>
-                      <td className="py-2 px-4">
+                      <td className="py-2 px-4 border text-left">
+                        {finalData.date}
+                      </td>
+                      <td className="py-2 px-4 border text-left">
+                        {finalData.truckNo}
+                      </td>
+                      <td className="py-2 px-4 border text-left">
+                        {finalData.transportPort}
+                      </td>
+                      <td className="py-2 px-4 border text-left">
                         {finalData.transportCountryName}
                       </td>
-                      <td className="py-2 px-4">{finalData.invoiceNo}</td>
-                      <td className="py-2 px-4">
+                      <td className="py-2 px-4 border text-left">
+                        {finalData.invoiceNo}
+                      </td>
+                      <td className="py-2 px-4 border text-left">
                         {finalData.allTotalBoxWeight}
                       </td>
-                      <td className="py-2 px-4">{finalData.totalCost}</td>
-                      <td className=" flex justify-between items-center py-1">
+                      <td className="py-2 px-4 border text-left">
+                        {finalData.totalCost}
+                      </td>
+                      <td className=" flex justify-between items-center py-1 border-r">
                         <Link
                           onClick={() => setFinanceDetailsData(finalData)}
                           to={`/finalData-details/${finalData.id}`}
@@ -236,7 +246,7 @@ const FinalData = () => {
                         </Link>
 
                         <button
-                          className="hover:bg-cyan-400 px-4 py-[6px] active:scale-[.98] active:duration-75 hover:scale-[1.03] ease-in-out transition-all rounded-lg bg-green-500 text-white font-bold hover:text-black "
+                          className=" hover:bg-cyan-400 px-4 py-[6px] active:scale-[.98] active:duration-75 hover:scale-[1.03] ease-in-out transition-all rounded-lg bg-green-500 text-white font-bold hover:text-black "
                           onClick={() => handlePrint(finalData)}
                         >
                           Print
@@ -257,19 +267,22 @@ const FinalData = () => {
         </div>
 
         <ReactPaginate
-          previousLabel={"< Previous"}
-          nextLabel={"Next >"}
-          breakLabel={"..."}
-          pageCount={Math.ceil(
-            (finances.length > 0 ? finances.length : finances.length) /
-              itemsPerPage
-          )}
+          previousLabel="Prev"
+          nextLabel="Next"
+          breakLabel="..."
+          pageCount={Math.ceil(finances.length / itemsPerPage)}
           onPageChange={handlePageChange}
-          containerClassName={"pagination flex gap-2 justify-center mt-4"}
-          pageClassName={"page-item"}
-          pageLinkClassName={"page-link text-gray-800 px-2 py-2"}
-          activeClassName={"active bg-sky-300 rounded-md"}
-          className="flex items-center justify-center py-[4px]"
+          forcePage={currentPage} // <-- your state page
+          containerClassName="flex items-center gap-2 justify-center mt-4 select-none"
+          // Normal buttons
+          pageLinkClassName="px-3 py-1 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-200 transition"
+          // Active page
+          activeLinkClassName="bg-sky-500 text-white border-sky-500"
+          // Previous / Next normal
+          previousLinkClassName="px-3 py-1 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-200 transition"
+          nextLinkClassName="px-3 py-1 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-200 transition"
+          // Disabled Previous / Next
+          disabledClassName="opacity-50 cursor-not-allowed hover:bg-white"
         />
 
         {isModalOpen && (

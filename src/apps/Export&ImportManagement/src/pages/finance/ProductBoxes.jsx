@@ -867,40 +867,46 @@ const ProductBoxes = () => {
           ref={componentPDF}
           style={{ width: "100%" }}
         >
-          <table className="table">
-            <thead>
+          <table className="min-w-full border border-gray-300 rounded-lg overflow-hidden">
+            <thead className="bg-gray-100 sticky top-0 z-10">
               <tr>
-                <th>Product Name</th>
-                <th>Product Model</th>
-                <th>Split Product</th>
-                <th>Split Quantity</th>
-                <th>Product Per Box</th>
-                <th>Weight Per Box</th>
-                <th>Total Box</th>
-                <th>Individual Total Weight</th>
-                <th>Quantity</th>
-                <th>Pallet</th>
-                <th>Truck NO.</th>
+                <th className="px-4 py-2 border">Product Name</th>
+                <th className="px-4 py-2 border">Product Model</th>
+                <th className="px-4 py-2 border">Split Product</th>
+                <th className="px-4 py-2 border">Split Quantity</th>
+                <th className="px-4 py-2 border">Product Per Box</th>
+                <th className="px-4 py-2 border">Weight Per Box</th>
+                <th className="px-4 py-2 border">Total Box</th>
+                <th className="px-4 py-2 border">Individual Total Weight</th>
+                <th className="px-4 py-2 border">Quantity</th>
+                <th className="px-4 py-2 border">Pallet</th>
+                <th className="px-4 py-2 border">Truck No.</th>
               </tr>
             </thead>
+
             <tbody>
-              {productList.map((item, index) => {
-                return (
-                  <tr className="hover cursor-pointer" key={index}>
-                    <td>{item?.productName}</td>
-                    <td>{item?.productModels}</td>
-                    <td>{item?.perBoxProducts}</td>
-                    <td>{item?.modelQuantity}</td>
-                    <td>{item?.totalPerBoxProduct}</td>
-                    <td>{item?.weightPerBox}</td>
-                    <td>{item.totalBox}</td>
-                    <td>{item?.individualTotalBoxWeight}</td>
-                    <td>{item.productQuantity}</td>
-                    <td>{item.palletNo}</td>
-                    <td>{item.truckNumber}</td>
-                  </tr>
-                );
-              })}
+              {productList.map((item, index) => (
+                <tr
+                  key={index}
+                  className="hover:bg-gray-50 cursor-pointer text-sm transition"
+                >
+                  <td className="px-4 py-2 border">{item?.productName}</td>
+                  <td className="px-4 py-2 border">{item?.productModels}</td>
+                  <td className="px-4 py-2 border">{item?.perBoxProducts}</td>
+                  <td className="px-4 py-2 border">{item?.modelQuantity}</td>
+                  <td className="px-4 py-2 border">
+                    {item?.totalPerBoxProduct}
+                  </td>
+                  <td className="px-4 py-2 border">{item?.weightPerBox}</td>
+                  <td className="px-4 py-2 border">{item?.totalBox}</td>
+                  <td className="px-4 py-2 border">
+                    {item?.individualTotalBoxWeight}
+                  </td>
+                  <td className="px-4 py-2 border">{item?.productQuantity}</td>
+                  <td className="px-4 py-2 border">{item?.palletNo}</td>
+                  <td className="px-4 py-2 border">{item?.truckNumber}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

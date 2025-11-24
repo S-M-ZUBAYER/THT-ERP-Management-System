@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
-// import {
-//   Form,
-//   FormControl,
-//   FormField,
-//   FormItem,
-//   FormLabel,
-//   FormMessage,
-// } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import toast from "react-hot-toast";
 import { Loader2 } from "lucide-react";
@@ -60,7 +60,7 @@ export default function Signup() {
       }
 
       toast.success(data.message || "Registered successfully");
-      navigate("/log-in", { replace: true });
+      navigate("/login", { replace: true });
     } catch (error) {
       toast.error(error.message || "Something went wrong");
     } finally {
@@ -193,7 +193,7 @@ export default function Signup() {
         </div>
         <div className="mt-6">
           <NavLink
-            to={"/log-in"}
+            to={"/login"}
             className="text-sm text-blue-600 hover:underline"
           >
             Already have an account?

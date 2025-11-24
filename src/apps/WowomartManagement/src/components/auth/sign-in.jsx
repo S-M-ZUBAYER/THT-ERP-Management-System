@@ -44,7 +44,7 @@ export default function Signin() {
         localStorage.setItem("wowomartUser", JSON.stringify(data.user));
 
         toast.success("Login successful");
-        navigate("/", { replace: true });
+        navigate("/wowomart-management", { replace: true });
         window.location.reload();
       } else {
         throw new Error(data.error || "Login failed");
