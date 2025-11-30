@@ -4,13 +4,13 @@ import { toast } from "react-hot-toast";
 import { MdDeleteOutline } from "react-icons/md";
 import axios from "axios";
 import BtnSpinner from "../../Shared/Loading/BtnSpinner";
-import { Navigate } from "react-router-dom";
 import ShowQuestionPagination from "./ShowQuestionPagination";
 import ShowUnknownQuestionPagination from "./ShowUnknownQuestionPagination";
 import {
   deleteAllChatsFromDB,
   manageDeleteChatsInDB,
 } from "../CustomerServicePage/indexedDB";
+import { useNavigate } from "react-router-dom";
 const Account = () => {
   const QuestionPerPage = 25;
 
@@ -39,6 +39,7 @@ const Account = () => {
   } = useContext(AuthContext);
 
   console.log(userInfo);
+  const navigate = useNavigate();
 
   //got the current user data from database  and get the data after getting the information about the current user
   useEffect(() => {
@@ -169,6 +170,7 @@ const Account = () => {
 
       localStorage.removeItem("user");
       // deleteCustomerServiceChatData();
+      navigate("/");
       toast.success("Logout successfully");
     } catch (err) {
       console.error("Logout error:", err); // Log the full error in the console
@@ -347,7 +349,7 @@ const Account = () => {
             </div>
             <div className="grid grid-cols-4 my-3">
               <p className="font-semibold">Email</p>
-              <p>{user?.email}</p>
+              <p>{userInfo?.email}</p>
             </div>
             <div className="grid grid-cols-4 my-3">
               <p className="font-semibold">Country</p>

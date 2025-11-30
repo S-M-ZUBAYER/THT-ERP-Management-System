@@ -304,7 +304,7 @@ const Finance = () => {
                         <td className="py-2 px-4 border">
                           <Link
                             onClick={() => setFinanceDetailsData(purchase)}
-                            to={`/finance-details/${purchase.id}`}
+                            to={`/export-import/finance-details/${purchase.id}`}
                             className="btn btn-sm px-4 py-2 rounded-md bg-violet-500 text-white font-semibold hover:bg-cyan-300 hover:text-black transition transform active:scale-95"
                           >
                             Details

@@ -237,16 +237,16 @@ const TransportCountry = () => {
                           key={product.id}
                           className="border-b border-gray-100 hover:bg-gray-50 transition-colors duration-150"
                         >
-                          <td className="px-4 py-3 text-sm text-gray-900">
+                          <td className="px-4 py-1 text-base text-gray-900">
                             {index + 1}
                           </td>
-                          <td className="px-4 py-3 text-sm text-gray-900">
+                          <td className="px-4 py-1 text-base text-gray-900">
                             {product.countryName}
                           </td>
-                          <td className="px-4 py-3 text-sm text-gray-900">
+                          <td className="px-4 py-1 text-base text-gray-900">
                             {product.countryPort}
                           </td>
-                          <td className="px-4 py-3 text-center">
+                          <td className="px-4 py-1 text-center">
                             <button
                               onClick={() => handleDelete(product.id)}
                               className="hover:bg-red-50 p-1 rounded transition-colors"

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import emailjs from "emailjs-com";
 import { Link } from "react-router-dom";
+import "../../../components/Shared/responsive-container.css";
 import customerServiceImg from "../../../Assets/Images/customer service/Customer service.jpg";
 
 const Contact = () => {
@@ -41,53 +42,12 @@ const Contact = () => {
   const EMAILJS_SERVICE_ID = "service_7rnps2c";
   const EMAILJS_TEMPLATE_ID = "template_wt3urfs";
 
-  const handleToEmail = async () => {
-    console.log("Click to send email");
-
-    const templateParams = {
-      to_email: "obaidulhoqejoy@gmail.com",
-      from_email: "smzubayer9004@gmail.com",
-      subject: "MultiVendor Subscription",
-      message:
-        "Your account has been created. Email: thtspace6@gmail.com, Password: 123456",
-    };
-
-    try {
-      const response = await emailjs.send(
-        EMAILJS_SERVICE_ID, // Replace with your EmailJS Service ID
-        EMAILJS_TEMPLATE_ID, // Replace with your EmailJS Template ID
-        templateParams,
-        EMAILJS_PUBLIC_KEY // Replace with your EmailJS Public Key
-      );
-
-      console.log("Email sent successfully:", response);
-      alert("Email sent successfully!");
-    } catch (error) {
-      console.error("Error sending email:", error);
-      alert("Failed to send email. Please try again.");
-    }
-  };
-
-  // const handleToEmail = async () => {
-  //     console.log("Click to fetch email API");
-
-  //     try {
-  //         const response = await axios.get("http://localhost:2000/tht/version"); // Updated to GET request
-
-  //         console.log("API Response:", response.data);
-  //         alert("Email data fetched successfully!");
-  //     } catch (error) {
-  //         console.error("Error fetching email data:", error.response?.data || error.message);
-  //         alert("Failed to fetch email data. Please try again.");
-  //     }
-  // };
-
   return (
-    <div className="w-full">
-      <section className='relative h-[780px] 2xl:max-w-[1700px] bg-[url("https://lh3.googleusercontent.com/p/AF1QipP1Nu_aPfi17TVr41iSkP6kZLbZhWEUVNlEsKRW=s680-w680-h510")] bg-cover bg-center bg-no-repeat'>
+    <div className="responsive-container">
+      <section className='relative h-[780px] bg-[url("https://lh3.googleusercontent.com/p/AF1QipP1Nu_aPfi17TVr41iSkP6kZLbZhWEUVNlEsKRW=s680-w680-h510")] bg-cover bg-center bg-no-repeat'>
         <div className="absolute inset-0 bg-white/75 sm:bg-transparent sm:bg-gradient-to-r sm:from-white/95 sm:to-white/25"></div>
 
-        <div className="relative mx-auto  px-4 py-32 sm:px-6 lg:flex lg:h-screen lg:items-center lg:px-8">
+        <div className="relative mx-auto px-4 py-32 sm:px-6 lg:flex lg:h-screen lg:items-center lg:px-8">
           <div className="text-center sm:text-left">
             <h1 className="text-3xl font-extrabold text-lime-700 sm:text-5xl">
               Please Contact
@@ -153,14 +113,6 @@ const Contact = () => {
             </div>
           </div>
         </div>
-      </div>
-      <div>
-        <button
-          className="cursor-pointer text-black bg-slate-400 p-2"
-          onClick={handleToEmail}
-        >
-          Send Email
-        </button>
       </div>
 
       <div>

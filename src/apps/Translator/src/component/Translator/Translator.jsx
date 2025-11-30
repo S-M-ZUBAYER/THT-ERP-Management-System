@@ -11,6 +11,8 @@ import "react-toastify/dist/ReactToastify.css";
 import ImageTextDetection from "./ImageTextDetection";
 import TryImageDetect from "./TryImageDetect";
 import { useLocation, useNavigate } from "react-router-dom";
+import Navbar from "@/pages/SharedPage/Navbar";
+import "../../../../CustomerManagementSystem/components/Shared/responsive-container.css";
 
 function Translator() {
   const [isLoading, SetIsLoading] = useState(false);
@@ -267,255 +269,233 @@ function Translator() {
   };
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-4 pt-10 relative">
-      {/* Single Language Translator */}
-      <div>
-        <h1 className="font-bold text-2xl text-center text-yellow-600 underline mb-8">
-          Single language Translator System
-        </h1>
-        {user ? (
-          <div className="flex justify-end">
-            <div className=" flex items-center absolute top-10">
-              <div className="mr-3">
-                <img
-                  className="w-8 h-8 rounded-full border-2 border-yellow-400 animate-heartbeat"
-                  src={
-                    user?.image
-                      ? user?.image
-                      : "https://img.freepik.com/premium-vector/anonymous-user-circle-icon-vector-illustration-flat-style-with-long-shadow_520826-1931.jpg"
-                  }
-                  alt="User Avatar"
-                />
-              </div>
-              <button
-                className=" text-red-400  font-bold"
-                onClick={handleToLogOut}
-              >
-                Log out
-              </button>
-            </div>
-          </div>
-        ) : (
-          <button onClick={() => navigate("/login")}>Log In</button>
-        )}
-      </div>
+    <div className="min-h-screen responsive-container bg-white text-gray-800 flex flex-col items-center px-6 py-10">
+      <Navbar></Navbar>
+      <div className="w-full max-w-6xl mx-auto px-4 pt-10 relative">
+        {/* Single Language Translator */}
+        <div>
+          <h1 className="font-bold text-2xl text-center text-yellow-600 underline mb-8">
+            Single language Translator System
+          </h1>
+        </div>
 
-      <ToastContainer />
-      <div className="flex justify-center mb-16">
-        <div className=" ">
-          {/* <h1 className="text-3xl font-bold mb-10 mt-10 md:mt-0">ZUSS Translator</h1> */}
-          <div className=" bg-yellow-300 md:flex rounded-lg p-5">
-            <div>
-              <textarea
-                id="inputField11"
-                ref={textareaRef1}
-                placeholder="please type here"
-                onChange={handleToCollectText1}
-                onDoubleClick={handleToSingleTranslate}
-                onKeyPress={handleKeyPress1}
-                className="border-2 bg-white text-black border-slate-600 rounded-t-lg md:rounded-t-none md:rounded-tl-lg p-2  mt-2 md:ml-2 h-44  w-72 md:w-64 lg:w-72  block"
-              ></textarea>
-              <div className="border-2 border-slate-600 md:ml-2 sm:rounded-b-lg md:rounded-b-none md:rounded-bl-lg mb-2 mr-2 md:mr-0">
-                <div className="flex justify-between items-center ml-2">
-                  <AiOutlineCopy
-                    className="copyClass text-black cursor-pointer"
-                    onClick={(e) => handleToCopyText(e)}
-                  ></AiOutlineCopy>
-                  <CiMicrophoneOn className="text-black"></CiMicrophoneOn>
-                  <AiOutlineSound className="text-black"></AiOutlineSound>
-                  <div>
-                    <select
-                      name="language"
-                      type="boolean"
-                      placeholder="Sold Status"
-                      className="select select-bordered w-full px-2 py-2 bg-yellow-300 font-semibold rounded-lg  focus:outline-green-500  text-gray-900"
-                    >
-                      <option disabled selected>
-                        {" "}
-                        Detect language
-                      </option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <div
-                ref={divRef11}
-                placeholder="Translation"
-                id="to-text"
-                className="border-2 overflow-scroll text-start text-black bg-white border-slate-600 rounded-t-lg md:rounded-none md:rounded-tr-lg p-2 mt-2 mr-2 h-44  w-72 md:w-64 lg:w-72 block"
-              >
-                {isLoading22 ? <BtnSpinner></BtnSpinner> : targetTranslate1}
-              </div>
-              <div className="border-2 border-slate-600 md:rounded-br-lg mr-2  mb-2">
-                <div className="flex justify-between items-center ml-2 ">
-                  <AiOutlineCopy
-                    className="copyClass text-black cursor-pointer"
-                    onClick={(e) => handleToCopy22(e)}
-                  ></AiOutlineCopy>
-                  <CiMicrophoneOn className="text-black"></CiMicrophoneOn>
-                  <AiOutlineSound className="text-black"></AiOutlineSound>
-
-                  {/* To create the functionalities the select language */}
-
-                  <div className="form-control" onChange={handleTargetLan2}>
-                    <div className="input-group" id="lan">
+        <ToastContainer />
+        <div className="flex justify-center mb-16">
+          <div className=" ">
+            {/* <h1 className="text-3xl font-bold mb-10 mt-10 md:mt-0">ZUSS Translator</h1> */}
+            <div className=" bg-yellow-300 md:flex rounded-lg p-5">
+              <div>
+                <textarea
+                  id="inputField11"
+                  ref={textareaRef1}
+                  placeholder="please type here"
+                  onChange={handleToCollectText1}
+                  onDoubleClick={handleToSingleTranslate}
+                  onKeyPress={handleKeyPress1}
+                  className="border-2 bg-white text-black border-slate-600 rounded-t-lg md:rounded-t-none md:rounded-tl-lg p-2  mt-2 md:ml-2 h-44  w-72 md:w-64 lg:w-72  block"
+                ></textarea>
+                <div className="border-2 border-slate-600 md:ml-2 sm:rounded-b-lg md:rounded-b-none md:rounded-bl-lg mb-2 mr-2 md:mr-0">
+                  <div className="flex justify-between items-center ml-2">
+                    <AiOutlineCopy
+                      className="copyClass text-black cursor-pointer"
+                      onClick={(e) => handleToCopyText(e)}
+                    ></AiOutlineCopy>
+                    <CiMicrophoneOn className="text-black"></CiMicrophoneOn>
+                    <AiOutlineSound className="text-black"></AiOutlineSound>
+                    <div>
                       <select
                         name="language"
                         type="boolean"
                         placeholder="Sold Status"
-                        className="select select-bordered w-full px-3 py-2 rounded-md focus:outline-green-500 bg-yellow-300 font-semibold text-gray-900"
+                        className="select select-bordered w-full px-2 py-2 bg-yellow-300 font-semibold rounded-lg  focus:outline-green-500  text-gray-900"
                       >
                         <option disabled selected>
                           {" "}
-                          Select language
+                          Detect language
                         </option>
-                        {countries?.map((element, index) => (
-                          <option key={index}>{element}</option>
-                        ))}
                       </select>
                     </div>
                   </div>
                 </div>
               </div>
+
+              <div>
+                <div
+                  ref={divRef11}
+                  placeholder="Translation"
+                  id="to-text"
+                  className="border-2 overflow-scroll text-start text-black bg-white border-slate-600 rounded-t-lg md:rounded-none md:rounded-tr-lg p-2 mt-2 mr-2 h-44  w-72 md:w-64 lg:w-72 block"
+                >
+                  {isLoading22 ? <BtnSpinner></BtnSpinner> : targetTranslate1}
+                </div>
+                <div className="border-2 border-slate-600 md:rounded-br-lg mr-2  mb-2">
+                  <div className="flex justify-between items-center ml-2 ">
+                    <AiOutlineCopy
+                      className="copyClass text-black cursor-pointer"
+                      onClick={(e) => handleToCopy22(e)}
+                    ></AiOutlineCopy>
+                    <CiMicrophoneOn className="text-black"></CiMicrophoneOn>
+                    <AiOutlineSound className="text-black"></AiOutlineSound>
+
+                    {/* To create the functionalities the select language */}
+
+                    <div className="form-control" onChange={handleTargetLan2}>
+                      <div className="input-group" id="lan">
+                        <select
+                          name="language"
+                          type="boolean"
+                          placeholder="Sold Status"
+                          className="select select-bordered w-full px-3 py-2 rounded-md focus:outline-green-500 bg-yellow-300 font-semibold text-gray-900"
+                        >
+                          <option disabled selected>
+                            {" "}
+                            Select language
+                          </option>
+                          {countries?.map((element, index) => (
+                            <option key={index}>{element}</option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
 
-          {/* Create the button to generate the Translation */}
+            {/* Create the button to generate the Translation */}
 
-          {/* <div className="flex justify-around items-center ">
+            {/* <div className="flex justify-around items-center ">
           <button className="my-5 bg-white w-full py-1 rounded-lg font-semibold" onClick={handleToTranslate} >Text Translate</button>
         </div> */}
+          </div>
         </div>
-      </div>
 
-      <h1 className="font-bold text-2xl underline text-lime-500">
-        Multiple language Translator System
-      </h1>
-      <div className="App md:my-24 flex justify-center items-center">
-        <ToastContainer />
-        <div className=" ">
-          {/* <h1 className="text-3xl font-bold mb-10 mt-10 md:mt-0">ZUSS Translator</h1> */}
-          <div className=" bg-lime-300 md:flex rounded-lg p-5">
-            <div>
-              <textarea
-                id="inputField"
-                ref={textareaRef}
-                placeholder="please type here"
-                onChange={handleToCollectText}
-                onDoubleClick={handleToTranslate}
-                onKeyPress={handleKeyPress}
-                className="border-2 bg-white text-black border-slate-600 rounded-t-lg md:rounded-t-none md:rounded-tl-lg p-2  mt-2 md:ml-2 h-44  w-72 md:w-64 lg:w-72  block"
-              ></textarea>
-              <div className="border-2 border-slate-600 md:ml-2 sm:rounded-b-lg md:rounded-b-none md:rounded-bl-lg mb-2 mr-2 md:mr-0">
-                <div className="flex justify-between items-center ml-2">
-                  <AiOutlineCopy
-                    className="copyClass text-black cursor-pointer"
-                    onClick={(e) => handleToCopyText(e)}
-                  ></AiOutlineCopy>
-                  <CiMicrophoneOn className="text-black"></CiMicrophoneOn>
-                  <AiOutlineSound className="text-black"></AiOutlineSound>
-                  <div className="py-2 mr-2">
-                    {/* <select name='language' type="boolean" placeholder='Sold Status' className="select select-bordered w-full px-2 py-2 bg-lime-300 font-semibold rounded-lg  focus:outline-green-500  text-gray-900">
+        <h1 className="font-bold text-2xl underline text-lime-500">
+          Multiple language Translator System
+        </h1>
+        <div className="App md:my-24 flex justify-center items-center">
+          <ToastContainer />
+          <div className=" ">
+            {/* <h1 className="text-3xl font-bold mb-10 mt-10 md:mt-0">ZUSS Translator</h1> */}
+            <div className=" bg-lime-300 md:flex rounded-lg p-5">
+              <div>
+                <textarea
+                  id="inputField"
+                  ref={textareaRef}
+                  placeholder="please type here"
+                  onChange={handleToCollectText}
+                  onDoubleClick={handleToTranslate}
+                  onKeyPress={handleKeyPress}
+                  className="border-2 bg-white text-black border-slate-600 rounded-t-lg md:rounded-t-none md:rounded-tl-lg p-2  mt-2 md:ml-2 h-44  w-72 md:w-64 lg:w-72  block"
+                ></textarea>
+                <div className="border-2 border-slate-600 md:ml-2 sm:rounded-b-lg md:rounded-b-none md:rounded-bl-lg mb-2 mr-2 md:mr-0">
+                  <div className="flex justify-between items-center ml-2">
+                    <AiOutlineCopy
+                      className="copyClass text-black cursor-pointer"
+                      onClick={(e) => handleToCopyText(e)}
+                    ></AiOutlineCopy>
+                    <CiMicrophoneOn className="text-black"></CiMicrophoneOn>
+                    <AiOutlineSound className="text-black"></AiOutlineSound>
+                    <div className="py-2 mr-2">
+                      {/* <select name='language' type="boolean" placeholder='Sold Status' className="select select-bordered w-full px-2 py-2 bg-lime-300 font-semibold rounded-lg  focus:outline-green-500  text-gray-900">
                                         <option disabled selected> Detect language</option>
                                     </select> */}
 
-                    <ImageTextDetection
-                      setText={setText}
-                      text={text}
-                      textId={"inputField"}
-                      textareaRef={textareaRef}
-                    ></ImageTextDetection>
+                      <ImageTextDetection
+                        setText={setText}
+                        text={text}
+                        textId={"inputField"}
+                        textareaRef={textareaRef}
+                      ></ImageTextDetection>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <div>
-              <div
-                ref={divRef}
-                placeholder="Translation"
-                id="mid-text"
-                className="border-2 text-start text-black rounded-t-lg overflow-scroll bg-white  md:rounded-t-none border-slate-600 p-2  mt-2 h-44 w-72 md:w-64 lg:w-72 block"
-              >
-                {isLoading ? <BtnSpinner></BtnSpinner> : midTranslate}
+              <div>
+                <div
+                  ref={divRef}
+                  placeholder="Translation"
+                  id="mid-text"
+                  className="border-2 text-start text-black rounded-t-lg overflow-scroll bg-white  md:rounded-t-none border-slate-600 p-2  mt-2 h-44 w-72 md:w-64 lg:w-72 block"
+                >
+                  {isLoading ? <BtnSpinner></BtnSpinner> : midTranslate}
+                </div>
+                <div className="border-2 border-slate-600  mb-2 mr-2 md:mr-0 ">
+                  <div className="flex justify-between items-center ml-2 ">
+                    <AiOutlineCopy
+                      className="copyClass text-black cursor-pointer"
+                      onClick={(e) => handleToCopy(e)}
+                    ></AiOutlineCopy>
+                    <CiMicrophoneOn className="text-black"></CiMicrophoneOn>
+                    <AiOutlineSound className="text-black"></AiOutlineSound>
+                    <div className="form-control">
+                      <div className="input-group" id="lan">
+                        <select
+                          name="language"
+                          type="boolean"
+                          placeholder="Sold Status"
+                          className="select select-bordered w-full bg-lime-300 font-semibold px-3 py-2 rounded-md  focus:outline-green-500  text-gray-900"
+                        >
+                          <option disabled selected>
+                            English
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className="border-2 border-slate-600  mb-2 mr-2 md:mr-0 ">
-                <div className="flex justify-between items-center ml-2 ">
-                  <AiOutlineCopy
-                    className="copyClass text-black cursor-pointer"
-                    onClick={(e) => handleToCopy(e)}
-                  ></AiOutlineCopy>
-                  <CiMicrophoneOn className="text-black"></CiMicrophoneOn>
-                  <AiOutlineSound className="text-black"></AiOutlineSound>
-                  <div className="form-control">
-                    <div className="input-group" id="lan">
-                      <select
-                        name="language"
-                        type="boolean"
-                        placeholder="Sold Status"
-                        className="select select-bordered w-full bg-lime-300 font-semibold px-3 py-2 rounded-md  focus:outline-green-500  text-gray-900"
-                      >
-                        <option disabled selected>
-                          English
-                        </option>
-                      </select>
+
+              <div>
+                <div
+                  ref={divRef2}
+                  placeholder="Translation"
+                  id="to-text"
+                  className="border-2 overflow-scroll text-start text-black bg-white border-slate-600 rounded-t-lg md:rounded-none md:rounded-tr-lg p-2 mt-2 mr-2 h-44  w-72 md:w-64 lg:w-72 block"
+                >
+                  {isLoading2 ? <BtnSpinner></BtnSpinner> : targetTranslate}
+                </div>
+                <div className="border-2 border-slate-600 md:rounded-br-lg mr-2  mb-2">
+                  <div className="flex justify-between items-center ml-2 ">
+                    <AiOutlineCopy
+                      className="copyClass text-black cursor-pointer"
+                      onClick={(e) => handleToCopy2(e)}
+                    ></AiOutlineCopy>
+                    <CiMicrophoneOn className="text-black"></CiMicrophoneOn>
+                    <AiOutlineSound className="text-black"></AiOutlineSound>
+
+                    {/* To create the functionalities the select language */}
+
+                    <div className="form-control" onChange={handleTargetLan}>
+                      <div className="input-group" id="lan">
+                        <select
+                          name="language"
+                          type="boolean"
+                          placeholder="Sold Status"
+                          className="select select-bordered w-full px-3 py-2 rounded-md focus:outline-green-500 bg-lime-300 font-semibold text-gray-900"
+                        >
+                          <option disabled selected>
+                            {" "}
+                            Select language
+                          </option>
+                          {countries?.map((element, index) => (
+                            <option key={index}>{element}</option>
+                          ))}
+                        </select>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div>
-              <div
-                ref={divRef2}
-                placeholder="Translation"
-                id="to-text"
-                className="border-2 overflow-scroll text-start text-black bg-white border-slate-600 rounded-t-lg md:rounded-none md:rounded-tr-lg p-2 mt-2 mr-2 h-44  w-72 md:w-64 lg:w-72 block"
-              >
-                {isLoading2 ? <BtnSpinner></BtnSpinner> : targetTranslate}
-              </div>
-              <div className="border-2 border-slate-600 md:rounded-br-lg mr-2  mb-2">
-                <div className="flex justify-between items-center ml-2 ">
-                  <AiOutlineCopy
-                    className="copyClass text-black cursor-pointer"
-                    onClick={(e) => handleToCopy2(e)}
-                  ></AiOutlineCopy>
-                  <CiMicrophoneOn className="text-black"></CiMicrophoneOn>
-                  <AiOutlineSound className="text-black"></AiOutlineSound>
+            {/* Create the button to generate the Translation */}
 
-                  {/* To create the functionalities the select language */}
-
-                  <div className="form-control" onChange={handleTargetLan}>
-                    <div className="input-group" id="lan">
-                      <select
-                        name="language"
-                        type="boolean"
-                        placeholder="Sold Status"
-                        className="select select-bordered w-full px-3 py-2 rounded-md focus:outline-green-500 bg-lime-300 font-semibold text-gray-900"
-                      >
-                        <option disabled selected>
-                          {" "}
-                          Select language
-                        </option>
-                        {countries?.map((element, index) => (
-                          <option key={index}>{element}</option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Create the button to generate the Translation */}
-
-          {/* <div className="flex justify-around items-center ">
+            {/* <div className="flex justify-around items-center ">
           <button className="my-5 bg-white w-full py-1 rounded-lg font-semibold" onClick={handleToTranslate} >Text Translate</button>
         </div> */}
+          </div>
         </div>
       </div>
     </div>

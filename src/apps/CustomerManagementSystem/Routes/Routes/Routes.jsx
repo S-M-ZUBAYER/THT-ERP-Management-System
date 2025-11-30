@@ -42,6 +42,7 @@ import PDFPaymentInfo from "../../components/Pages/AdminPage/AdminDashboard/PDFP
 import VoltagePercentage from "../../components/Pages/AdminPage/AdminDashboard/PowerBank/VoltagePercentage";
 import AddAdminBackgroundImg from "../../components/Pages/AdminPage/AdminDashboard/BackgroundImgPage/AddAdminBackgroundImg";
 import ShowAdminBackgroundImg from "../../components/Pages/AdminPage/AdminDashboard/BackgroundImgPage/ShowAdminBackgroundImg";
+import FaceAttendanceManage from "../../components/Pages/AdminPage/AdminDashboard/FaceAttendanceMange/FaceAttendanceManage";
 
 export const routes = createBrowserRouter([
   {
@@ -277,6 +278,14 @@ export const routes = createBrowserRouter([
         element: (
           <PrivateRoute>
             <UserBaseBitmap></UserBaseBitmap>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/customer-management-system/admin/FaceAttendance",
+        element: (
+          <PrivateRoute>
+            <FaceAttendanceManage></FaceAttendanceManage>
           </PrivateRoute>
         ),
       },

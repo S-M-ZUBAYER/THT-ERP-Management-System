@@ -138,6 +138,14 @@ const Navbar = () => {
                         </li>
                         <li className="mb-5">
                           <Link
+                            to="/customer-management-system/admin/FaceAttendance"
+                            className="sm:text-xs md:text-base text-gray-700 font-normal"
+                          >
+                            Face Attendance User Manage
+                          </Link>
+                        </li>
+                        <li className="mb-5">
+                          <Link
                             to="/customer-management-system/admin/powerBank"
                             className="sm:text-xs md:text-base text-gray-700 font-normal"
                           >

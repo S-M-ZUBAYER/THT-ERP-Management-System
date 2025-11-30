@@ -1,18 +1,14 @@
-import React from 'react';
-import GrozzieeLogo from "../.../../../../Assets/Images/Grozziie/logo2.png"
-import { Link } from 'react-router-dom';
+import React from "react";
+import GrozzieeLogo from "../.../../../../Assets/Images/Grozziie/logo2.png";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
-    return (
-        <footer aria-label="Site Footer" className=" bg-[#004368] text-white ">
-  <div className="mx-auto max-w-screen-xl px-4 pt-16 pb-6 sm:px-6 lg:px-8 lg:pt-24">
-   
-
-      <div
-        className="grid grid-cols-1 gap-8  md:grid-cols-3"
-      >
-         <div>
-         <Link className="block text-teal-600 dark:text-teal-600" to="/home">
+  return (
+    <footer aria-label="Site Footer" className=" bg-[#004368] text-white ">
+      <div className="mx-auto max-w-screen-xl px-4 pt-16 pb-6 sm:px-6 lg:px-8 lg:pt-24">
+        <div className="grid grid-cols-1 gap-8  md:grid-cols-3">
+          <div>
+            <Link className="block text-teal-600 dark:text-teal-600" to="/home">
               <span className="sr-only">Home</span>
               {/* <svg
                 className="h-8"
@@ -27,151 +23,131 @@ const Footer = () => {
               </svg> */}
               <img className="w-32 h-8" src={GrozzieeLogo}></img>
             </Link>
-          
 
-        <p
-          className="mt-6 max-w-md text-center leading-relaxed text-white  sm:max-w-xs sm:text-left"
-        >
-          123 Chaowai St, Chaoyang District, Beijing, 
-China, 100020
-        </p>
-
-      
-
-
-      
-      </div>
-        <div className="text-center sm:text-left">
-          {/* <p className="text-lg font-medium text-gray-900 dark:text-white">
+            <p className="mt-6 max-w-md text-center leading-relaxed text-white  sm:max-w-xs sm:text-left">
+              123 Chaowai St, Chaoyang District, Beijing, China, 100020
+            </p>
+          </div>
+          <div className="text-center sm:text-left">
+            {/* <p className="text-lg font-medium text-gray-900 dark:text-white">
             About Us
           </p> */}
 
-          <nav aria-label="Footer About Nav" className="mt-8">
-            <ul className="space-y-4 text-sm text-center">
-              <li>
-                <a
-                  className="text-white transition hover:text-white/75 dark:text-white dark:hover:text-white/75"
-                  href="/"
-                >
-                  Home
-                </a>
-              </li>
+            <nav aria-label="Footer About Nav" className="mt-8">
+              <ul className="space-y-4 text-sm text-center">
+                <li>
+                  <a
+                    className="text-white transition hover:text-white/75 dark:text-white dark:hover:text-white/75"
+                    href="/"
+                  >
+                    Home
+                  </a>
+                </li>
 
-              <li>
-                <a
-                  className="text-white transition hover:text-white/75 dark:text-white dark:hover:text-white/75"
-                  href="/"
-                >
-                  customer Service
-                </a>
-              </li>
+                <li>
+                  <a
+                    className="text-white transition hover:text-white/75 dark:text-white dark:hover:text-white/75"
+                    href="/"
+                  >
+                    customer Service
+                  </a>
+                </li>
 
-              <li>
-                <a
-                  className="text-white transition hover:text-white/75 dark:text-white dark:hover:text-white/75"
-                  href="/"
-                >
-                 Admin
-                </a>
-              </li>
+                <li>
+                  <a
+                    className="text-white transition hover:text-white/75 dark:text-white dark:hover:text-white/75"
+                    href="/"
+                  >
+                    Admin
+                  </a>
+                </li>
 
-              <li>
-                <a
-                  className="text-white transition hover:text-white/75 dark:text-white dark:hover:text-white/75"
-                  href="/"
-                >
-                 Account
-                </a>
-              </li>
-            </ul>
-          </nav>
-        </div>
-        <div className="text-center sm:text-left">
-          {/* <p className="text-lg font-medium text-gray-900 dark:text-white">
+                <li>
+                  <a
+                    className="text-white transition hover:text-white/75 dark:text-white dark:hover:text-white/75"
+                    href="/"
+                  >
+                    Account
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+          <div className="text-center sm:text-left">
+            {/* <p className="text-lg font-medium text-gray-900 dark:text-white">
             About Us
           </p> */}
 
-          <nav aria-label="Footer About Nav" className="mt-8">
-            <ul className="space-y-4 text-sm">
-            <li className="flex justify-center">
-              <a
-                className="flex  text-sm items-center justify-center gap-1.5 sm:justify-start"
-                href="/"
-              >
-              
+            <nav aria-label="Footer About Nav" className="mt-8">
+              <ul className="space-y-4 text-sm">
+                <li className="flex justify-center">
+                  <a
+                    className="flex  text-sm items-center justify-center gap-1.5 sm:justify-start"
+                    href="/"
+                  >
+                    <span className="text-white dark:text-gray-300">
+                      Contact
+                    </span>
+                  </a>
+                </li>
+                <li className="flex justify-center">
+                  <a
+                    className="flex items-center justify-center gap-1.5 sm:justify-start text-white"
+                    href="/"
+                  >
+                    Phone:
+                    <span className="text-white dark:text-white">
+                      (555) 555-1234
+                    </span>
+                  </a>
+                </li>
 
-                <span className="text-white dark:text-gray-300">
-                  Contact
-                </span>
-              </a>
-            </li>
-            <li className="flex justify-center">
-              <a
-                className="flex items-center justify-center gap-1.5 sm:justify-start"
-                href="/"
-              >
-              Phone:  
-                <span className="text-white dark:text-white">
-                (555) 555-1234
-                </span>
-              </a>
-            </li>
-
-            <li className="flex justify-center">
-              <a
-                className="flex items-center justify-center gap-1.5 sm:justify-start"
-                href="/"
-              >
-              Email: 
-                <span className="text-white dark:text-gray-300">info@companyname.com</span>
-              </a>
-            </li>
-
-           
-            </ul>
-          </nav>
+                <li className="flex justify-center">
+                  <a
+                    className="flex items-center justify-center gap-1.5 sm:justify-start text-white"
+                    href="/"
+                  >
+                    Email:
+                    <span className="text-white dark:text-gray-300">
+                      info@companyname.com
+                    </span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
         </div>
 
-       
+        <div className="mt-12 border-t border-gray-100 pt-6 dark:border-gray-800">
+          <div className="text-center sm:flex sm:justify-between sm:text-left">
+            <p className="text-sm text-white dark:text-gray-400">
+              <span className="block sm:inline">All rights reserved.</span>
 
-      
+              <a
+                className="inline-block text-teal-600 underline transition hover:text-teal-600/75 dark:text-teal-500 dark:hover:text-teal-500/75"
+                href="/"
+              >
+                Terms & Conditions
+              </a>
 
-       
+              <span>&middot;</span>
+
+              <a
+                className="inline-block text-teal-600 underline transition hover:text-teal-600/75 dark:text-teal-500 dark:hover:text-teal-500/75"
+                href="/"
+              >
+                Privacy Policy
+              </a>
+            </p>
+
+            <p className="mt-4 text-xs text-white dark:text-gray-400 sm:order-first sm:mt-0">
+              &copy; 2022 Noble Paragon Pte. Ltd A11 Rights Reserve
+            </p>
+          </div>
+        </div>
       </div>
-
-    <div className="mt-12 border-t border-gray-100 pt-6 dark:border-gray-800">
-      <div className="text-center sm:flex sm:justify-between sm:text-left">
-        <p className="text-sm text-white dark:text-gray-400">
-          <span className="block sm:inline">All rights reserved.</span>
-
-          <a
-            className="inline-block text-teal-600 underline transition hover:text-teal-600/75 dark:text-teal-500 dark:hover:text-teal-500/75"
-            href="/"
-          >
-            Terms & Conditions
-          </a>
-
-          <span>&middot;</span>
-
-          <a
-            className="inline-block text-teal-600 underline transition hover:text-teal-600/75 dark:text-teal-500 dark:hover:text-teal-500/75"
-            href="/"
-          >
-            Privacy Policy
-          </a>
-        </p>
-
-        <p
-          className="mt-4 text-xs text-white dark:text-gray-400 sm:order-first sm:mt-0"
-        >
-          &copy; 2022 Noble Paragon Pte. Ltd A11 Rights Reserve
-        </p>
-      </div>
-    </div>
-  </div>
-</footer>
-
-    );
+    </footer>
+  );
 };
 
 export default Footer;

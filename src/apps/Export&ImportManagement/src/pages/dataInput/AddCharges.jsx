@@ -249,7 +249,7 @@ const AddCharges = () => {
                         </td>
                         <td className="px-4 py-2">
                           <div className="flex justify-evenly items-center">
-                            <Link to={`/addcharges/${charge.id}`}>
+                            <Link to={`/export-import/addcharges/${charge.id}`}>
                               <AiOutlineEdit className="w-6 h-6 text-purple-600 hover:text-purple-700 transition-colors" />
                             </Link>
                             <button

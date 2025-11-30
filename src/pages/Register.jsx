@@ -514,6 +514,7 @@ const Register = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
+  const [uploadedImage, setUploadedImage] = useState("");
 
   const [formData, setFormData] = useState({
     name: "",
@@ -542,6 +543,7 @@ const Register = () => {
   const handleFileUpload = useCallback(async (acceptedFiles) => {
     const apiKey = import.meta.env.VITE_IMG_BB_API_KEY;
     const uploadData = new FormData();
+    setUploadedImage(acceptedFiles);
     uploadData.append("image", acceptedFiles[0]);
 
     try {
@@ -659,22 +661,25 @@ const Register = () => {
       }
 
       // ✅ 2️⃣ Register in local THT system
-      const res = await fetch("http://localhost:2000/tht/users/add", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name,
-          image,
-          phone,
-          country,
-          language,
-          email,
-          password,
-          designation,
-          department,
-          isAdmin: "false",
-        }),
-      });
+      const res = await fetch(
+        "https://grozziieget.zjweiting.com:8033/tht/users/add",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name,
+            image,
+            phone,
+            country,
+            language,
+            email,
+            password,
+            designation,
+            department,
+            isAdmin: "false",
+          }),
+        }
+      );
       const data = await res.json();
       if (!res.ok) {
         toast.error("Failed to register user in THT system");
@@ -724,6 +729,7 @@ const Register = () => {
       // ✅ 5️⃣ NEW: Employee API (4th additional)
       try {
         const fd = new FormData();
+
         fd.append("name", name);
         fd.append("email", email);
         fd.append("password", password);
@@ -731,15 +737,15 @@ const Register = () => {
         fd.append("designation", designation);
         fd.append("role", "User");
         fd.append("joiningDate", format(new Date(), "yyyy-MM-dd"));
-        console.log(name, email, password, phone, designation, "User", image);
 
-        // if (image) fd.append("image", image);
+        if (uploadedImage?.length > 0) {
+          fd.append("image", uploadedImage[0]); // ONLY RAW FILE
+        }
+
         await axios.post(
           "https://grozziie.zjweiting.com:57683/tht/taskManagement/api/user/register",
           fd,
-          {
-            headers: { "Content-Type": "multipart/form-data" },
-          }
+          { headers: { "Content-Type": "multipart/form-data" } }
         );
 
         toast.success("Employee record added successfully");

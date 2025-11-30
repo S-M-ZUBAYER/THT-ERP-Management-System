@@ -153,7 +153,7 @@ const WebsiteCard = ({
   const handleToUpdateUser = async (updatedUser) => {
     try {
       const res = await fetch(
-        `http://localhost:2000/tht/users/update/${updatedUser.id}`,
+        `https://grozziieget.zjweiting.com:8033/tht/users/update/${updatedUser.id}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },

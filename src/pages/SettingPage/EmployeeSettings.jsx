@@ -50,8 +50,8 @@ const EmployeeSettings = ({
 
       const endpoint =
         role === "admin"
-          ? `http://localhost:2000/tht/users/update/superAdmin/${selectedUser.id}`
-          : `http://localhost:2000/tht/users/update/leader/${selectedUser.id}`;
+          ? `https://grozziieget.zjweiting.com:8033/tht/users/update/superAdmin/${selectedUser.id}`
+          : `https://grozziieget.zjweiting.com:8033/tht/users/update/leader/${selectedUser.id}`;
 
       const res = await fetch(endpoint, {
         method: "PUT",

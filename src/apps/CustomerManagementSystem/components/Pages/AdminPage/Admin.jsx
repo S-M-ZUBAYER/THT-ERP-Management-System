@@ -3,6 +3,7 @@ import { Link, NavLink, Outlet } from "react-router-dom";
 import Navbar from "../../Shared/NavbarSection/Navbar";
 import Footer from "../../Shared/FooterSection/Footer";
 import { AuthContext } from "@/apps/CustomerManagementSystem/context/UserContext";
+import "../../../components/Shared/responsive-container.css";
 
 const Admin = () => {
   const { user } = useContext(AuthContext);
@@ -16,7 +17,7 @@ const Admin = () => {
     "block p-2 text-sm lg:text-base !font-normal text-[#004368] bg-blue-100  transition";
 
   return (
-    <div>
+    <div className="responsive-container">
       <Navbar />
       <div className="grid grid-cols-5 lg:gap-3">
         {/* Sidebar */}
@@ -146,6 +147,16 @@ const Admin = () => {
                     }
                   >
                     User Base Bitmap
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/customer-management-system/admin/FaceAttendance"
+                    className={({ isActive }) =>
+                      isActive ? activeLinkClasses : linkClasses
+                    }
+                  >
+                    Face Attendance User Manage
                   </NavLink>
                 </li>
                 <li>

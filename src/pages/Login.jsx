@@ -162,12 +162,11 @@ export default function Login() {
               };
               localStorage.setItem("user", JSON.stringify(mergedUser));
               useAuthStore.getState().setUser(mergedUser);
-              toast.success("Export Management Login Successful");
             } else {
-              toast.error("Export management user not found");
+              console.error("Export management user not found");
             }
           } else {
-            toast.error("Export management login failed");
+            console.error("ExportImportManagement login error:");
           }
         } catch (error) {
           console.error("ExportImportManagement login error:", error);
@@ -195,14 +194,11 @@ export default function Login() {
             };
 
             localStorage.setItem("taskUser", JSON.stringify(user));
-
-            toast.success("Task Management Login Successful");
           } else {
-            toast.error("Task Management login failed");
+            console.error("Task Management login failed");
           }
         } catch (err) {
           console.error("Task Management login error:", err);
-          toast.error("Task Management login error");
         }
       }
       // 6️⃣ Wowomart Management
@@ -225,13 +221,11 @@ export default function Login() {
               image: userInfo.image, // add image path from userInfo
             };
             localStorage.setItem("wowomartUser", JSON.stringify(user));
-            toast.success("Wowomart Management Login Successful");
           } else {
-            toast.error("Wowomart Management login failed");
+            console.error("Wowomart Management login error:");
           }
         } catch (err) {
           console.error("Wowomart Management login error:", err);
-          toast.error("Wowomart Management login error");
         }
       }
 

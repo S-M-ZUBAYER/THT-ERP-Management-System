@@ -11,6 +11,7 @@ import exportImportLogo from "../../assets/WebsiteImages/exportImportLogo.jpg";
 import taskManagementLogo from "../../assets/WebsiteImages/taskManagmentLogo.jpg";
 import translatorLogo from "../../assets/WebsiteImages/translatorLogo.jpg";
 import attendanceShiftingLogo from "../../assets/WebsiteImages/attendanceShiftingLogo.jpg";
+import "../../apps/CustomerManagementSystem/components/Shared/responsive-container.css";
 
 const websites = [
   {
@@ -77,7 +78,7 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-white text-gray-800 flex flex-col items-center px-6 py-10">
+    <div className="min-h-screen responsive-container bg-white text-gray-800 flex flex-col items-center px-6 py-10">
       <Navbar />
 
       <h1 className="text-3xl md:text-4xl font-extrabold text-center mb-2 pt-8">
