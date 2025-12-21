@@ -156,7 +156,7 @@ const Admin = () => {
                       isActive ? activeLinkClasses : linkClasses
                     }
                   >
-                    Face Attendance User Manage
+                    Face Attendance Management
                   </NavLink>
                 </li>
                 <li>

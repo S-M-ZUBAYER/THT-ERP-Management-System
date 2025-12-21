@@ -101,6 +101,8 @@ function ProductDetails() {
     setProductDescription(e.target.value);
   };
   const handleVideoClick = (video) => {
+    console.log(video);
+
     setSelectedVideo(video);
   };
   const handleCloseImage = () => {
@@ -1575,7 +1577,7 @@ function ProductDetails() {
                 )}
                 {/* Here finish the description images editing part */}
 
-                <h1 className="text-2xl font-bold mt-8 mb-5">
+                <h1 className="text-xl font-bold mt-8 mb-5">
                   Description Image Gallery Of{" "}
                   <span className="text-amber-400">{Product?.productName}</span>
                 </h1>
@@ -1665,7 +1667,7 @@ function ProductDetails() {
                 )}
                 {/* Here finish the related image editing part */}
 
-                <h1 className="text-2xl font-bold mt-8 mb-5">
+                <h1 className="text-xl font-bold mt-8 mb-5">
                   Related Image Gallery Of{" "}
                   <span className="text-amber-400">{Product?.productName}</span>
                 </h1>
@@ -1760,58 +1762,32 @@ function ProductDetails() {
                   </div>
                 )}
 
-                <h1 className="text-2xl font-bold mt-8 mb-5">
+                <h1 className="text-xl font-bold mt-8 mb-5">
                   Related Video Gallery Of{" "}
                   <span className="text-amber-400">{Product?.productName}</span>{" "}
                 </h1>
 
                 <div className="grid grid-cols-3 gap-4">
-                  {Product?.allVideos?.split(",")?.map((video, index) => (
-                    <div
-                      key={index}
-                      onClick={() =>
-                        handleVideoClick(
-                          `https://grozziieget.zjweiting.com:8033/tht/${
-                            productCategory === "mallProduct"
-                              ? "mallProductImages"
-                              : "eventProductImages"
-                          }/${video}`
-                        )
-                      }
-                      className="relative cursor-pointer"
-                    >
-                      <div className="w-full h-auto rounded-lg overflow-hidden">
-                        <ReactPlayer
-                          url={`https://grozziieget.zjweiting.com:8033/tht/${
-                            productCategory === "mallProduct"
-                              ? "mallProductImages"
-                              : "eventProductImages"
-                          }/${video}`}
-                          controls
-                          width="100%"
-                          height="100%"
-                        />
+                  {Product?.allVideos?.split(",")?.map((video, index) => {
+                    const videoUrl = `https://grozziieget.zjweiting.com:8033/tht/${
+                      productCategory === "mallProduct"
+                        ? "mallProductImages"
+                        : "eventProductImages"
+                    }/${video}`;
+
+                    return (
+                      <div key={index} className="relative cursor-pointer">
+                        <div className="w-full h-40 rounded-lg overflow-hidden">
+                          <video
+                            src={videoUrl}
+                            controls
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
-                {selectedVideo && (
-                  <div className="fixed inset-0 flex items-center justify-center bg-black">
-                    <ReactPlayer
-                      url={selectedVideo}
-                      controls
-                      width="80%" // Adjust the width as needed
-                      height="auto"
-                      playing
-                    />
-                    <button
-                      onClick={handleClose}
-                      className="absolute top-4 right-4 px-4 py-2 bg-gray-800 text-white rounded-lg"
-                    >
-                      Close
-                    </button>
-                  </div>
-                )}
               </div>
 
               <div className="container relative">
@@ -1857,7 +1833,7 @@ function ProductDetails() {
                   </div>
                 )}
 
-                <h1 className="text-2xl font-bold mt-8 mb-5">
+                <h1 className="text-xl font-bold mt-8 mb-5">
                   Instructions Image Gallery Of{" "}
                   <span className="text-amber-400">{Product?.productName}</span>
                 </h1>
@@ -1888,7 +1864,7 @@ function ProductDetails() {
                 </div>
 
                 {selectedInstructionImage && (
-                  <div className="fixed inset-0 flex items-center justify-center mx-auto my-auto w-3/4 h-3/4 bg-black bg-opacity-75 z-40 overflow-scroll">
+                  <div className="fixed ab inset-0 flex items-center justify-center mx-auto my-auto w-3/4 h-3/4 bg-black bg-opacity-75 z-40 overflow-scroll">
                     <div className="max-w-3xl max-h-3xl ">
                       <img
                         src={selectedInstructionImage}
@@ -1949,60 +1925,34 @@ function ProductDetails() {
                   </div>
                 )}
 
-                <h1 className="text-2xl font-bold mt-8 mb-5">
+                <h1 className="text-xl font-bold mt-8 mb-5">
                   Instructions Video Gallery Of{" "}
                   <span className="text-amber-400">{Product?.productName}</span>{" "}
                 </h1>
-
                 <div className="grid grid-cols-3 gap-4">
                   {Product?.allInstructionsVideos
                     ?.split(",")
-                    ?.map((video, index) => (
-                      <div
-                        key={index}
-                        onClick={() =>
-                          handleVideoClick(
-                            `https://grozziieget.zjweiting.com:8033/tht/${
-                              productCategory === "mallProduct"
-                                ? "mallProductImages"
-                                : "eventProductImages"
-                            }/${video}`
-                          )
-                        }
-                        className="relative cursor-pointer"
-                      >
-                        <div className="w-full h-auto rounded-lg overflow-hidden">
-                          <ReactPlayer
-                            url={`https://grozziieget.zjweiting.com:8033/tht/${
-                              productCategory === "mallProduct"
-                                ? "mallProductImages"
-                                : "eventProductImages"
-                            }/${video}`}
-                            controls
-                            width="100%"
-                            height="100%"
-                          />
+                    ?.map((video, index) => {
+                      const videoUrl = `https://grozziieget.zjweiting.com:8033/tht/${
+                        productCategory === "mallProduct"
+                          ? "mallProductImages"
+                          : "eventProductImages"
+                      }/${video}`;
+
+                      return (
+                        <div key={index} className="relative cursor-pointer">
+                          <div className="w-full h-40 rounded-lg overflow-hidden bg-black">
+                            <ReactPlayer
+                              url={videoUrl}
+                              controls
+                              width="100%"
+                              height="100%"
+                            />
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                 </div>
-                {selectedVideo && (
-                  <div className="fixed inset-0 flex items-center justify-center bg-black">
-                    <ReactPlayer
-                      url={selectedVideo}
-                      controls
-                      width="80%" // Adjust the width as needed
-                      height="auto"
-                      playing
-                    />
-                    <button
-                      onClick={handleClose}
-                      className="absolute top-4 right-4 px-4 py-2 bg-gray-800 text-white rounded-lg"
-                    >
-                      Close
-                    </button>
-                  </div>
-                )}
               </div>
             </div>
           </div>

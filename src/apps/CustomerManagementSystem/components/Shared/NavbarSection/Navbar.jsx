@@ -141,7 +141,7 @@ const Navbar = () => {
                             to="/customer-management-system/admin/FaceAttendance"
                             className="sm:text-xs md:text-base text-gray-700 font-normal"
                           >
-                            Face Attendance User Manage
+                            Face Attendance Management
                           </Link>
                         </li>
                         <li className="mb-5">
