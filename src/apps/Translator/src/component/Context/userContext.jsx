@@ -1,41 +1,3 @@
-// import React, { createContext, useEffect, useState } from "react";
-// export const AuthContext = createContext();
-
-// const UserContext = ({ children }) => {
-//   const [user, setUser] = useState(null);
-//   const [DUser, setDUser] = useState(null);
-//   const [loading, setLoading] = useState(true);
-
-//   // <----------------------------chatting end---------------------->
-//   useEffect(() => {
-//     const storedUser = localStorage.getItem("user");
-//     if (storedUser) {
-//       try {
-//         const parsedUser = JSON.parse(storedUser);
-//         setUser(parsedUser);
-//       } catch (error) {
-//         console.error("Error parsing user from local storage:", error);
-//       }
-//     }
-//     setLoading(false);
-//   }, []);
-
-//   const authInfo = {
-//     user,
-//     DUser,
-//     setDUser,
-//     setUser,
-//     loading,
-//     setLoading,
-//   };
-
-//   return (
-//     <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
-//   );
-// };
-
-// export default UserContext;
-
 import React, { createContext, useEffect, useState } from "react";
 import { Client } from "@stomp/stompjs";
 // import app from "../Firebase/firebase.config";
@@ -118,7 +80,7 @@ const UserContext = ({ children }) => {
           params: {
             email: user?.email,
           },
-        }
+        },
       );
       setUserInfo(response.data[0]);
     } catch (error) {
@@ -153,24 +115,24 @@ const UserContext = ({ children }) => {
           let response;
           if (serviceCountry === "EN") {
             response = await axios.get(
-              `https://grozziieget.zjweiting.com:3091/CustomerService-Chat/api/dev/chatlist/customer_service/${chattingUser.userId}`
+              `https://grozziieget.zjweiting.com:3091/CustomerService-Chat/api/dev/chatlist/customer_service/${chattingUser.userId}`,
             );
           } else {
             response = await axios.get(
-              `https://jiapuv.com:3091/CustomerService-ChatCN/api/dev/chatlist/customer_service/${chattingUser.userId}`
+              `https://jiapuv.com:3091/CustomerService-ChatCN/api/dev/chatlist/customer_service/${chattingUser.userId}`,
             );
           }
 
           if (response.status === 200) {
             const userData = response.data;
             const updateCustomerData = userData.sort(
-              (a, b) => new Date(b.timestamp) - new Date(a.timestamp)
+              (a, b) => new Date(b.timestamp) - new Date(a.timestamp),
             );
             const uniqueData = getUniqueCustomers(updateCustomerData);
             setCurrentCustomer(uniqueData);
             localStorage.setItem(
               "CustomerChatList",
-              JSON.stringify(uniqueData)
+              JSON.stringify(uniqueData),
             );
           } else {
             console.error("Unexpected status code:", response.status);
@@ -187,11 +149,11 @@ const UserContext = ({ children }) => {
       let response;
       if (serviceCountry === "EN") {
         response = await axios.get(
-          `https://grozziieget.zjweiting.com:3091/CustomerService-Chat/api/dev/chatlist/customer_service/${chattingUser?.userId}`
+          `https://grozziieget.zjweiting.com:3091/CustomerService-Chat/api/dev/chatlist/customer_service/${chattingUser?.userId}`,
         );
       } else {
         response = await axios.get(
-          `https://jiapuv.com:3091/CustomerService-ChatCN/api/dev/chatlist/customer_service/${chattingUser?.userId}`
+          `https://jiapuv.com:3091/CustomerService-ChatCN/api/dev/chatlist/customer_service/${chattingUser?.userId}`,
         );
       }
       if (response.status === 200) {
@@ -206,7 +168,7 @@ const UserContext = ({ children }) => {
         setCurrentCustomer(getUniqueCustomers(updateCustomerData));
         localStorage.setItem(
           "CustomerChatList",
-          JSON.stringify(getUniqueCustomers(updateCustomerData))
+          JSON.stringify(getUniqueCustomers(updateCustomerData)),
         );
       } else {
         // Handle unexpected status codes
@@ -237,15 +199,15 @@ const UserContext = ({ children }) => {
           prevChats.map((chat) =>
             chat.sentId === serverSmsCheck.sentId
               ? { ...chat, smsServerStatus: "server" }
-              : chat
-          )
+              : chat,
+          ),
         );
         setNewAllChat((prevChats) =>
           prevChats.map((chat) =>
             chat.sentId === serverSmsCheck.sentId
               ? { ...chat, smsServerStatus: "server" }
-              : chat
-          )
+              : chat,
+          ),
         );
       }
     }
@@ -305,7 +267,7 @@ const UserContext = ({ children }) => {
       isMatched = false;
       // Sort with matched one (if any) on top
       const sortedCustomers = updatedCustomers.sort((a, b) =>
-        a.userId === newCome.sentBy ? -1 : b.userId === newCome.sentBy ? 1 : 0
+        a.userId === newCome.sentBy ? -1 : b.userId === newCome.sentBy ? 1 : 0,
       );
 
       // Set state
@@ -320,7 +282,7 @@ const UserContext = ({ children }) => {
 
       if (newCome && newMessagesList && newMessagesList.length > 0) {
         const updatedData = newMessagesList.filter(
-          (data) => data.sentBy !== selectedCustomerChat?.userId
+          (data) => data.sentBy !== selectedCustomerChat?.userId,
         );
         if (newCome.sentBy !== selectedCustomerChat?.userId) {
           updateAndStoreMessages([...updatedData, newCome]);
@@ -333,7 +295,7 @@ const UserContext = ({ children }) => {
     } else if (newCome.totalPart > 1 && newCome.partNo === 1) {
       if (newCome && newMessagesList && newMessagesList.length > 0) {
         const updatedData = newMessagesList.filter(
-          (data) => data.sentBy !== selectedCustomerChat?.userId
+          (data) => data.sentBy !== selectedCustomerChat?.userId,
         );
         if (newCome.sentBy !== selectedCustomerChat?.userId) {
           updateAndStoreMessages([...updatedData, newCome]);
@@ -369,89 +331,6 @@ const UserContext = ({ children }) => {
     }
   };
 
-  // const connect = () => {
-  //   console.log("connect");
-
-  //   stompClient.onConnect = (frame) => {
-  //     setConnected(true);
-  //     console.log('Connected: ' + frame);
-
-  //     const response = new Promise((resolve) => {
-  //       fetchUserByUserId();
-  //       stompClient.publish(
-  //         {
-  //           destination: '/app/connectStatus',
-  //           body: JSON.stringify({
-  //             userId: chattingUser?.userId,
-  //             deviceId: navigator.appName + navigator.platform + user?.email
-  //           }),
-  //         },
-  //         {},
-  //         (response) => {
-  //           resolve(response);
-  //         }
-  //       );
-  //     });
-
-  //     response.then((resolvedValue) => {
-  //       // You can now use the resolved value here
-  //       console.log('Promise resolved:', resolvedValue);
-  //     });
-
-  //     stompClient.subscribe(`/topic/${chattingUser?.userId}`, (message) => {
-  //       console.log(message?.body, "coming sms")
-  //       const newSMS = JSON.parse(message.body);
-  //       if (newSMS && newSMS.msgType === "ans") {
-  //         setNewResponseCome(newSMS);
-  //       }
-  //       showGreeting(newSMS)
-
-  //     });
-
-  //     stompClient.subscribe(`/topic/chat`, (message) => {
-  //       const parsedMessage = JSON.parse(message?.body);
-  //       // Extract the actual message content from the `body` field
-  //       const newServerSms = parsedMessage?.body;
-  //       if (newServerSms?.sentBy === chattingUser?.userId) {
-  //         setServerSmsCheck(newServerSms);
-  //       }
-  //     });
-  //   };
-
-  //   stompClient.onWebSocketError = (error) => {
-  //     console.error('Error with websocket', error);
-  //     // Handle error here, you can update state or show an error message to the user.
-  //     stompClient.onConnect = (frame) => {
-  //       setConnected(true);
-  //       console.log('Connected: ' + frame);
-  //       console.log("error after try to conner");
-
-  //       const response = new Promise((resolve) => {
-  //         fetchUserByUserId();
-  //         stompClient.publish(
-  //           {
-  //             destination: '/app/connectStatus',
-  //             body: JSON.stringify({
-  //               userId: chattingUser?.userId,
-  //               deviceId: navigator.appName + navigator.platform + user?.email
-  //             }),
-  //           },
-  //           {},
-  //           (response) => {
-  //             resolve(response);
-  //           }
-  //         );
-  //       });
-
-  //       response.then((resolvedValue) => {
-  //         // You can now use the resolved value here
-  //         console.log('Promise resolved:', resolvedValue);
-  //       });
-  //     };
-  //   };
-  //   stompClient.activate();
-  // };
-
   const connect = () => {
     console.log("connect");
 
@@ -474,7 +353,7 @@ const UserContext = ({ children }) => {
           console.log("Sent connectStatus update");
         } else {
           console.warn(
-            "STOMP client is not connected. Skipping connectStatus update."
+            "STOMP client is not connected. Skipping connectStatus update.",
           );
         }
       };
@@ -545,10 +424,13 @@ const UserContext = ({ children }) => {
 
     // Force reconnection every 5 minutes only if chattingUser exists
     if (chattingUser) {
-      reconnectInterval = setInterval(() => {
-        console.log("Forcing reconnection every 5 minutes...");
-        connect();
-      }, 5 * 60 * 1000); // 5 minutes in milliseconds
+      reconnectInterval = setInterval(
+        () => {
+          console.log("Forcing reconnection every 5 minutes...");
+          connect();
+        },
+        5 * 60 * 1000,
+      ); // 5 minutes in milliseconds
     }
 
     // Cleanup on unmount
@@ -625,7 +507,7 @@ const UserContext = ({ children }) => {
       });
     } else {
       console.log(
-        "Notifications are not supported or permission is not granted."
+        "Notifications are not supported or permission is not granted.",
       );
     }
   };
@@ -680,7 +562,7 @@ const UserContext = ({ children }) => {
         });
         showSystemNotification(
           `${sms?.msgType} from Id:${sms?.sentBy}`,
-          "You have a new message!"
+          "You have a new message!",
         );
       }
     };
@@ -724,7 +606,7 @@ const UserContext = ({ children }) => {
   // Here delete the selected file from the interface
   const handleRemoveFile = (fileIndex) => {
     const updatedFiles = selectedFiles.filter(
-      (_, index) => index !== fileIndex
+      (_, index) => index !== fileIndex,
     );
     setSelectedFiles(updatedFiles);
   };

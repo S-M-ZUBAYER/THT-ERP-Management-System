@@ -17,7 +17,7 @@ const ShopifyInfo = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "https://grozziieget.zjweiting.com:8033/tht/mallProducts/showShopify"
+          "https://grozziieget.zjweiting.com:8033/tht/mallProducts/showShopify",
         );
 
         if (response.status === 200) {
@@ -29,7 +29,6 @@ const ShopifyInfo = () => {
           toast.error("Failed to load data");
         }
       } catch (error) {
-        toast.error("An error occurred while fetching data");
         console.error(error);
       }
     };
@@ -60,7 +59,7 @@ const ShopifyInfo = () => {
         {
           mark: parseInt(mark, 10),
           link,
-        }
+        },
       );
 
       if (response.status === 200) {

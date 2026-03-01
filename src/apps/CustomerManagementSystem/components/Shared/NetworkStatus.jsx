@@ -11,13 +11,11 @@ const NetworkStatus = () => {
     const handleOnline = () => {
       setIsOnline(true);
       connect();
-      toast.success("You're back online! 🚀");
     };
 
     const handleOffline = () => {
       setIsOnline(false);
       SocketDisconnect();
-      toast.error("⚠️ No internet connection! Please check your network.");
     };
 
     window.addEventListener("online", handleOnline);

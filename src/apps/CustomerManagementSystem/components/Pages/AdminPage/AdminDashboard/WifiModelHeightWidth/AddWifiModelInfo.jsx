@@ -21,7 +21,7 @@ function AddWifiModelHightWidth() {
   const [editModalData, setEditModalData] = useState(null);
   const { loading, setLoading } = useContext(AuthContext);
   const [baseUrl, setBaseUrl] = useState(
-    "https://grozziieget.zjweiting.com:8033"
+    "https://grozziieget.zjweiting.com:8033",
   );
   const allUrls = [
     {
@@ -40,7 +40,6 @@ function AddWifiModelHightWidth() {
     fetch(`${baseUrl}/tht/modelNoList`)
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         setAllModelNoList(data.map((modelNo) => modelNo.modelNo));
       });
   }, [baseUrl]);
@@ -51,7 +50,6 @@ function AddWifiModelHightWidth() {
     axios
       .get(apiUrl)
       .then((response) => {
-        console.log(response.data);
         setAllModelInfo(response.data);
         setLoading(false);
       })
@@ -64,7 +62,7 @@ function AddWifiModelHightWidth() {
   //create a function to delete icon from the frontend and database both side
   const handleToDelete = async (id) => {
     const confirmed = window.confirm(
-      "Are you sure you want to delete this model information?"
+      "Are you sure you want to delete this model information?",
     );
     if (!confirmed) {
       return;
@@ -76,7 +74,7 @@ function AddWifiModelHightWidth() {
     } catch (error) {
       console.error("Error deleting model information:", error);
       toast.error(
-        "Failed to delete model information. Please try again later."
+        "Failed to delete model information. Please try again later.",
       );
     }
   };
@@ -203,7 +201,7 @@ function AddWifiModelHightWidth() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(formData),
-        }
+        },
       );
 
       const result = await response.json();
@@ -240,14 +238,14 @@ function AddWifiModelHightWidth() {
       await axios.put(
         // `http://localhost:2000/tht/wifiModelHightWidth/update`, // Use dynamic id
         `${baseUrl}/tht/wifiModelHightWidth/update`, // Use dynamic id
-        editModalData
+        editModalData,
       );
 
       toast.success("Model Information updated successfully");
       setAllModelInfo((prev) =>
         prev.map((item) =>
-          item.id === editModalData.id ? editModalData : item
-        )
+          item.id === editModalData.id ? editModalData : item,
+        ),
       );
       setIsModalOpen(false);
     } catch (error) {
@@ -511,7 +509,7 @@ function AddWifiModelHightWidth() {
 
         {/* Modal */}
         {isModalOpen && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
             <form
               onSubmit={handleEditSubmit}
               className="space-y-4 bg-white p-6 rounded-lg shadow-lg w-1/2"

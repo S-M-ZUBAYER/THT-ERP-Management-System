@@ -11,17 +11,18 @@ import {
   manageDeleteChatsInDB,
 } from "../CustomerServicePage/indexedDB";
 import { useNavigate } from "react-router-dom";
+import useAuthStore from "@/store/auth";
 const Account = () => {
   const QuestionPerPage = 25;
 
   //use useeContext to load data from  another components
   const {
     logOut,
-    userInfo,
+    // userInfo,
     SocketDisconnect,
     loading,
     setLoading,
-    user,
+    // user,
     setUser,
     totalQuestions,
     translationQuestions,
@@ -37,8 +38,8 @@ const Account = () => {
     setUnknownQuestions,
     setChattingUser,
   } = useContext(AuthContext);
-
-  console.log(userInfo);
+  const { user } = useAuthStore();
+  console.log(user);
   const navigate = useNavigate();
 
   //got the current user data from database  and get the data after getting the information about the current user
@@ -59,15 +60,15 @@ const Account = () => {
           params: {
             email: user?.email,
           },
-        }
+        },
       );
       setTotalQuestions(response.data);
       if (totalQuestions) {
         setUnknownPercent(
-          unknownCalculatePercentage(totalQuestions, unknownQuestions)
+          unknownCalculatePercentage(totalQuestions, unknownQuestions),
         );
         setTranslationPercent(
-          translateCalculatePercentage(totalQuestions, translationQuestions)
+          translateCalculatePercentage(totalQuestions, translationQuestions),
         );
       }
     } catch (error) {
@@ -84,12 +85,12 @@ const Account = () => {
           params: {
             email: user?.email,
           },
-        }
+        },
       );
       setUnknownQuestions(response.data);
       if (unknownQuestions) {
         setUnknownPercent(
-          unknownCalculatePercentage(totalQuestions, unknownQuestions)
+          unknownCalculatePercentage(totalQuestions, unknownQuestions),
         );
       }
     } catch (error) {
@@ -106,12 +107,12 @@ const Account = () => {
           params: {
             email: user?.email,
           },
-        }
+        },
       );
       setTranslationQuestions(response.data);
       if (translationQuestions) {
         setTranslationPercent(
-          translateCalculatePercentage(totalQuestions, translationQuestions)
+          translateCalculatePercentage(totalQuestions, translationQuestions),
         );
       }
     } catch (error) {
@@ -184,24 +185,24 @@ const Account = () => {
   const handleToDeleteAllData = async () => {
     try {
       const confirmed = window.confirm(
-        "Are you sure you want to delete all questions?"
+        "Are you sure you want to delete all questions?",
       );
       if (!confirmed) {
         return; // Cancel the deletion if the user clicks Cancel or closes the modal
       }
 
       await axios.delete(
-        `https://grozziieget.zjweiting.com:8033/tht/questions/delete/${user?.email}`
+        `https://grozziieget.zjweiting.com:8033/tht/questions/delete/${user?.email}`,
       );
       toast.success("All questions deleted successfully");
       setTotalQuestions(
-        totalQuestions.filter((question) => question?.email !== user?.email)
+        totalQuestions.filter((question) => question?.email !== user?.email),
       );
       setUnknownPercent(
-        unknownCalculatePercentage(totalQuestions, unknownQuestions)
+        unknownCalculatePercentage(totalQuestions, unknownQuestions),
       );
       setTranslationPercent(
-        translateCalculatePercentage(totalQuestions, translationQuestions)
+        translateCalculatePercentage(totalQuestions, translationQuestions),
       );
     } catch (error) {
       console.error("Error deleting user:", error);
@@ -213,21 +214,21 @@ const Account = () => {
   const handleToDeleteUnknownData = async () => {
     try {
       const confirmed = window.confirm(
-        "Are you sure you want to delete all unknown question?"
+        "Are you sure you want to delete all unknown question?",
       );
       if (!confirmed) {
         return;
       }
       await axios.delete(
-        `https://grozziieget.zjweiting.com:8033/tht/unknownQuestions/delete/${user?.email}`
+        `https://grozziieget.zjweiting.com:8033/tht/unknownQuestions/delete/${user?.email}`,
       );
       toast.success("All unknown questions deleted successfully");
       setUnknownQuestions([]);
       setUnknownPercent(
-        unknownCalculatePercentage(totalQuestions, unknownQuestions)
+        unknownCalculatePercentage(totalQuestions, unknownQuestions),
       );
       setTranslationPercent(
-        translateCalculatePercentage(totalQuestions, translationQuestions)
+        translateCalculatePercentage(totalQuestions, translationQuestions),
       );
     } catch (error) {
       console.error("Error deleting user:", error);
@@ -239,23 +240,23 @@ const Account = () => {
   const handleToDeleteOneUnknownQuestions = async (id) => {
     try {
       const confirmed = window.confirm(
-        "Are you sure you want to delete this unknown question?"
+        "Are you sure you want to delete this unknown question?",
       );
       if (!confirmed) {
         return;
       }
       await axios.delete(
-        `https://grozziieget.zjweiting.com:8033/tht/unknownQuestions/deleteById/${id}`
+        `https://grozziieget.zjweiting.com:8033/tht/unknownQuestions/deleteById/${id}`,
       );
       toast.success("A unknownQuestion deleted successfully");
       setUnknownQuestions(
-        unknownQuestions.filter((question) => question?.id !== id)
+        unknownQuestions.filter((question) => question?.id !== id),
       );
       setUnknownPercent(
-        unknownCalculatePercentage(totalQuestions, unknownQuestions)
+        unknownCalculatePercentage(totalQuestions, unknownQuestions),
       );
       setTranslationPercent(
-        translateCalculatePercentage(totalQuestions, translationQuestions)
+        translateCalculatePercentage(totalQuestions, translationQuestions),
       );
     } catch (error) {
       console.error("Error deleting user:", error);
@@ -267,21 +268,21 @@ const Account = () => {
   const handleToDeleteTranslateData = async () => {
     try {
       const confirmed = window.confirm(
-        "Are you sure you want to delete all translations question?"
+        "Are you sure you want to delete all translations question?",
       );
       if (!confirmed) {
         return;
       }
       await axios.delete(
-        `https://grozziieget.zjweiting.com:8033/tht/translateData/delete/${user?.email}`
+        `https://grozziieget.zjweiting.com:8033/tht/translateData/delete/${user?.email}`,
       );
       toast.success("All translate questions deleted successfully");
       setTranslationQuestions([]);
       setUnknownPercent(
-        unknownCalculatePercentage(totalQuestions, unknownQuestions)
+        unknownCalculatePercentage(totalQuestions, unknownQuestions),
       );
       setTranslationPercent(
-        translateCalculatePercentage(totalQuestions, translationQuestions)
+        translateCalculatePercentage(totalQuestions, translationQuestions),
       );
     } catch (error) {
       console.error("Error deleting user:", error);
@@ -293,23 +294,23 @@ const Account = () => {
   const handleToDeleteTranslationQuestions = async (id) => {
     try {
       const confirmed = window.confirm(
-        "Are you sure you want to delete this translation question?"
+        "Are you sure you want to delete this translation question?",
       );
       if (!confirmed) {
         return;
       }
       await axios.delete(
-        `https://grozziieget.zjweiting.com:8033/tht/translationQuestions/deleteById/${id}`
+        `https://grozziieget.zjweiting.com:8033/tht/translationQuestions/deleteById/${id}`,
       );
       toast.success("A Translation deleted successfully");
       setTranslationQuestions(
-        translationQuestions.filter((question) => question?.id !== id)
+        translationQuestions.filter((question) => question?.id !== id),
       );
       setUnknownPercent(
-        unknownCalculatePercentage(totalQuestions, unknownQuestions)
+        unknownCalculatePercentage(totalQuestions, unknownQuestions),
       );
       setTranslationPercent(
-        translateCalculatePercentage(totalQuestions, translationQuestions)
+        translateCalculatePercentage(totalQuestions, translationQuestions),
       );
     } catch (error) {
       console.error("Error deleting user:", error);
@@ -322,8 +323,8 @@ const Account = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 text-center">
         {/* create this part to show th user pic */}
         <div className="flex justify-around">
-          {userInfo?.image ? (
-            <img className="rounded-full h-56 w-56" src={userInfo?.image}></img>
+          {user?.image ? (
+            <img className="rounded-full h-56 w-56" src={user?.image}></img>
           ) : (
             <img
               className="rounded-full h-56 w-56"
@@ -336,28 +337,26 @@ const Account = () => {
         <div className="text-start mt-20 md:mt-0 ">
           <div className="ml-20 md:ml-0 mx-auto md:mx-0">
             <div className="test-center">
-              <h2 className="text-lg font-semibold mb-0 pb-0">
-                {userInfo?.name}
-              </h2>
+              <h2 className="text-lg font-semibold mb-0 pb-0">{user?.name}</h2>
               <p className="mb-4 ml-1">
-                {userInfo ? userInfo?.designation : "Designation"}
+                {user ? user?.designation : "Designation"}
               </p>
             </div>
             <div className="grid grid-cols-4 my-3">
               <p className="font-semibold">Contact Number:</p>
-              <p>{userInfo?.phone}</p>
+              <p>{user?.phone}</p>
             </div>
             <div className="grid grid-cols-4 my-3">
               <p className="font-semibold">Email</p>
-              <p>{userInfo?.email}</p>
+              <p>{user?.email}</p>
             </div>
             <div className="grid grid-cols-4 my-3">
               <p className="font-semibold">Country</p>
-              <p>{userInfo ? userInfo?.country : "smzubayer9004@gmail.com"}</p>
+              <p>{user ? user?.country : "smzubayer9004@gmail.com"}</p>
             </div>
             <div className="grid grid-cols-4 my-3">
               <p className="font-semibold">Language</p>
-              <p>{userInfo ? userInfo?.language : "Bengali"}</p>
+              <p>{user ? user?.language : "Bengali"}</p>
             </div>
             <div className="my-20 mb-10">
               <button

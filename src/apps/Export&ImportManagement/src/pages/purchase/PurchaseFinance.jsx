@@ -92,12 +92,12 @@ const PurchaseFinance = () => {
     setFinancePurchaseLoading(true); // Start loading before making the request
     axios
       .get(
-        "https://grozziieget.zjweiting.com:3091/web-api-tht-1/api/dev/purchase"
+        "https://grozziieget.zjweiting.com:3091/web-api-tht-1/api/dev/purchase",
       )
       .then((response) => {
         const sortedData = response?.data.sort((a, b) => b.id - a.id);
         const finalPurchases = sortedData.filter(
-          (purchase) => purchase.status === "initialPurchase"
+          (purchase) => purchase.status === "initialPurchase",
         );
         setFinancePurchases(finalPurchases);
         setFilteredFinancePurchases(finalPurchases);
@@ -113,7 +113,7 @@ const PurchaseFinance = () => {
   const fetchTradeServiceProvider = async () => {
     try {
       const response = await axios.get(
-        "https://grozziieget.zjweiting.com:3091/web-api-tht-1/api/dev/trade_service"
+        "https://grozziieget.zjweiting.com:3091/web-api-tht-1/api/dev/trade_service",
       );
       setServiceProviders(response.data);
     } catch (error) {
@@ -123,7 +123,7 @@ const PurchaseFinance = () => {
   const fetchCharges = async () => {
     try {
       const response = await axios.get(
-        "https://grozziieget.zjweiting.com:3091/web-api-tht-1/api/dev/addcharges"
+        "https://grozziieget.zjweiting.com:3091/web-api-tht-1/api/dev/addcharges",
       );
       setCharges(response?.data);
     } catch (error) {
@@ -204,7 +204,7 @@ const PurchaseFinance = () => {
         account.invoiceNo.toLowerCase().includes(value) ||
         account.transportCountryName.toLowerCase().includes(value) ||
         account.transportPort.toLowerCase().includes(value) ||
-        account.date.toLowerCase().includes(value)
+        account.date.toLowerCase().includes(value),
     );
 
     setFilteredFinancePurchases(filteredProducts);
@@ -214,7 +214,7 @@ const PurchaseFinance = () => {
   const handleToFinalSave = async (e) => {
     e.preventDefault();
     const confirmPurchase = window.confirm(
-      "Are you sure you want to confirm these data as Final Export?"
+      "Are you sure you want to confirm these data as Final Export?",
     );
     if (!confirmPurchase) return;
 
@@ -230,7 +230,7 @@ const PurchaseFinance = () => {
           headers: {
             "Content-Type": "application/json",
           },
-        }
+        },
       );
 
       toast.success("Successfully Uploaded to server", {
@@ -244,7 +244,7 @@ const PurchaseFinance = () => {
         "This error is coming from the server, please try again later!!",
         {
           position: "top-center",
-        }
+        },
       );
     } finally {
       setBtnLoading(false); // ✅ Always reset loading state
@@ -386,8 +386,8 @@ const PurchaseFinance = () => {
       <h1 className="text-3xl underline font-bold mt-10 mb-6 text-center text-gray-800">
         Trade Overseas Service Details Form
       </h1>
-      <div className="">
-        <div>
+      <div>
+        <div className="mx-10">
           <label
             className="lebel-text text-lg font-semibold"
             htmlFor="traderServiceProvider"
@@ -413,7 +413,7 @@ const PurchaseFinance = () => {
           </select>
         </div>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mx-10">
         {/* Net Weight */}
         <div className="">
           <label className="text-lg font-semibold" htmlFor="netWeight">

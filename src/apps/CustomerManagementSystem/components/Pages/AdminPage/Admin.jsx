@@ -4,9 +4,11 @@ import Navbar from "../../Shared/NavbarSection/Navbar";
 import Footer from "../../Shared/FooterSection/Footer";
 import { AuthContext } from "@/apps/CustomerManagementSystem/context/UserContext";
 import "../../../components/Shared/responsive-container.css";
+import useAuthStore from "@/store/auth";
 
 const Admin = () => {
-  const { user } = useContext(AuthContext);
+  const { user } = useAuthStore();
+
   const [isOpen, setIsOpen] = useState(false);
   const toggleMenu = () => setIsOpen(!isOpen);
 
@@ -157,6 +159,26 @@ const Admin = () => {
                     }
                   >
                     Face Attendance Management
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/customer-management-system/admin/OnlinePrint"
+                    className={({ isActive }) =>
+                      isActive ? activeLinkClasses : linkClasses
+                    }
+                  >
+                    Online Print Management
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/customer-management-system/admin/ChatBotManage"
+                    className={({ isActive }) =>
+                      isActive ? activeLinkClasses : linkClasses
+                    }
+                  >
+                    ChatBot Management
                   </NavLink>
                 </li>
                 <li>

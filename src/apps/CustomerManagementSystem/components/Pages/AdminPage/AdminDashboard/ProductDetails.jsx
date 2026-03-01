@@ -29,10 +29,10 @@ function ProductDetails() {
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [productPrice, setProductPrice] = useState(Product?.productPrice);
   const [productOriginalPrice, setProductOriginalPrice] = useState(
-    Product?.productOriginalPrice
+    Product?.productOriginalPrice,
   );
   const [productDescription, setProductDescription] = useState(
-    Product?.productDescription
+    Product?.productDescription,
   );
   const [stockQuantity, setStockQuantity] = useState(Product?.stockQuantity);
   const [modelNumber, setModelNumber] = useState(Product?.modelNumber);
@@ -50,26 +50,26 @@ function ProductDetails() {
   const [newProductImg, setNewProductImg] = useState(null);
   const [productImgLink, setProductImgLink] = useState(Product?.productImgLink);
   const [productImgRemark, setProductImgRemark] = useState(
-    Product?.productImgRemark
+    Product?.productImgRemark,
   );
   const [showingDataLink, setShowingDataLink] = useState(Product?.link);
   const [showingDataMark, setShowingDataMark] = useState(Product?.mark);
   const [slideImageMark, setSlideImageMark] = useState(Product?.slideImageMark);
   const [productCountryName, setProductCountryName] = useState(
-    Product?.productCountryName
+    Product?.productCountryName,
   );
   const [productName, setProductName] = useState(Product?.productName);
   const [printerColor, setPrinterColor] = useState(Product?.printerColor);
   const [connectorType, setConnectorType] = useState(Product?.connectorType);
   const [relatedImgRemark, setRelatedImgRemark] = useState(
-    Product?.relatedImgRemark
+    Product?.relatedImgRemark,
   );
   const [relatedImgLink, setRelatedImgLink] = useState(Product?.relatedImgLink);
   const [shelfStartTime, setShelfStartTime] = useState(Product?.shelfStartTime);
   const [shelfEndTime, setShelfEndTime] = useState(Product?.shelfEndTime);
   const [afterSalesText, setAfterSalesText] = useState(Product?.afterSalesText);
   const [afterSalesInstruction, setAfterSalesInstruction] = useState(
-    Product?.afterSalesInstruction
+    Product?.afterSalesInstruction,
   );
   const [inventoryText, setInventoryText] = useState(Product?.inventoryText);
   const [relatedImages, setRelatedImages] = useState([]);
@@ -206,7 +206,7 @@ function ProductDetails() {
         `https://grozziieget.zjweiting.com:8033/tht/${
           Product?.imgPath.split("/")[4]
         }/update/${productId}`,
-        formData
+        formData,
       );
 
       // Check the response and handle accordingly
@@ -284,7 +284,7 @@ function ProductDetails() {
         `https://grozziieget.zjweiting.com:8033/tht/${
           Product?.imgPath.split("/")[4]
         }/update/textInformation/${productId}`,
-        { updatedProduct }
+        { updatedProduct },
       );
       console.log(updatedProduct, "data");
       // Check the response and handle accordingly
@@ -343,7 +343,7 @@ function ProductDetails() {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-        }
+        },
       );
 
       if (response.status === 200) {
@@ -378,7 +378,7 @@ function ProductDetails() {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-        }
+        },
       );
 
       if (response.status === 200) {
@@ -416,7 +416,7 @@ function ProductDetails() {
   const handleRelatedImgUpload = (e) => {
     const selectedImages = Array.from(e.target.files);
     const resizePromises = selectedImages.map((image) =>
-      reduceImageResolution(image, 1000)
+      reduceImageResolution(image, 1000),
     );
 
     Promise.all(resizePromises).then((resizedImages) => {
@@ -427,7 +427,7 @@ function ProductDetails() {
   const handleDescriptionImgUpload = (e) => {
     const selectedImages = Array.from(e.target.files);
     const resizePromises = selectedImages.map((image) =>
-      reduceImageResolution(image, 1000)
+      reduceImageResolution(image, 1000),
     );
 
     Promise.all(resizePromises).then((resizedImages) => {
@@ -525,7 +525,7 @@ function ProductDetails() {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-        }
+        },
       );
 
       if (response.status === 200) {
@@ -572,7 +572,7 @@ function ProductDetails() {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-        }
+        },
       );
 
       if (response.status === 200) {
@@ -618,7 +618,7 @@ function ProductDetails() {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-        }
+        },
       );
 
       if (response.status === 200) {
@@ -1599,7 +1599,7 @@ function ProductDetails() {
                               productCategory === "mallProduct"
                                 ? "mallProductImages"
                                 : "eventProductImages"
-                            }/${image}`
+                            }/${image}`,
                           )
                         }
                         className="w-24 h-24 object-cover cursor-pointer mx-4 my-2 rounded-lg"
@@ -1691,7 +1691,7 @@ function ProductDetails() {
                               productCategory === "mallProduct"
                                 ? "mallProductImages"
                                 : "eventProductImages"
-                            }/${image}`
+                            }/${image}`,
                           )
                         }
                         className="w-24 h-24 object-cover cursor-pointer mx-4 my-2 rounded-lg"
@@ -1764,7 +1764,9 @@ function ProductDetails() {
 
                 <h1 className="text-xl font-bold mt-8 mb-5">
                   Related Video Gallery Of{" "}
-                  <span className="text-amber-400">{Product?.productName}</span>{" "}
+                  <span className="text-amber-400">
+                    {Product?.productName}
+                  </span>{" "}
                 </h1>
 
                 <div className="grid grid-cols-3 gap-4">
@@ -1855,7 +1857,7 @@ function ProductDetails() {
                               productCategory === "mallProduct"
                                 ? "mallProductImages"
                                 : "eventProductImages"
-                            }/${image}`
+                            }/${image}`,
                           )
                         }
                         className="w-24 h-24 object-cover cursor-pointer mx-4 my-2 rounded-lg"
@@ -1927,7 +1929,9 @@ function ProductDetails() {
 
                 <h1 className="text-xl font-bold mt-8 mb-5">
                   Instructions Video Gallery Of{" "}
-                  <span className="text-amber-400">{Product?.productName}</span>{" "}
+                  <span className="text-amber-400">
+                    {Product?.productName}
+                  </span>{" "}
                 </h1>
                 <div className="grid grid-cols-3 gap-4">
                   {Product?.allInstructionsVideos

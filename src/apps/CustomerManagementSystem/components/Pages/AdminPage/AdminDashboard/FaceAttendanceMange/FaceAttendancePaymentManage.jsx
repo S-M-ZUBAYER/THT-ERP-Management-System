@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import DisplaySpinner from "../../../../Shared/Loading/DisplaySpinner";
-import FaceAttendanceUsersManagement from "./FaceAttendanceUsersManagement";
+import AttendanceTransactionHistory from "./FaceAttendanceTransactionManagement/AttendanceTransactionHistory";
 
 export default function FaceAttendancePaymentManage() {
   const [baseUrl, setBaseUrl] = useState(
-    "https://grozziieget.zjweiting.com:8033"
+    "https://grozziieget.zjweiting.com:8033",
   );
   const [maxEmployees, setMaxEmployees] = useState([]);
   const [paymentPackages, setPaymentPackages] = useState([]);
@@ -31,11 +31,11 @@ export default function FaceAttendancePaymentManage() {
     setMessage("");
     try {
       const maxEmpRes = await axios.get(
-        `${baseUrl}/tht/attendance/maxEmployees`
+        `${baseUrl}/tht/attendance/maxEmployees`,
       );
       const payRes = await axios.get(`${baseUrl}/tht/attendance/Payment`);
       const allowRes = await axios.get(
-        `${baseUrl}/tht/attendance/Payment/check/checkAllowMark`
+        `${baseUrl}/tht/attendance/Payment/check/checkAllowMark`,
       );
 
       setMaxEmployees(maxEmpRes.data.data.data);
@@ -94,8 +94,10 @@ export default function FaceAttendancePaymentManage() {
   };
 
   return (
-    <div className="bg-gray-100 min-h-screen py-12 flex justify-center px-4">
-      <div className="w-full max-w-6xl space-y-10">
+    <div className="bg-gray-100 min-h-screen py-12 px-4">
+      <AttendanceTransactionHistory />
+
+      <div className="w-full max-w-6xl space-y-10 mt-16">
         {/* Server Switcher */}
         <div className="flex justify-center items-center mb-6 mt-3">
           <div className="p-1 bg-slate-300 rounded-full">

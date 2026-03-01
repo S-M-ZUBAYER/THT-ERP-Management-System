@@ -1,9 +1,12 @@
 import { AuthContext } from "@/apps/CustomerManagementSystem/App";
+import useAuthStore from "@/store/auth";
 import React, { useContext } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 
 const PrivateRoute = ({ children }) => {
-  const { user, loading, setLoading } = useContext(AuthContext);
+  const { loading, setLoading } = useContext(AuthContext);
+  const { user } = useAuthStore();
+
   const location = useLocation();
   if (user) {
     setLoading(false);
@@ -22,13 +25,7 @@ const PrivateRoute = ({ children }) => {
   }
 
   if (!user) {
-    return (
-      <Navigate
-        to="/customer-management-system/login"
-        state={{ from: location }}
-        replace
-      ></Navigate>
-    );
+    return <Navigate to="/login" state={{ from: location }} replace></Navigate>;
   }
   return children;
 };

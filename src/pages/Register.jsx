@@ -550,7 +550,7 @@ const Register = () => {
       setIsUploading(true);
       const response = await axios.post(
         `https://api.imgbb.com/1/upload?key=${apiKey}`,
-        uploadData
+        uploadData,
       );
       const imageUrl = response.data.data.display_url;
       setFormData((prev) => ({ ...prev, image: imageUrl }));
@@ -580,7 +580,7 @@ const Register = () => {
         handleFileUpload(acceptedFiles);
       }
     },
-    [handleFileUpload]
+    [handleFileUpload],
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -651,7 +651,7 @@ const Register = () => {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email }),
-        }
+        },
       );
       const checkData = await checkRes.json();
       if (checkData.exists) {
@@ -678,7 +678,7 @@ const Register = () => {
             department,
             isAdmin: "false",
           }),
-        }
+        },
       );
       const data = await res.json();
       if (!res.ok) {
@@ -696,9 +696,9 @@ const Register = () => {
             userEmail: email,
             password: password,
             role: role,
-          }
+          },
         );
-        toast.success("Export/Import system account created");
+        // toast.success("Export/Import system account created");
       } catch (error) {
         console.warn("Export Import API failed:", error);
         toast.error("Export/Import registration failed");
@@ -718,9 +718,9 @@ const Register = () => {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload),
-          }
+          },
         );
-        toast.success("Wowomart system account created");
+        // toast.success("Wowomart system account created");
       } catch (error) {
         console.warn("Wowomart API failed:", error);
         toast.error("Wowomart registration failed");
@@ -745,10 +745,10 @@ const Register = () => {
         await axios.post(
           "https://grozziie.zjweiting.com:57683/tht/taskManagement/api/user/register",
           fd,
-          { headers: { "Content-Type": "multipart/form-data" } }
+          { headers: { "Content-Type": "multipart/form-data" } },
         );
 
-        toast.success("Employee record added successfully");
+        // toast.success("Employee record added successfully");
       } catch (error) {
         console.error("Employee registration failed:", error);
         toast.error("Employee registration failed");
@@ -864,7 +864,7 @@ const Register = () => {
                 className="w-full bg-white text-gray-400 cursor-pointer peer focus:outline-none focus:ring-0 focus:border-gray-300"
               >
                 <option className="text-gray-400" value="">
-                  Select your role
+                  Select your role for export import system
                 </option>
                 <option value="Product Manager">Product Manager</option>
                 <option value="Commercial Manager">Commercial Manager</option>

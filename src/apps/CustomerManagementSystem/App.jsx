@@ -118,6 +118,8 @@ import ImageResize from "./components/Pages/AdminPage/AdminDashboard/ImageResize
 // PrivateRoute wrapper
 import PrivateRoute from "./Routes/Routes/PrivateRoute/PrivateRoute";
 import FaceAttendanceManage from "./components/Pages/AdminPage/AdminDashboard/FaceAttendanceMange/FaceAttendanceManage";
+import OnlinePrintManagement from "./components/Pages/AdminPage/AdminDashboard/Online Print/OnlinePrintManagement";
+import ChatbotUnknownQuestionManagement from "./components/Pages/AdminPage/AdminDashboard/ChatbotUnknownQuestionManagement/ChatbotUnknownQuestionManagement";
 
 // ✅ Auth Context
 export const AuthContext = createContext();
@@ -393,6 +395,22 @@ const CustomerManagementSystemApp = () => {
               element={
                 <PrivateRoute>
                   <FaceAttendanceManage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="OnlinePrint"
+              element={
+                <PrivateRoute>
+                  <OnlinePrintManagement />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="ChatBotManage"
+              element={
+                <PrivateRoute>
+                  <ChatbotUnknownQuestionManagement />
                 </PrivateRoute>
               }
             />

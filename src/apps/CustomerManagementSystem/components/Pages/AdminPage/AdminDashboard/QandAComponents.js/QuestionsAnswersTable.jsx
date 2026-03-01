@@ -1,12 +1,12 @@
-import React, { useContext, useState } from 'react';
-import DisplaySpinner from '../../../../Shared/Loading/DisplaySpinner';
+import React, { useContext, useState } from "react";
+import DisplaySpinner from "../../../../Shared/Loading/DisplaySpinner";
 
 const QuestionAnswerTable = ({ questionAnswers, onDelete, onEdit }) => {
   const [editQuestionAnswer, setEditQuestionAnswer] = useState(null);
-  const [editedQuestion, setEditedQuestion] = useState('');
-  const [editedAnswer, setEditedAnswer] = useState('');
-  const [editedDate, setEditedDate] = useState('');
-  const [editedTime, setEditedTime] = useState('');
+  const [editedQuestion, setEditedQuestion] = useState("");
+  const [editedAnswer, setEditedAnswer] = useState("");
+  const [editedDate, setEditedDate] = useState("");
+  const [editedTime, setEditedTime] = useState("");
 
   const handleDelete = (id) => {
     onDelete(id);
@@ -22,21 +22,27 @@ const QuestionAnswerTable = ({ questionAnswers, onDelete, onEdit }) => {
 
   const handleSave = () => {
     if (editQuestionAnswer) {
-      onEdit(editQuestionAnswer.id, editedQuestion, editedAnswer, editedDate, editedTime);
+      onEdit(
+        editQuestionAnswer.id,
+        editedQuestion,
+        editedAnswer,
+        editedDate,
+        editedTime,
+      );
       setEditQuestionAnswer(null);
-      setEditedQuestion('');
-      setEditedAnswer('');
-      setEditedDate('');
-      setEditedTime('');
+      setEditedQuestion("");
+      setEditedAnswer("");
+      setEditedDate("");
+      setEditedTime("");
     }
   };
 
   const handleCancel = () => {
     setEditQuestionAnswer(null);
-    setEditedQuestion('');
-    setEditedAnswer('');
-    setEditedDate('');
-    setEditedTime('');
+    setEditedQuestion("");
+    setEditedAnswer("");
+    setEditedDate("");
+    setEditedTime("");
   };
 
   return (
@@ -52,46 +58,42 @@ const QuestionAnswerTable = ({ questionAnswers, onDelete, onEdit }) => {
         </tr>
       </thead>
       <tbody>
-        {
-          questionAnswers
-            ?
-            questionAnswers.map((questionAnswer, index) => (
-              <tr key={questionAnswer.id}>
-                <td className="border md:px-4 py-2">{index + 1}</td>
-                <td className="border md:px-4 py-2">{questionAnswer.question}</td>
-                <td className="border md:px-4 py-2">{questionAnswer.answer}</td>
-                <td className="border md:px-4 py-2">
-                  {
-                    questionAnswer.date ? (questionAnswer?.date?.split("T"))[0] : "Date"
-                  }
-                </td>
-                <td className="border md:px-4 py-2">
-                  {
-                    questionAnswer.time ? questionAnswer.time : "Time"
-                  }
-                </td>
-                <td className="border md:px-4 py-2">
-                  <button
-                    className="bg-green-500 hover:bg-blue-700 text-white font-semibold md:font-bold py-1 mb-1 md:mb:0 px-2 md:px-4 mr-2 rounded-tl-lg rounded-br-lg"
-                    onClick={() => handleEdit(questionAnswer)}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    className="bg-yellow-500 hover:bg-red-700 text-white font-semibold md:font-bold py-1 px-2 md:px-4 rounded-tl-lg rounded-br-lg"
-                    onClick={() => handleDelete(questionAnswer.id)}
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-
-            ))
-            :
-            <DisplaySpinner></DisplaySpinner>}
+        {questionAnswers ? (
+          questionAnswers.map((questionAnswer, index) => (
+            <tr key={questionAnswer.id}>
+              <td className="border md:px-4 py-2">{index + 1}</td>
+              <td className="border md:px-4 py-2">{questionAnswer.question}</td>
+              <td className="border md:px-4 py-2">{questionAnswer.answer}</td>
+              <td className="border md:px-4 py-2">
+                {questionAnswer.date
+                  ? (questionAnswer?.date?.split("T"))[0]
+                  : "Date"}
+              </td>
+              <td className="border md:px-4 py-2">
+                {questionAnswer.time ? questionAnswer.time : "Time"}
+              </td>
+              <td className="border md:px-4 py-2">
+                <button
+                  className="bg-green-500 hover:bg-blue-700 text-white font-semibold md:font-bold py-1 mb-1 md:mb:0 px-2 md:px-4 mr-2 rounded-tl-lg rounded-br-lg"
+                  onClick={() => handleEdit(questionAnswer)}
+                >
+                  Edit
+                </button>
+                <button
+                  className="bg-yellow-500 hover:bg-red-700 text-white font-semibold md:font-bold py-1 px-2 md:px-4 rounded-tl-lg rounded-br-lg"
+                  onClick={() => handleDelete(questionAnswer.id)}
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+          ))
+        ) : (
+          <DisplaySpinner></DisplaySpinner>
+        )}
       </tbody>
       {editQuestionAnswer && (
-        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-75">
+        <div className="fixed top-0 left-0 z-50 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-75">
           <div className="bg-white p-6 rounded-lg">
             <h2 className="text-lg font-bold mb-4">Edit Question Answer</h2>
             <input

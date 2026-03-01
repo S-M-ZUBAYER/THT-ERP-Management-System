@@ -146,6 +146,22 @@ const Navbar = () => {
                         </li>
                         <li className="mb-5">
                           <Link
+                            to="/admin/OnlinePrint"
+                            className="sm:text-xs md:text-base text-gray-700 font-normal"
+                          >
+                            Online Print Management
+                          </Link>
+                        </li>
+                        <li className="mb-5">
+                          <Link
+                            to="/customer-management-system/admin/ChatBotManage"
+                            className="sm:text-xs md:text-base text-gray-700 font-normal"
+                          >
+                            ChatBot Management
+                          </Link>
+                        </li>
+                        <li className="mb-5">
+                          <Link
                             to="/customer-management-system/admin/powerBank"
                             className="sm:text-xs md:text-base text-gray-700 font-normal"
                           >
@@ -324,7 +340,7 @@ const Navbar = () => {
               ) : (
                 <Link
                   className="rounded-md bg-[#004368] px-5 py-2 text-sm font-semibold text-white shadow dark:hover:bg-teal-500"
-                  to="/customer-management-system/login"
+                  to="/login"
                 >
                   Sign In
                 </Link>

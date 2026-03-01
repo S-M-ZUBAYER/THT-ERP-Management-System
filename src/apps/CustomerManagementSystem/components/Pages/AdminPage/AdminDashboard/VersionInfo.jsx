@@ -51,7 +51,7 @@ const VersionInfo = () => {
     try {
       // const response = await axios.get('http://localhost:2000/tht/version');
       const response = await axios.get(
-        "https://grozziieget.zjweiting.com:8033/tht/version"
+        "https://grozziieget.zjweiting.com:8033/tht/version",
       );
 
       if (response.status === 200) {
@@ -73,7 +73,6 @@ const VersionInfo = () => {
         toast.error("Failed to load data");
       }
     } catch (error) {
-      toast.error("An error occurred while fetching data");
       console.error(error);
     }
   };
@@ -82,7 +81,7 @@ const VersionInfo = () => {
     try {
       // const response = await axios.get('http://localhost:2000/tht/testVersion');
       const response = await axios.get(
-        "https://grozziieget.zjweiting.com:8033/tht/testVersion"
+        "https://grozziieget.zjweiting.com:8033/tht/testVersion",
       );
 
       if (response.status === 200) {
@@ -97,7 +96,6 @@ const VersionInfo = () => {
         toast.error("Failed to load data");
       }
     } catch (error) {
-      toast.error("An error occurred while fetching data");
       console.error(error);
     }
   };
@@ -137,7 +135,7 @@ const VersionInfo = () => {
           releaseNotes: testReleaseNotes,
           downloadUrl: testDownloadUrl,
           versionMark: testVersionMark,
-        }
+        },
       );
 
       if (response.status === 200) {
@@ -186,7 +184,6 @@ const VersionInfo = () => {
         toast.error("Failed to load data");
       }
     } catch (error) {
-      toast.error("An error occurred while fetching data");
       console.error(error);
     }
   };
@@ -253,7 +250,7 @@ const VersionInfo = () => {
           releaseNotes,
           downloadUrl,
           versionMark,
-        }
+        },
       );
 
       if (response.status === 200) {
@@ -298,7 +295,7 @@ const VersionInfo = () => {
           releaseNotes: iosReleaseNotes,
           downloadUrl: iosDownloadUrl,
           versionMark: iosVersionMark,
-        }
+        },
       );
 
       if (response.status === 200) {
@@ -352,7 +349,7 @@ const VersionInfo = () => {
           releaseNotes: chineseReleaseNotes,
           downloadUrl: chineseDownloadUrl,
           versionMark: chineseVersionMark,
-        }
+        },
       );
 
       if (response.status === 200) {
@@ -406,7 +403,7 @@ const VersionInfo = () => {
           releaseNotes: chineseIosReleaseNotes,
           downloadUrl: chineseIosDownloadUrl,
           versionMark: chineseIosVersionMark,
-        }
+        },
       );
 
       if (response.status === 200) {
