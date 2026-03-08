@@ -43,7 +43,7 @@ const AddChargesUpdate = () => {
         toast.success("Successfully Data Updated!!", {
           position: "top-center",
         });
-        navigate("/addcharges");
+        navigate("/export-import/addcharges");
       })
       .catch((err) =>
         toast.error("Something went wrong try again later", {
@@ -61,7 +61,7 @@ const AddChargesUpdate = () => {
         <form onSubmit={handleSubmit} className="w-[70%]">
           <div className="mt-6">
             {/* ID */}
-            <div>
+            {/* <div>
               <label className="text-lg font-semibold" htmlFor="productName">
                 Id
               </label>
@@ -72,7 +72,7 @@ const AddChargesUpdate = () => {
                 value={values.id}
                 disabled
               />
-            </div>
+            </div> */}
             {/* Expenses */}
             <div>
               <label className="text-lg font-semibold" htmlFor="productName">
@@ -117,12 +117,16 @@ const AddChargesUpdate = () => {
               />
             </div>
             <div className="mt-5 gap-y-4">
-              <Link to="/addcharges" className="btn btn-info px-10 mx-5">
+              <Link
+                to="/export-import/addcharges"
+                className="btn btn-info text-black bg-cyan-500 px-10 py-4 rounded-lg mx-5"
+              >
                 Back
               </Link>
               <button
                 className="btn btn-info px-10 active:scale-[.98] active:duration-75 hover:scale-[1.03] ease-in-out transition-all py-3 rounded-lg bg-violet-500 text-white font-bold hover:text-black"
-                type="submit">
+                type="submit"
+              >
                 Update
               </button>
             </div>

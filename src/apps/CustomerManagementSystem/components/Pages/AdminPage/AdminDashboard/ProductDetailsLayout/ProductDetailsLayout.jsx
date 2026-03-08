@@ -16,7 +16,7 @@ const ProductDetailsLayout = () => {
                   <li>
                     <Link
                       className="text-gray-500 font-semibold transition hover:text-gray-500/75 hover:font-semibold hover:text-zinc-900"
-                      to={`/admin/mallProduct/details/${Product?.Model}/afterSales`}
+                      to={`/customer-management-system/admin/mallProduct/details/${Product?.Model}/afterSales`}
                     >
                       After-sales
                     </Link>
@@ -25,7 +25,7 @@ const ProductDetailsLayout = () => {
                   <li>
                     <Link
                       className="text-gray-500 font-semibold transition hover:text-gray-500/75 hover:font-semibold hover:text-zinc-900"
-                      to={`/admin/mallProduct/details/${Product?.Model}/instruction`}
+                      to={`/customer-management-system/admin/mallProduct/details/${Product?.Model}/instruction`}
                     >
                       After-sales Instructions
                     </Link>
@@ -34,7 +34,7 @@ const ProductDetailsLayout = () => {
                   <li>
                     <Link
                       className="text-gray-500 font-semibold transition hover:text-gray-500/75 hover:font-semibold hover:text-zinc-900"
-                      to={`/admin/mallProduct/details/${Product?.Model}/inventory`}
+                      to={`/customer-management-system/admin/mallProduct/details/${Product?.Model}/inventory`}
                     >
                       Inventory
                     </Link>
@@ -43,7 +43,7 @@ const ProductDetailsLayout = () => {
                   <li>
                     <Link
                       className="text-gray-500 font-semibold transition hover:text-gray-500/75 hover:font-semibold hover:text-zinc-900"
-                      to={`/admin/mallProduct/details/${Product?.Model}/invoice`}
+                      to={`/customer-management-system/admin/mallProduct/details/${Product?.Model}/invoice`}
                     >
                       Invoice
                     </Link>

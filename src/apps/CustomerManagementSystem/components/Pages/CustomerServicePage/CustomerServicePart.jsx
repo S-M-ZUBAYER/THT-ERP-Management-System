@@ -4,6 +4,7 @@ import { toast } from "react-hot-toast";
 import { handleToCopy } from "./FunctionsForCustomerService/FunctionsForCustomerService";
 import BtnSpinner from "../../Shared/Loading/BtnSpinner";
 import DisplaySpinner from "../../Shared/Loading/DisplaySpinner";
+import "../../../components/Shared/responsive-container.css";
 
 const CustomerServicePart = () => {
   const {
@@ -819,7 +820,7 @@ const CustomerServicePart = () => {
   };
 
   return (
-    <div>
+    <div className="responsive-container">
       <div className=" my-6 flex justify-between bg-white">
         {/* create a from to send the question to the backend to translation and get all the possible ans */}
         <form onSubmit={handleSubmit} className="rounded w-2/3 pb-8 mb-4 ">
@@ -881,9 +882,9 @@ const CustomerServicePart = () => {
         </form>
 
         <div className=" ml-3">
-          <h1 className="font-semibold my-3 text-slate-800 text-center">
+          <p className="font-semibold my-3 text-slate-800 text-center">
             --Select ShopeNames--
-          </h1>
+          </p>
 
           <div
             className="text-start mb-8 "

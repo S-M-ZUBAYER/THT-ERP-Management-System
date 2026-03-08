@@ -3,9 +3,12 @@ import { Link, NavLink, Outlet } from "react-router-dom";
 import Navbar from "../../Shared/NavbarSection/Navbar";
 import Footer from "../../Shared/FooterSection/Footer";
 import { AuthContext } from "@/apps/CustomerManagementSystem/context/UserContext";
+import "../../../components/Shared/responsive-container.css";
+import useAuthStore from "@/store/auth";
 
 const Admin = () => {
-  const { user } = useContext(AuthContext);
+  const { user } = useAuthStore();
+
   const [isOpen, setIsOpen] = useState(false);
   const toggleMenu = () => setIsOpen(!isOpen);
 
@@ -16,7 +19,7 @@ const Admin = () => {
     "block p-2 text-sm lg:text-base !font-normal text-[#004368] bg-blue-100  transition";
 
   return (
-    <div>
+    <div className="responsive-container">
       <Navbar />
       <div className="grid grid-cols-5 lg:gap-3">
         {/* Sidebar */}
@@ -146,6 +149,36 @@ const Admin = () => {
                     }
                   >
                     User Base Bitmap
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/customer-management-system/admin/FaceAttendance"
+                    className={({ isActive }) =>
+                      isActive ? activeLinkClasses : linkClasses
+                    }
+                  >
+                    Face Attendance Management
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/customer-management-system/admin/OnlinePrint"
+                    className={({ isActive }) =>
+                      isActive ? activeLinkClasses : linkClasses
+                    }
+                  >
+                    Online Print Management
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/customer-management-system/admin/ChatBotManage"
+                    className={({ isActive }) =>
+                      isActive ? activeLinkClasses : linkClasses
+                    }
+                  >
+                    ChatBot Management
                   </NavLink>
                 </li>
                 <li>

@@ -4,6 +4,7 @@ import axios from "axios";
 import { FaCopy } from "react-icons/fa";
 import aiImg from "../../../Assets/Images/Detect/AI logo.png";
 import animateImg from "../../../Assets/Images/Detect/animationPic.png";
+import "../../../components/Shared/responsive-container.css";
 
 const YOU = "you";
 const AI = "ai";
@@ -78,7 +79,7 @@ function Detect() {
   };
 
   return (
-    <main className="min-h-screen w-full relative">
+    <main className="min-h-screen responsive-container relative">
       {" "}
       {/* Changed to w-full */}
       {/* Header part the site heading name here */}

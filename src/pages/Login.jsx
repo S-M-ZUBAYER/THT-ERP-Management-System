@@ -48,7 +48,7 @@ export default function Login() {
   const handleCheckboxChange = (event) => {
     const { value, checked } = event.target;
     setSelectedShops((prev) =>
-      checked ? [...prev, value] : prev.filter((shop) => shop !== value)
+      checked ? [...prev, value] : prev.filter((shop) => shop !== value),
     );
   };
 
@@ -70,7 +70,7 @@ export default function Login() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email, password }),
-        }
+        },
       );
 
       const data = await res.json();
@@ -89,7 +89,7 @@ export default function Login() {
       if (userInfo?.thtManagement) {
         localStorage.setItem(
           "DUser",
-          JSON.stringify({ email, password, selectedShops })
+          JSON.stringify({ email, password, selectedShops }),
         );
       }
 
@@ -116,7 +116,7 @@ export default function Login() {
               role: "customer_service",
               designation: chatRes.data.designation,
               country: chatRes.data.country,
-            })
+            }),
           );
           localStorage.setItem("serviceCountry", serviceCountry);
         } else {
@@ -135,17 +135,17 @@ export default function Login() {
             {
               userEmail: email,
               password: password,
-            }
+            },
           );
 
           if (exportRes.data === true) {
             // Fetch user data from export system
             const exportUserRes = await axios.get(
-              "https://grozziieget.zjweiting.com:3091/web-api-tht-1/api/dev/users"
+              "https://grozziieget.zjweiting.com:3091/web-api-tht-1/api/dev/users",
             );
 
             const matchedExportUser = exportUserRes.data.find(
-              (u) => u.userEmail === email
+              (u) => u.userEmail === email,
             );
 
             if (matchedExportUser) {
@@ -162,12 +162,11 @@ export default function Login() {
               };
               localStorage.setItem("user", JSON.stringify(mergedUser));
               useAuthStore.getState().setUser(mergedUser);
-              toast.success("Export Management Login Successful");
             } else {
-              toast.error("Export management user not found");
+              console.error("Export management user not found");
             }
           } else {
-            toast.error("Export management login failed");
+            console.error("ExportImportManagement login error:");
           }
         } catch (error) {
           console.error("ExportImportManagement login error:", error);
@@ -183,7 +182,7 @@ export default function Login() {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ email, password }),
-            }
+            },
           );
 
           const taskData = await taskRes.json();
@@ -195,14 +194,11 @@ export default function Login() {
             };
 
             localStorage.setItem("taskUser", JSON.stringify(user));
-
-            toast.success("Task Management Login Successful");
           } else {
-            toast.error("Task Management login failed");
+            console.error("Task Management login failed");
           }
         } catch (err) {
           console.error("Task Management login error:", err);
-          toast.error("Task Management login error");
         }
       }
       // 6️⃣ Wowomart Management
@@ -214,7 +210,7 @@ export default function Login() {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ email, password }),
-            }
+            },
           );
 
           const wowomartData = await wowomartRes.json();
@@ -225,13 +221,11 @@ export default function Login() {
               image: userInfo.image, // add image path from userInfo
             };
             localStorage.setItem("wowomartUser", JSON.stringify(user));
-            toast.success("Wowomart Management Login Successful");
           } else {
-            toast.error("Wowomart Management login failed");
+            console.error("Wowomart Management login error:");
           }
         } catch (err) {
           console.error("Wowomart Management login error:", err);
-          toast.error("Wowomart Management login error");
         }
       }
 

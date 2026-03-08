@@ -203,7 +203,7 @@ const Accounts = () => {
                   </span>
                 </label>
                 <select
-                  className="select select-info w-full max-w-xs h-[50px] rounded-md border-2 border-[#93E6FB]  "
+                  className="select select-info w-full max-w-xs h-[50px] rounded-md border-2 border-cyan-200  "
                   id="selectOption"
                   value={formData.productName}
                   name="productName"
@@ -231,7 +231,7 @@ const Accounts = () => {
                   </span>
                 </label>
                 <select
-                  className="select select-info w-full max-w-xs h-[40px] rounded-lg "
+                  className="select select-info w-full max-w-xs h-[50px] rounded-lg border-2 border-cyan-200"
                   id="selectOption"
                   value={formData.productBrand || ""}
                   name="productBrand"
@@ -271,7 +271,7 @@ const Accounts = () => {
                   </span>
                 </label>
                 <select
-                  className="select select-info w-full max-w-xs h-[40px] "
+                  className="select select-info w-full max-w-xs h-[50px] rounded-lg border-2 border-cyan-200 "
                   id="selectOption"
                   value={formData.productModel || ""}
                   name="productModel"
@@ -301,7 +301,7 @@ const Accounts = () => {
                   </span>
                 </label>
                 <input
-                  className="input input-bordered rounded-md join-item select-info h-[50px] w-[12.5vw] pl-4 border-2 border-[#93E6FB] "
+                  className="input input-bordered rounded-md join-item select-info h-[50px] w-[12.5vw] pl-4 border-2 border-cyan-200 "
                   placeholder="Quantity of Product"
                   type="number"
                   name="productQuantity"
@@ -328,7 +328,7 @@ const Accounts = () => {
                   required
                   aria-required
                   value={formData?.date}
-                  className="select-info  text-lg p-[6px] h-[50px] rounded-lg border-2 border-[#93E6FB] "
+                  className="select-info  text-lg p-[6px] h-[50px] rounded-lg border-2 border-cyan-200 "
                 />
               </div>
             </div>
@@ -378,28 +378,28 @@ const Accounts = () => {
                 <table className="min-w-full bg-white border-collapse">
                   <thead className="sticky top-0 bg-gray-200 z-10">
                     <tr className="border-b border-gray-300">
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
+                      <th className="px-4 py-3 text-left text-base font-semibold text-gray-700">
                         Serial No
                       </th>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
+                      <th className="px-4 py-3 text-left text-base font-semibold text-gray-700">
                         Product Name
                       </th>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
+                      <th className="px-4 py-3 text-left text-base font-semibold text-gray-700">
                         Product Brand
                       </th>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
+                      <th className="px-4 py-3 text-left text-base font-semibold text-gray-700">
                         Product Model
                       </th>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
+                      <th className="px-4 py-3 text-left text-base font-semibold text-gray-700">
                         Quantity
                       </th>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
+                      <th className="px-4 py-3 text-left text-base font-semibold text-gray-700">
                         Used Product
                       </th>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
+                      <th className="px-4 py-3 text-left text-base font-semibold text-gray-700">
                         Export Date
                       </th>
-                      <th className="px-4 py-3 text-center text-sm font-semibold text-gray-700">
+                      <th className="px-4 py-3 text-center text-base font-semibold text-gray-700">
                         Action
                       </th>
                     </tr>
@@ -412,31 +412,31 @@ const Accounts = () => {
                           key={product.id}
                           className="border-b border-gray-100 hover:bg-gray-50 transition-colors"
                         >
-                          <td className="px-4 py-3 text-sm text-gray-900">
+                          <td className="px-4 py-1 text-base text-gray-900">
                             {index + 1}
                           </td>
-                          <td className="px-4 py-3 text-sm text-gray-900">
+                          <td className="px-4 py-1 text-base text-gray-900">
                             {product.productName}
                           </td>
-                          <td className="px-4 py-3 text-sm text-gray-900">
+                          <td className="px-4 py-1 text-base text-gray-900">
                             {product.productBrand}
                           </td>
-                          <td className="px-4 py-3 text-sm text-gray-900">
+                          <td className="px-4 py-1 text-base text-gray-900">
                             {product.productModel}
                           </td>
-                          <td className="px-4 py-3 text-sm text-gray-900">
+                          <td className="px-4 py-1 text-base text-gray-900">
                             {product.productQuantity}
                           </td>
-                          <td className="px-4 py-3 text-sm text-gray-900">
+                          <td className="px-4 py-1 text-base text-gray-900">
                             {product.usedProduct}
                           </td>
-                          <td className="px-4 py-3 text-sm text-gray-900">
+                          <td className="px-4 py-1 text-base text-gray-900">
                             {product.date}
                           </td>
-                          <td className="px-4 py-3 text-center">
+                          <td className="px-4 py-1 text-center">
                             <div className="flex justify-center gap-4">
                               <Link
-                                to={`/accounts/${product.id}`}
+                                to={`/export-import/accounts/${product.id}`}
                                 className=" justify-center items-center flex"
                               >
                                 <AiOutlineEdit className="w-6 h-6 text-purple-600 hover:text-purple-800" />
@@ -452,7 +452,7 @@ const Accounts = () => {
                       <tr>
                         <td
                           colSpan={8}
-                          className="px-4 py-8 text-center text-gray-500 text-sm"
+                          className="px-4 py-8 text-center text-gray-500 text-base"
                         >
                           No data found
                         </td>

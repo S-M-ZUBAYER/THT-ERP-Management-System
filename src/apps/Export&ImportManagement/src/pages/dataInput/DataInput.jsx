@@ -376,19 +376,19 @@ const DataInput = () => {
                           key={product.id}
                           className="border-b border-gray-100 hover:bg-gray-50 transition-colors"
                         >
-                          <td className="px-4 py-1 text-sm text-gray-900">
+                          <td className="px-4 py-1 text-base text-gray-900">
                             {index + 1}
                           </td>
-                          <td className="px-4 py-1 text-sm text-gray-900">
+                          <td className="px-4 py-1 text-base text-gray-900">
                             {product.productName}
                           </td>
-                          <td className="px-4 py-1 text-sm text-gray-900">
+                          <td className="px-4 py-1 text-base text-gray-900">
                             {product.productBrand}
                           </td>
-                          <td className="px-4 py-1 text-sm text-gray-900">
+                          <td className="px-4 py-1 text-base text-gray-900">
                             {product.productModel}
                           </td>
-                          <td className="px-4 py-1 text-sm text-gray-900">
+                          <td className="px-4 py-1 text-base text-gray-900">
                             {product.productWeight}
                           </td>
                           <td className="px-4 py-1 text-center">
@@ -410,7 +410,7 @@ const DataInput = () => {
                       <tr>
                         <td
                           colSpan={6}
-                          className="px-4 py-8 text-center text-gray-500 text-sm"
+                          className="px-4 py-8 text-center text-gray-500 text-base"
                         >
                           No data found
                         </td>

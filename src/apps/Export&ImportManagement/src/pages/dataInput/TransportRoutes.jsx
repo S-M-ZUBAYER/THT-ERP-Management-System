@@ -191,13 +191,13 @@ const TransportRoutes = () => {
                           key={product.id}
                           className="border-b border-gray-100 hover:bg-gray-50 transition-colors duration-150 cursor-pointer"
                         >
-                          <td className="px-4 py-3 text-sm text-gray-900">
+                          <td className="px-4 py-1 text-base text-gray-900">
                             {index + 1}
                           </td>
-                          <td className="px-4 py-3 text-sm text-gray-900 text-center">
+                          <td className="px-4 py-1 text-base text-gray-900 text-center">
                             {product.transportWay}
                           </td>
-                          <td className="px-4 py-3 text-right">
+                          <td className="px-4 py-1 text-right">
                             <button
                               onClick={() => handleDelete(product.id)}
                               className="hover:bg-red-50 p-1 rounded transition-colors"

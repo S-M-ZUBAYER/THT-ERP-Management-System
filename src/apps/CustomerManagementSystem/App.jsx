@@ -117,6 +117,9 @@ import ImageResize from "./components/Pages/AdminPage/AdminDashboard/ImageResize
 
 // PrivateRoute wrapper
 import PrivateRoute from "./Routes/Routes/PrivateRoute/PrivateRoute";
+import FaceAttendanceManage from "./components/Pages/AdminPage/AdminDashboard/FaceAttendanceMange/FaceAttendanceManage";
+import OnlinePrintManagement from "./components/Pages/AdminPage/AdminDashboard/Online Print/OnlinePrintManagement";
+import ChatbotUnknownQuestionManagement from "./components/Pages/AdminPage/AdminDashboard/ChatbotUnknownQuestionManagement/ChatbotUnknownQuestionManagement";
 
 // ✅ Auth Context
 export const AuthContext = createContext();
@@ -174,7 +177,7 @@ const CustomerManagementSystemApp = () => {
 
   return (
     <AuthContext.Provider value={authInfo}>
-      <div className="App lg:mx-0 xl:mx-20  2xl:mx-32 bg-white">
+      <div className="App lg:mx-0 xl:mx-20  2xl:mx-32 bg-white ">
         <Routes>
           {/* Main layout */}
           <Route path="/" element={<Main />}>
@@ -384,6 +387,30 @@ const CustomerManagementSystemApp = () => {
               element={
                 <PrivateRoute>
                   <UserBaseBitmap />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="FaceAttendance"
+              element={
+                <PrivateRoute>
+                  <FaceAttendanceManage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="OnlinePrint"
+              element={
+                <PrivateRoute>
+                  <OnlinePrintManagement />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="ChatBotManage"
+              element={
+                <PrivateRoute>
+                  <ChatbotUnknownQuestionManagement />
                 </PrivateRoute>
               }
             />

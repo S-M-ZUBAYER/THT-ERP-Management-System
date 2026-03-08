@@ -3,6 +3,7 @@ import toast from "react-hot-toast";
 import emailjs from "emailjs-com";
 import world from "../assets/WebsiteImages/world.png";
 import Navbar from "./SharedPage/Navbar";
+import "../apps/CustomerManagementSystem/components/Shared/responsive-container.css";
 
 const Contact = () => {
   const [loading, setLoading] = useState(false);
@@ -46,7 +47,7 @@ const Contact = () => {
   };
 
   return (
-    <div className="mx-auto mt-10 min-h-screen  max-w-[90rem]">
+    <div className="mx-auto mt-10 min-h-screen responsive-container  max-w-[90rem]">
       <Navbar></Navbar>
       <div className="grid grid-cols-5 gap-x-1 pt-12">
         {/* Right side */}

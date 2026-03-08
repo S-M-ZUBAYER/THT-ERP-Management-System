@@ -308,7 +308,7 @@ const ProductBoxes = () => {
       toast.success("Successfully uploaded to server", {
         position: "top-center",
       });
-      navigate("/printInitialData");
+      navigate("/export-import/printInitialData");
     } catch (error) {
       console.error("Error occurred:", error);
 
@@ -581,7 +581,7 @@ const ProductBoxes = () => {
             </h2>
             <div className="flex space-x-4">
               <select
-                className="p-2 rounded-lg border border-gray-300 !bg-white search-input w-[15vw]"
+                className="p-2 rounded-lg border border-cyan-200 !bg-white search-input w-[15vw]"
                 value={selectedDate}
                 onChange={handleDateChange} // Update selected date on change
               >
@@ -607,7 +607,7 @@ const ProductBoxes = () => {
                       </label>
                       <div className="input-group">
                         <select
-                          className="select select-secondary w-full focus:outline-none h-[60px] rounded-lg border-2 border-[#F3F4F6] "
+                          className="select select-secondary w-full focus:outline-none h-[60px] rounded-lg border-2 border-cyan-200 "
                           value={
                             `${selectedProductName},${selectedProductBrand}` ||
                             ""
@@ -680,7 +680,7 @@ const ProductBoxes = () => {
                                       handlePerBoxValueChange(e, model)
                                     }
                                     placeholder="Per Box"
-                                    className="w-[100px] p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
+                                    className="w-[100px] p-2 border border-cyan-200 rounded-md focus:outline-none focus:border-blue-500"
                                   />
 
                                   {/* Input for quantity */}
@@ -694,7 +694,7 @@ const ProductBoxes = () => {
                                       handleQuantityValueChange(e, model)
                                     }
                                     placeholder="Product Quantity"
-                                    className="w-[170px] p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
+                                    className="w-[170px] p-2 border border-cyan-200 rounded-md focus:outline-none focus:border-blue-500"
                                   />
                                 </div>
                               )}
@@ -712,7 +712,7 @@ const ProductBoxes = () => {
                         Product Per Box
                       </label>
                       <input
-                        className="w-full border-2 border-gray-100 rounded-xl p-4 mt-1 bg-transparent"
+                        className="w-full border-2 border-cyan-200 rounded-xl p-4 mt-1 bg-transparent"
                         placeholder="Data coming from Per Box Total Sum"
                         type="number"
                         name="productPerBox"
@@ -730,7 +730,7 @@ const ProductBoxes = () => {
                         Weight Per Box
                       </label>
                       <input
-                        className="w-full border-2 border-gray-100 rounded-xl p-4 mt-1 bg-transparent"
+                        className="w-full border-2 border-cyan-200 rounded-xl p-4 mt-1 bg-transparent"
                         placeholder="Please input Weight per box"
                         type="number"
                         name="weightPerBox"
@@ -749,7 +749,7 @@ const ProductBoxes = () => {
                         How Many Boxes
                       </label>
                       <input
-                        className="w-full border-2 border-gray-100 rounded-xl p-4 mt-1 bg-transparent"
+                        className="w-full border-2 border-cyan-200 rounded-xl p-4 mt-1 bg-transparent"
                         type="number"
                         min="0"
                         readOnly
@@ -768,7 +768,7 @@ const ProductBoxes = () => {
                         Total Box Weight
                       </label>
                       <input
-                        className="w-full border-2 border-gray-100 rounded-xl p-4 mt-1 bg-transparent"
+                        className="w-full border-2 border-cyan-200 rounded-xl p-4 mt-1 bg-transparent"
                         type="number"
                         min="0"
                         readOnly
@@ -787,7 +787,7 @@ const ProductBoxes = () => {
                         Product Quantity
                       </label>
                       <input
-                        className="w-full border-2 border-gray-100 rounded-xl p-4 mt-1 bg-transparent"
+                        className="w-full border-2 border-cyan-200 rounded-xl p-4 mt-1 bg-transparent"
                         placeholder="Total product"
                         type="number"
                         min="0"
@@ -804,7 +804,7 @@ const ProductBoxes = () => {
                         Pallet Number
                       </label>
                       <input
-                        className="w-full border-2 border-gray-100 rounded-xl p-4 mt-1 bg-transparent"
+                        className="w-full border-2 border-cyan-200 rounded-xl p-4 mt-1 bg-transparent"
                         placeholder="Enter Pallet Number"
                         type="text"
                         name="pallet"
@@ -826,7 +826,7 @@ const ProductBoxes = () => {
                         Container Number
                       </label>
                       <input
-                        className="w-full border-2 border-gray-100 rounded-xl p-4 mt-1 bg-transparent"
+                        className="w-full border-2 border-cyan-200 rounded-xl p-4 mt-1 bg-transparent"
                         placeholder="Enter Container Number"
                         type="text"
                         name="truckNumber"
@@ -858,7 +858,7 @@ const ProductBoxes = () => {
 
       {/* Instant Save Data */}
       <div className="my-7">
-        <h1 className="text-center font-bold text-2xl text-cyan-600 shadow-lg rounded p-2 ">
+        <h1 className="text-center font-bold text-2xl text-cyan-600 shadow-lg rounded p-2 mb-5">
           Temporary List for Export Products
         </h1>
 
@@ -867,7 +867,7 @@ const ProductBoxes = () => {
           ref={componentPDF}
           style={{ width: "100%" }}
         >
-          <table className="min-w-full border border-gray-300 rounded-lg overflow-hidden">
+          <table className="min-w-full border-2 border-cyan-200 rounded-lg overflow-hidden">
             <thead className="bg-gray-100 sticky top-0 z-10">
               <tr>
                 <th className="px-4 py-2 border">Product Name</th>
@@ -888,7 +888,7 @@ const ProductBoxes = () => {
               {productList.map((item, index) => (
                 <tr
                   key={index}
-                  className="hover:bg-gray-50 cursor-pointer text-sm transition"
+                  className="hover:bg-gray-50 cursor-pointer text-base transition"
                 >
                   <td className="px-4 py-2 border">{item?.productName}</td>
                   <td className="px-4 py-2 border">{item?.productModels}</td>
@@ -916,7 +916,7 @@ const ProductBoxes = () => {
               Final Date
             </label>
             <select
-              className="w-full border-2 border-gray-100 rounded-xl p-4 mt-1 bg-transparent"
+              className="w-full border-2 border-cyan-200 rounded-xl p-4 mt-1 bg-transparent"
               value={selectedFixDate}
               onChange={handleFixDateChange} // Update selected date on change
             >
@@ -934,7 +934,7 @@ const ProductBoxes = () => {
         {productList.length > 0 && (
           <div className="flex justify-end mt-4">
             <button
-              className="btn btn-info font-bold px-6 py-2 text-purple-950 hover:text-purple-800"
+              className="btn btn-info border-2 font-bold px-6 py-2 bg-cyan-500 text-purple-950 hover:text-purple-800"
               onClick={formSubmit}
             >
               {btnLoading ? "Saving" : "Save"}

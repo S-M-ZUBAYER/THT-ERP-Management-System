@@ -99,8 +99,8 @@ const ExpensesForm = ({
   onTotalCostChange(totalCost);
 
   return (
-    <div className="p-4">
-      <div className=" overflow-x-auto add__scrollbar custom-scrollbar max-h-[400px] overflow-y-auto">
+    <div className="p-4 px-10">
+      <div className=" overflow-x-auto add__scrollbar custom-scrollbar max-h-[400px] overflow-y-auto mx-2 mt-3">
         {expenses.map((expense) => (
           <div key={expense.id} className="mb-4 grid grid-cols-4 gap-3 ">
             <label className="mb-2 flex items-center gap-2 font-bold">

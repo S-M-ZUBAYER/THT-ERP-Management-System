@@ -45,7 +45,7 @@ const AccountsUpdate = () => {
         toast.success("Successfully Data Updated!!", {
           position: "top-center",
         });
-        navigate("/accounts");
+        navigate("/export-import/accounts");
       })
       .catch((error) =>
         toast.error("Something went wrong try again later", {
@@ -63,7 +63,8 @@ const AccountsUpdate = () => {
         <div className="mt-3 lg:flex justify-center items-center">
           <form
             className="lg:w-[800px] bg-base-100 shadow-xl mt-3"
-            onSubmit={handleSubmit}>
+            onSubmit={handleSubmit}
+          >
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mx-6">
               {/* product ID */}
               <div className="mt-3">
@@ -155,7 +156,8 @@ const AccountsUpdate = () => {
               <div className="mt-3">
                 <label
                   className="text-lg font-semibold"
-                  htmlFor="productQuantity">
+                  htmlFor="productQuantity"
+                >
                   Product Quantity
                 </label>
                 <input
@@ -174,9 +176,7 @@ const AccountsUpdate = () => {
               </div>
               {/* product Quantity */}
               <div className="mt-3">
-                <label
-                  className="text-lg font-semibold"
-                  htmlFor="usedProduct">
+                <label className="text-lg font-semibold" htmlFor="usedProduct">
                   Used Product
                 </label>
                 <input
@@ -215,12 +215,16 @@ const AccountsUpdate = () => {
               </div>
             </div>
             <div className="mt-4 mr-7 flex justify-end">
-              <Link to="/accounts" className="btn btn-info px-10 mx-5  mb-4">
+              <Link
+                to="/export-import/accounts"
+                className="btn btn-info flex justify-center items-center rounded-lg text-black bg-cyan-500 px-10 mx-5  mb-4"
+              >
                 Back
               </Link>
               <button
                 className="btn btn-info px-10 active:scale-[.98] active:duration-75 hover:scale-[1.03] ease-in-out transition-all py-3 rounded-lg bg-violet-500 text-white font-bold hover:text-black mb-4"
-                type="submit">
+                type="submit"
+              >
                 Update
               </button>
             </div>

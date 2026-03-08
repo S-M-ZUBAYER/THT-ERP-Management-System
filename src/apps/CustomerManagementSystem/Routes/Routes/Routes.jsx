@@ -42,6 +42,8 @@ import PDFPaymentInfo from "../../components/Pages/AdminPage/AdminDashboard/PDFP
 import VoltagePercentage from "../../components/Pages/AdminPage/AdminDashboard/PowerBank/VoltagePercentage";
 import AddAdminBackgroundImg from "../../components/Pages/AdminPage/AdminDashboard/BackgroundImgPage/AddAdminBackgroundImg";
 import ShowAdminBackgroundImg from "../../components/Pages/AdminPage/AdminDashboard/BackgroundImgPage/ShowAdminBackgroundImg";
+import FaceAttendanceManage from "../../components/Pages/AdminPage/AdminDashboard/FaceAttendanceMange/FaceAttendanceManage";
+import ChatbotUnknownQuestionManagement from "../../components/Pages/AdminPage/AdminDashboard/ChatbotUnknownQuestionManagement/ChatbotUnknownQuestionManagement";
 
 export const routes = createBrowserRouter([
   {
@@ -277,6 +279,30 @@ export const routes = createBrowserRouter([
         element: (
           <PrivateRoute>
             <UserBaseBitmap></UserBaseBitmap>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/customer-management-system/admin/FaceAttendance",
+        element: (
+          <PrivateRoute>
+            <FaceAttendanceManage></FaceAttendanceManage>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/customer-management-system/admin/OnlinePrint",
+        element: (
+          <PrivateRoute>
+            <OnlinePrintManagement></OnlinePrintManagement>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/customer-management-system/admin/ChatBotManage",
+        element: (
+          <PrivateRoute>
+            <ChatbotUnknownQuestionManagement></ChatbotUnknownQuestionManagement>
           </PrivateRoute>
         ),
       },
