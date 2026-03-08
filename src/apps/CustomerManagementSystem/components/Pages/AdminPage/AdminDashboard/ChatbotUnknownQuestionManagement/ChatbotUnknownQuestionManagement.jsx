@@ -52,7 +52,7 @@ const ChatbotUnknownQuestionManagement = () => {
       setLoading(false);
     }
   };
-  console.log("fdgfdgdfgdfgdfg");
+
   const fetchStats = async () => {
     try {
       const response = await fetch(

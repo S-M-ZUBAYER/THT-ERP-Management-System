@@ -52,7 +52,7 @@ const UserContext = ({ children }) => {
   const [totalQuestions, setTotalQuestions] = useState([]);
   const [unknownQuestions, setUnknownQuestions] = useState([]);
 
-  console.log(currentCustomer, "frist");
+  console.log(currentCustomer, "frist", "from userContext");
 
   //get a user full information and search by email
   const fetchUserByEmail = async () => {

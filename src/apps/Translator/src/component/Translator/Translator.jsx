@@ -292,7 +292,7 @@ function Translator() {
                   onChange={handleToCollectText1}
                   onDoubleClick={handleToSingleTranslate}
                   onKeyPress={handleKeyPress1}
-                  className="border-2 bg-white text-black border-slate-600 rounded-t-lg md:rounded-t-none md:rounded-tl-lg p-2  mt-2 md:ml-2 h-44  w-72 md:w-64 lg:w-72  block"
+                  className="border-2 border-slate-600 !bg-white focus:!bg-white hover:!bg-white active:!bg-white text-black rounded-t-lg md:rounded-t-none md:rounded-tl-lg p-2 mt-2 md:ml-2 h-44 w-72 md:w-64 lg:w-72 block"
                 ></textarea>
                 <div className="border-2 border-slate-600 md:ml-2 sm:rounded-b-lg md:rounded-b-none md:rounded-bl-lg mb-2 mr-2 md:mr-0">
                   <div className="flex justify-between items-center ml-2">
@@ -386,7 +386,7 @@ function Translator() {
                   onChange={handleToCollectText}
                   onDoubleClick={handleToTranslate}
                   onKeyPress={handleKeyPress}
-                  className="border-2 bg-white text-black border-slate-600 rounded-t-lg md:rounded-t-none md:rounded-tl-lg p-2  mt-2 md:ml-2 h-44  w-72 md:w-64 lg:w-72  block"
+                  className="border-2 border-slate-600 !bg-white focus:!bg-white hover:!bg-white active:!bg-white text-black rounded-t-lg md:rounded-t-none md:rounded-tl-lg p-2 mt-2 md:ml-2 h-44 w-72 md:w-64 lg:w-72 block"
                 ></textarea>
                 <div className="border-2 border-slate-600 md:ml-2 sm:rounded-b-lg md:rounded-b-none md:rounded-bl-lg mb-2 mr-2 md:mr-0">
                   <div className="flex justify-between items-center ml-2">

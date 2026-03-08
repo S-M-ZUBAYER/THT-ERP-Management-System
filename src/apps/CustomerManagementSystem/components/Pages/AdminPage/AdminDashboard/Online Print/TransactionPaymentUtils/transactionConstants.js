@@ -1,5 +1,5 @@
-// export const TRANSACTION_API_URL = "http://localhost:2000/tht/printer-user/payment-history/all";
-export const TRANSACTION_API_URL = "https://grozziieget.zjweiting.com:8033/tht/printer-user/payment-history/all";
+// export const TRANSACTION_API_URL = "http://localhost:2000/tht/printer-user/payment-history/all/free-and-transactions";
+export const TRANSACTION_API_URL = "https://grozziieget.zjweiting.com:8033/tht/printer-user/payment-history/all/free-and-transactions";
 
 export const TRANSACTION_ITEMS_PER_PAGE = 12;
 
