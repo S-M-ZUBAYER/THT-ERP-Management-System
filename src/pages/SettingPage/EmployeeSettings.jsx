@@ -50,8 +50,8 @@ const EmployeeSettings = ({
 
       const endpoint =
         role === "admin"
-          ? `http://localhost:2000/tht/users/update/superAdmin/${selectedUser.id}`
-          : `http://localhost:2000/tht/users/update/leader/${selectedUser.id}`;
+          ? `https://grozziieget.zjweiting.com:8033/tht/users/update/superAdmin/${selectedUser.id}`
+          : `https://grozziieget.zjweiting.com:8033/tht/users/update/leader/${selectedUser.id}`;
 
       const res = await fetch(endpoint, {
         method: "PUT",
@@ -63,7 +63,7 @@ const EmployeeSettings = ({
         toast.success(
           `${selectedUser.name} has been ${
             newValue === 1 ? "granted" : "removed from"
-          } ${role} role.`
+          } ${role} role.`,
         );
 
         // ✅ Update selectedUser locally
@@ -161,6 +161,7 @@ const EmployeeSettings = ({
       navigate(route);
     }
   };
+  console.log(selectedUser);
 
   return (
     <div className="bg-white rounded-2xl p-6 shadow h-full">
@@ -169,6 +170,9 @@ const EmployeeSettings = ({
           Settings
           <span className="text-[#004368]">
             {selectedUser ? `– ${selectedUser.name}` : ""}
+          </span>
+          <span className="">
+            {selectedUser?.department ? ` (${selectedUser?.department})` : ""}
           </span>
         </h2>
       </div>

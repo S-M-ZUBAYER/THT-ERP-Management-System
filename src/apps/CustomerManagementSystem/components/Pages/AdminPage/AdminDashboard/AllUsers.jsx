@@ -32,7 +32,7 @@ const AllUsers = () => {
   const deleteUser = async (userId) => {
     try {
       await axios.delete(
-        `https://grozziieget.zjweiting.com:8033/tht/users/delete/${userId}`
+        `https://grozziieget.zjweiting.com:8033/tht/users/delete/${userId}`,
       );
       toast.success("User deleted successfully");
       setUsers(users.filter((user) => user.id !== userId));
@@ -50,7 +50,7 @@ const AllUsers = () => {
     try {
       const response = await axios.put(
         `https://grozziieget.zjweiting.com:8033/tht/users/update/${userId}`,
-        editingUser
+        editingUser,
       );
       console.log(response);
 
@@ -64,7 +64,7 @@ const AllUsers = () => {
   const saveUser = (userId, updatedUser) => {
     updateUser(userId, updatedUser);
     setUsers(
-      users.map((user) => (user.id === updatedUser.id ? updatedUser : user))
+      users.map((user) => (user.id === updatedUser.id ? updatedUser : user)),
     );
     setEditingUser(null);
   };
@@ -76,7 +76,7 @@ const AllUsers = () => {
     try {
       const response = await axios.put(
         `https://grozziieget.zjweiting.com:8033/tht/users/update/admin/${userId}`,
-        isAdmin
+        isAdmin,
       );
       setUsers(
         users.map((user) => {
@@ -84,7 +84,7 @@ const AllUsers = () => {
             user.isAdmin = "true";
           }
           return user;
-        })
+        }),
       );
 
       response?.statusText && toast.success("Make admin successfully");
@@ -202,7 +202,7 @@ const AllUsers = () => {
 
       {/* modal part start from here to update a user information */}
       {editingUser && (
-        <div className=" fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
+        <div className=" fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">
           <div className="bg-white p-8">
             <div className=" flex justify-end">
               <button onClick={() => handleToClose()}>

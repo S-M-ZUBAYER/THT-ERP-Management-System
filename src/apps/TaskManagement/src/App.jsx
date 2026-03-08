@@ -34,7 +34,7 @@ const ProtectedRoute = ({ children }) => {
   const { user, loading } = useUserData();
 
   if (loading) return null;
-  if (!user) return <Navigate to="/task-management/sign-in" replace />;
+  if (!user) return <Navigate to="/login" replace />;
 
   return children;
 };

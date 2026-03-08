@@ -224,7 +224,7 @@ const PrintingExInitialData = () => {
   };
 
   return (
-    <div className="w-full lg:w-3/4 mx-auto">
+    <div className="w-full lg:w-5/6 mx-auto">
       <div className="flex justify-between items-center my-6 bg-slate-500 p-3 rounded-lg">
         <h1 className="text-3xl text-info font-bold uppercase text-[#93E6FB] ">
           Select the Product
@@ -232,7 +232,7 @@ const PrintingExInitialData = () => {
         <input
           type="text"
           placeholder="Search date, model, pallet no, truck no"
-          className="border border-gray-300 p-2 rounded-md focus:outline-none !bg-white"
+          className="border border-cyan-200 p-2 rounded-md focus:outline-none !bg-white"
           value={searchValue}
           onChange={handleSearchChange}
         />
@@ -251,8 +251,8 @@ const PrintingExInitialData = () => {
             <div className="max-h-[500px] overflow-y-auto custom-scrollbar">
               <table className="min-w-full bg-white border-collapse">
                 <thead className="sticky top-0 bg-gray-200 z-10">
-                  <tr className="border-b border-gray-300 text-sm font-semibold text-gray-700">
-                    <th className="px-4 py-3 text-left">
+                  <tr className="border-b border-cyan-200 text-sm font-semibold text-gray-700">
+                    <th className="px-4 py-3 text-left flex items-center">
                       <input
                         type="checkbox"
                         className="mr-2"
@@ -283,10 +283,10 @@ const PrintingExInitialData = () => {
                         key={product.id}
                         className="border-b border-gray-100 hover:bg-gray-50 transition-colors"
                       >
-                        <td className="px-4 py-3 flex justify-center items-center">
+                        <td className="px-4 py-3 text-center">
                           <input
                             type="checkbox"
-                            className="checkbox checkbox-info custom-checkbox"
+                            className=""
                             checked={selectedItems.some(
                               (item) => item.id === product.id
                             )}
@@ -354,7 +354,7 @@ const PrintingExInitialData = () => {
           </label>
           <select
             id="languageSelect"
-            className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
+            className="w-full border border-cyan-200 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
             value={language}
             onChange={(e) => setLanguage(e.target.value)}
           >
@@ -374,7 +374,7 @@ const PrintingExInitialData = () => {
           </label>
           <select
             id="locationSelect"
-            className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
+            className="w-full border border-cyan-200 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
             value={location}
             onChange={(e) => setLocation(e.target.value)}
           >
@@ -395,7 +395,7 @@ const PrintingExInitialData = () => {
           <input
             id="CountryInput"
             type="text"
-            className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
+            className="w-full border border-cyan-200 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
             placeholder="Enter Company Name..."
             value={company}
             onChange={(e) => setCompany(e.target.value)}
@@ -413,7 +413,7 @@ const PrintingExInitialData = () => {
         <input
           id="remarkInput"
           type="text"
-          className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
+          className="w-full border border-cyan-200 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
           placeholder="Enter your remark..."
           value={remark}
           onChange={(e) => setRemark(e.target.value)}
@@ -429,7 +429,7 @@ const PrintingExInitialData = () => {
         </label>
         <textarea
           id="markInput"
-          className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 resize-none h-24"
+          className="w-full border border-cyan-200 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 resize-none h-24"
           placeholder="Type your mark here..."
           value={mark}
           onChange={(e) => setMark(e.target.value)}
@@ -447,7 +447,7 @@ const PrintingExInitialData = () => {
         <input
           id="totalPalletNo"
           type="number"
-          className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
+          className="w-full border border-cyan-200 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
           placeholder="Enter total pallet number..."
           value={totalPalletNo}
           onChange={(e) => setTotalPalletNo(e.target.value)}
@@ -466,7 +466,7 @@ const PrintingExInitialData = () => {
           <input
             id="receiptNumber"
             type="text"
-            className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
+            className="w-full border border-cyan-200 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
             placeholder="Enter receipt number..."
             value={receiptNumber}
             onChange={(e) => setReceiptNumber(e.target.value)}

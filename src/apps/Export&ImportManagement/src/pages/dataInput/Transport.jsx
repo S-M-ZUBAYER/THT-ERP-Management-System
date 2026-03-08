@@ -35,7 +35,6 @@ const Transport = () => {
     navigate("/export");
   };
 
-
   return (
     <div className="mb-6">
       <div className="flex justify-center items-center">
@@ -46,7 +45,8 @@ const Transport = () => {
           <div>
             <form
               className="card lg:w-[600px] h-[500px] bg-base-100 shadow-xl mt-5"
-              onSubmit={formSubmit}>
+              onSubmit={formSubmit}
+            >
               <div className="form-control mt-5">
                 <div className="input-group  flex lg:flex-none justify-center items-center">
                   <div className="form-control card-body">
@@ -61,7 +61,8 @@ const Transport = () => {
                         id="selectOption"
                         value={formData.transportWay}
                         name="transportWay"
-                        onChange={handleChange}>
+                        onChange={handleChange}
+                      >
                         <option selected>---- Pick Tranport Way ----</option>
                         {localData?.map((product, index) => (
                           <option key={index}>{product.transportWay}</option>
@@ -85,7 +86,8 @@ const Transport = () => {
                         id="selectOption"
                         value={formData.transportCost}
                         name="transportCost"
-                        onChange={handleChange}>
+                        onChange={handleChange}
+                      >
                         <option selected>---- Pick Tranport Cost ----</option>
                         {localData?.map((product, index) => (
                           <option key={index}>{product.transportCost}</option>
@@ -98,13 +100,15 @@ const Transport = () => {
 
               <div className="flex justify-end items-center mr-7 py-5 gap-4">
                 <Link
-                  to="/accounts"
-                  className="btn btn-info font-bold px-8 py-1 text-slate-700">
+                  to="/export-import/accounts"
+                  className="btn btn-info font-bold px-8 py-1 text-slate-700"
+                >
                   Back
                 </Link>
                 <button
                   className="btn btn-info font-bold px-8 py-1 text-slate-700"
-                  type="submit">
+                  type="submit"
+                >
                   Save
                 </button>
               </div>

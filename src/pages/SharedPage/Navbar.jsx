@@ -125,12 +125,17 @@ export default function Navbar() {
         >
           Home
         </button>
-        <button
-          onClick={() => navigate("/settings")}
-          className={getNavClass("/settings")}
-        >
-          Settings
-        </button>
+        {user?.superAdmin || user?.leader ? (
+          <button
+            onClick={() => navigate("/settings")}
+            className={getNavClass("/settings")}
+          >
+            Settings
+          </button>
+        ) : (
+          ""
+        )}
+
         <button
           onClick={() =>
             window.open("https://printernoble.com/appshelp/", "_blank")
@@ -148,15 +153,19 @@ export default function Navbar() {
       </div>
 
       <div className="flex items-center gap-4 relative">
-        <button
-          onClick={() => navigate("/settings")}
-          className={[
-            getNavClass("/settings"),
-            "p-2 rounded-full border hover:bg-gray-100 border-blue-300 transition",
-          ].join(" ")}
-        >
-          <Settings size={18} />
-        </button>
+        {user?.superAdmin || user?.leader ? (
+          <button
+            onClick={() => navigate("/settings")}
+            className={[
+              getNavClass("/settings"),
+              "p-2 rounded-full border hover:bg-gray-100 border-blue-300 transition",
+            ].join(" ")}
+          >
+            <Settings size={18} />
+          </button>
+        ) : (
+          ""
+        )}
 
         <div
           className="flex items-center gap-2 border p-[3px] rounded-full bg-gray-50 hover:bg-gray-100 transition cursor-pointer select-none"

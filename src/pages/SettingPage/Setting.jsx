@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../SharedPage/Navbar";
 import AdminList from "../SettingPage/AdminList";
 import EmployeeSettings from "../SettingPage/EmployeeSettings";
+import "../../apps/CustomerManagementSystem/components/Shared/responsive-container.css";
 
 const Setting = () => {
   const [activeTab, setActiveTab] = useState("admin");
@@ -48,7 +49,7 @@ const Setting = () => {
   }, [activeTab]);
 
   return (
-    <div className="min-h-screen bg-white text-gray-800 flex flex-col items-center px-4 sm:px-6 py-8 w-full max-w-9xl">
+    <div className="min-h-screen responsive-container bg-white text-gray-800 flex flex-col items-center px-4 sm:px-6 py-8 w-full max-w-9xl">
       <Navbar />
 
       {/* Tabs */}

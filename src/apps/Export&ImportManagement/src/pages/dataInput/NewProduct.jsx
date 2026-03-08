@@ -252,16 +252,16 @@ const NewProduct = () => {
                           key={product.id}
                           className="border-b border-gray-100 hover:bg-gray-50 transition-colors duration-150 cursor-pointer"
                         >
-                          <td className="px-4 py-2 text-sm text-gray-900">
+                          <td className="px-4 py-2 text-base text-gray-900">
                             {index + 1}
                           </td>
-                          <td className="px-4 py-2 text-sm text-gray-900 text-center">
+                          <td className="px-4 py-2 text-base text-gray-900 text-center">
                             {product.productName}
                           </td>
                           <td className="px-4 py-2 ">
                             <div className="flex space-x-10 justify-center">
                               <Link
-                                to={`/newproduct/${product.id}`}
+                                to={`/export-import/newproduct/${product.id}`}
                                 className="flex items-center justify-center"
                               >
                                 <AiOutlineEdit className="w-6 h-6 text-purple-600 hover:text-purple-700 transition-colors" />

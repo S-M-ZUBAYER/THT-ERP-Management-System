@@ -1,0 +1,66 @@
+/* Base full-width */
+.responsive-container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+/* Extra–extra large screens (above 1900px) */
+@media (min-width: 1900px) {
+  .responsive-container {
+    min-width: 1700px;
+  }
+}
+
+/* Extra large screens (1600–1899px) */
+@media (min-width: 1600px) and (max-width: 1899px) {
+  .responsive-container {
+    min-width: 1600px;
+  }
+}
+
+/* Large screens (1500–1599px) */
+@media (min-width: 1500px) and (max-width: 1599px) {
+  .responsive-container {
+    min-width: 1500px;
+  }
+}
+
+/* Medium-large screens (1400–1499px) */
+@media (min-width: 1400px) and (max-width: 1499px) {
+  .responsive-container {
+    min-width: 1400px;
+  }
+}
+
+/* Medium screens (1200–1399px) */
+@media (min-width: 1200px) and (max-width: 1399px) {
+  .responsive-container {
+    min-width: 1200px;
+  }
+}
+
+/* Normal laptop (1024–1199px) */
+@media (min-width: 1024px) and (max-width: 1199px) {
+  .responsive-container {
+    min-width: 1000px;
+  }
+}
+
+/* Tablet (768–1023px) → Full width */
+@media (max-width: 1023px) {
+  .responsive-container {
+    min-width: 100%;
+  }
+}
+
+/* Mobile → Full width */
+@media (max-width: 767px) {
+  .responsive-container {
+    min-width: 100%;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+}

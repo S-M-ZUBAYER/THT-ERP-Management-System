@@ -14,6 +14,7 @@ import Contact from "@/pages/Contact";
 import Setting from "@/pages/SettingPage/Setting";
 import Register from "@/pages/Register";
 import MainPrivateRoute from "@/pages/SharedPage/MainPrivateRoute";
+import SettingPrivateRoute from "@/pages/SharedPage/SettingPrivateRoute";
 
 const AppRoutes = () => {
   return (
@@ -30,7 +31,16 @@ const AppRoutes = () => {
       <Route path="/register" element={<Register />} />
       <Route path="/Home" element={<Dashboard />} />
       <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/settings" element={<Setting />} />
+      <Route
+        path="/settings"
+        element={
+          <MainPrivateRoute>
+            <SettingPrivateRoute>
+              <Setting />
+            </SettingPrivateRoute>
+          </MainPrivateRoute>
+        }
+      />
       <Route path="/contact" element={<Contact />} />
       <Route path="/task-management/*" element={<TaskmanagementApp />} />
       <Route path="/wowomart-management/*" element={<WowomartApp />} />

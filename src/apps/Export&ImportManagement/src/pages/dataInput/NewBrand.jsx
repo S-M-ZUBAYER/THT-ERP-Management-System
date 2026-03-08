@@ -263,16 +263,16 @@ const NewBrand = () => {
                           key={product.id}
                           className="border-b border-gray-100 hover:bg-gray-50 transition-colors duration-150 cursor-pointer"
                         >
-                          <td className="px-4 py-2 text-base text-gray-900">
+                          <td className="px-4 py-1 text-base text-gray-900">
                             {index + 1}
                           </td>
-                          <td className="px-4 py-2 text-base text-gray-900 text-center">
+                          <td className="px-4 py-1 text-base text-gray-900 text-center">
                             {product.productName}
                           </td>
-                          <td className="px-4 py-2 text-base text-gray-900 text-center">
+                          <td className="px-4 py-1 text-base text-gray-900 text-center">
                             {product.productBrand}
                           </td>
-                          <td className="px-4 py-2">
+                          <td className="px-4 py-1">
                             <div className="flex space-x-10 justify-center">
                               <Link
                                 to={`/export-import/newbrand/${product.id}`}

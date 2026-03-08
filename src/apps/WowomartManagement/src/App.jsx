@@ -38,7 +38,7 @@ const Layout = () => (
 const ProtectedRoute = ({ children }) => {
   // const user = JSON.parse(localStorage.getItem("user"));
   const user = JSON.parse(localStorage.getItem("wowomartUser"));
-  return user ? children : <Navigate to="/wowomart/log-in" replace />;
+  return user ? children : <Navigate to="/login" replace />;
 };
 
 const ProtectedAdminRoute = ({ children }) => {
