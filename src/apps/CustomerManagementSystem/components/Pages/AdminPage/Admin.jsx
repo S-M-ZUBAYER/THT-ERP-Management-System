@@ -173,6 +173,16 @@ const Admin = () => {
                 </li>
                 <li>
                   <NavLink
+                    to="/customer-management-system/admin/verifyUserEmail"
+                    className={({ isActive }) =>
+                      isActive ? activeLinkClasses : linkClasses
+                    }
+                  >
+                    User Email Verification
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
                     to="/customer-management-system/admin/ChatBotManage"
                     className={({ isActive }) =>
                       isActive ? activeLinkClasses : linkClasses
