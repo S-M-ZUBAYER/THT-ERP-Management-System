@@ -93,7 +93,7 @@ export default function UserEmailVerification() {
     setVerifiedUser(null);
     try {
       const encodedEmail = email.trim();
-      const url = `http://192.168.0.168:5001/api/dev/user/emailVerification/update?email=${encodedEmail}`;
+      const url = `https://grozziieget.zjweiting.com:3091/CustomerService-Chat/api/dev/user/emailVerification/update?email=${encodedEmail}`;
       console.log(url, "verify email url");
 
       const response = await fetch(url, { method: "PUT" });
