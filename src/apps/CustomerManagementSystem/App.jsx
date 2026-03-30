@@ -120,6 +120,7 @@ import PrivateRoute from "./Routes/Routes/PrivateRoute/PrivateRoute";
 import FaceAttendanceManage from "./components/Pages/AdminPage/AdminDashboard/FaceAttendanceMange/FaceAttendanceManage";
 import OnlinePrintManagement from "./components/Pages/AdminPage/AdminDashboard/Online Print/OnlinePrintManagement";
 import ChatbotUnknownQuestionManagement from "./components/Pages/AdminPage/AdminDashboard/ChatbotUnknownQuestionManagement/ChatbotUnknownQuestionManagement";
+import UserEmailVerification from "./components/Pages/AdminPage/AdminDashboard/UserEmailVerification/UserEmailVerification";
 
 // ✅ Auth Context
 export const AuthContext = createContext();
@@ -403,6 +404,14 @@ const CustomerManagementSystemApp = () => {
               element={
                 <PrivateRoute>
                   <OnlinePrintManagement />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="verifyUserEmail"
+              element={
+                <PrivateRoute>
+                  <UserEmailVerification />
                 </PrivateRoute>
               }
             />

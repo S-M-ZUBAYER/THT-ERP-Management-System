@@ -238,7 +238,7 @@ const PurchaseFinance = () => {
       });
 
       // Navigate to final purchase page after the operation is complete
-      navigate("/finalExport");
+      navigate("/export-import/finalExport");
     } catch (error) {
       toast.error(
         "This error is coming from the server, please try again later!!",
@@ -277,6 +277,7 @@ const PurchaseFinance = () => {
             />
           </div>
 
+          {/* <div className="max-h-[400px] overflow-y-auto custom-scrollbar"> */}
           <div className="overflow-x-auto add__scrollbar">
             {financePurchaseLoading ? (
               <div className="">
@@ -291,92 +292,78 @@ const PurchaseFinance = () => {
                 </p>
               </div>
             ) : (
-              <div className="overflow-x-auto">
-                <table className="w-full border-collapse bg-white shadow-sm">
-                  <thead>
-                    <tr className="bg-gray-100 border-b border-gray-200">
-                      <th className="px-4 py-3 text-left text-base font-medium text-gray-700">
+              <div style={{ minHeight: "400px", overflowY: "auto" }}>
+                <table className="table w-full">
+                  <thead className="sticky top-0 z-10">
+                    <tr className="bg-gray-200">
+                      <th className="px-4 py-3 border-b hover:bg-slate-50 text-left text-base font-medium text-gray-700">
                         Select
                       </th>
-                      <th className="px-4 py-3 text-left text-base font-medium text-gray-700">
+                      <th className="px-4 py-3 border-b hover:bg-slate-50 text-left text-base font-medium text-gray-700">
                         Serial No
                       </th>
-                      <th className="px-4 py-3 text-left text-base font-medium text-gray-700">
+                      <th className="px-4 py-3 border-b hover:bg-slate-50 text-left text-base font-medium text-gray-700">
                         Date
                       </th>
-                      <th className="px-4 py-3 text-left text-base font-medium text-gray-700">
+                      <th className="px-4 py-3 border-b hover:bg-slate-50 text-left text-base font-medium text-gray-700">
                         Invoice No.
                       </th>
-                      <th className="px-4 py-3 text-left text-base font-medium text-gray-700">
+                      <th className="px-4 py-3 border-b hover:bg-slate-50 text-left text-base font-medium text-gray-700">
                         EP No.
                       </th>
-                      <th className="px-4 py-3 text-left text-base font-medium text-gray-700">
+                      <th className="px-4 py-3 border-b hover:bg-slate-50 text-left text-base font-medium text-gray-700">
                         Container No
                       </th>
-                      <th className="px-4 py-3 text-left text-base font-medium text-gray-700">
+                      <th className="px-4 py-3 border-b hover:bg-slate-50 text-left text-base font-medium text-gray-700">
                         Country Name
                       </th>
-                      <th className="px-4 py-3 text-left text-base font-medium text-gray-700">
+                      <th className="px-4 py-3 border-b hover:bg-slate-50 text-left text-base font-medium text-gray-700">
                         Port Name
                       </th>
                     </tr>
                   </thead>
+                  <tbody>
+                    {filteredFinancePurchases?.length === 0 ? (
+                      <tr>
+                        <td colSpan={8} className="text-center py-8">
+                          No data found
+                        </td>
+                      </tr>
+                    ) : (
+                      filteredFinancePurchases?.map((product, index) => {
+                        return (
+                          <tr
+                            className="hover cursor-pointer hover:bg-slate-50 border-b"
+                            key={product.id}
+                          >
+                            <td className="px-4 py-3 hover:bg-slate-50 ">
+                              {" "}
+                              <input
+                                type="checkbox"
+                                className="checkbox checkbox-info"
+                                name="product"
+                                value={product.id}
+                                checked={selectedItem === product.id}
+                                onChange={() => handleCheckboxChange(product)}
+                              />
+                            </td>
+                            <td className="px-4 py-3 ">{index + 1}</td>{" "}
+                            <td className="px-4 py-3 ">{product.date}</td>{" "}
+                            <td className="px-4 py-3 ">{product.invoiceNo}</td>{" "}
+                            <td className="px-4 py-3 ">{product.epNo}</td>{" "}
+                            <td className="px-4 py-3 ">{product.truckNo}</td>{" "}
+                            <td className="px-4 py-3 ">
+                              {product.transportCountryName}
+                            </td>{" "}
+                            <td className="px-4 py-3 ">
+                              {product.transportPort}
+                            </td>{" "}
+                          </tr>
+                        );
+                      })
+                    )}
+                  </tbody>
                 </table>
-
-                <div className="max-h-[400px] overflow-y-auto custom-scrollbar">
-                  <table className="w-full border-collapse bg-white min-h-96">
-                    <tbody>
-                      {filteredFinancePurchases.length === 0 ? (
-                        <tr>
-                          <td colSpan={10} className="text-center">
-                            No data found
-                          </td>
-                        </tr>
-                      ) : (
-                        filteredFinancePurchases?.map((product, index) => {
-                          return (
-                            <tr
-                              key={product.id}
-                              className="border-b border-gray-100 hover:bg-gray-50 transition-colors duration-150 cursor-pointer"
-                            >
-                              <td className="px-4 py-3">
-                                <input
-                                  type="checkbox"
-                                  className="custom-checkbox"
-                                  name="product"
-                                  value={product.id}
-                                  checked={selectedItem === product.id}
-                                  onChange={() => handleCheckboxChange(product)}
-                                />
-                              </td>
-                              <td className="px-4 py-3 text-base text-gray-900">
-                                {index + 1}
-                              </td>
-                              <td className="px-4 py-3 text-base text-gray-900">
-                                {product.date}
-                              </td>
-                              <td className="px-4 py-3 text-base text-gray-900">
-                                {product.invoiceNo}
-                              </td>
-                              <td className="px-4 py-3 text-base text-gray-900">
-                                {product.epNo}
-                              </td>
-                              <td className="px-4 py-3 text-base text-gray-900">
-                                {product.truckNo}
-                              </td>
-                              <td className="px-4 py-3 text-base text-gray-900">
-                                {product.transportCountryName}
-                              </td>
-                              <td className="px-4 py-3 text-base text-gray-900">
-                                {product.transportPort}
-                              </td>
-                            </tr>
-                          );
-                        })
-                      )}
-                    </tbody>
-                  </table>
-                </div>
               </div>
             )}
           </div>
