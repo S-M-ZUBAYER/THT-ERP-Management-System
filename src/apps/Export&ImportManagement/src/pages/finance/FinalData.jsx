@@ -4,12 +4,12 @@ import { useState, useEffect, useContext } from "react";
 import ReactPaginate from "react-paginate";
 import { ClipLoader } from "react-spinners";
 import { useRef } from "react";
-import { generatePDF } from "./PrintablePage";
 import { addDays, format } from "date-fns";
 import { DateRangePicker } from "react-date-range";
 import { ShowDetailsModal } from "./ShowDetailsModal";
 import { Link } from "react-router-dom";
 import { UserContext } from "../../components/context/authContext";
+import { generatePDF } from "./PrintablePage";
 
 // loader css style
 const override = {
@@ -62,8 +62,8 @@ const FinalData = () => {
     setFilteredFinalData(
       finances.slice(
         selected * itemsPerPage,
-        selected * itemsPerPage + itemsPerPage
-      )
+        selected * itemsPerPage + itemsPerPage,
+      ),
     );
     setCurrentPage(selected);
   };
@@ -71,11 +71,11 @@ const FinalData = () => {
   const fetchFinance = async () => {
     try {
       const response = await axios.get(
-        "https://grozziieget.zjweiting.com:3091/web-api-tht-1/api/dev/finance"
+        "https://grozziieget.zjweiting.com:3091/web-api-tht-1/api/dev/finance",
       );
       const sortedData = response?.data.sort((a, b) => b.id - a.id);
       const finalData = sortedData.filter(
-        (data) => data.status === "finalData"
+        (data) => data.status === "finalData",
       );
       setFinances(finalData);
       setFilteredFinalData(finalData.slice(0, itemsPerPage));
@@ -133,7 +133,7 @@ const FinalData = () => {
         account.transportCountry.toLowerCase().includes(value) ||
         account.date.toLowerCase().includes(value) ||
         account.invoiceNo.toLowerCase().includes(value) ||
-        account.epNo.toLowerCase().includes(value)
+        account.epNo.toLowerCase().includes(value),
     );
     setFilteredFinalData(filteredProducts);
   };
@@ -163,7 +163,7 @@ const FinalData = () => {
           <input
             value={`${format(startDate, "MM/dd/yyyy")} to ${format(
               endDate,
-              "MM/dd/yyyy"
+              "MM/dd/yyyy",
             )}`}
             className="inputBox border-2 border-indigo-600 p-2 w-2/4 rounded text-center"
             onClick={() => setOpen((open) => !open)}
@@ -239,7 +239,7 @@ const FinalData = () => {
                       <td className=" flex justify-between items-center py-1 border-r">
                         <Link
                           onClick={() => setFinanceDetailsData(finalData)}
-                          to={`/finalData-details/${finalData.id}`}
+                          to={`/export-import/finalData-details/${finalData.id}`}
                           className=" hover:bg-cyan-400 px-4 active:scale-[.98] active:duration-75 hover:scale-[1.03] ease-in-out transition-all py-[6px] rounded-lg bg-violet-500 text-white font-bold hover:text-black"
                         >
                           Details

@@ -146,6 +146,14 @@ const Navbar = () => {
                         </li>
                         <li className="mb-5">
                           <Link
+                            to="/customer-management-system/admin/AttendanceMachineVersionControl"
+                            className="sm:text-xs md:text-base text-gray-700 font-normal"
+                          >
+                            Attendance Machine Version Control
+                          </Link>
+                        </li>
+                        <li className="mb-5">
+                          <Link
                             to="/customer-management-system/admin/OnlinePrint"
                             className="sm:text-xs md:text-base text-gray-700 font-normal"
                           >

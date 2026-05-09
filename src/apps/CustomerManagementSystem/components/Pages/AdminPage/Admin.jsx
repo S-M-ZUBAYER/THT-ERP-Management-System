@@ -163,6 +163,16 @@ const Admin = () => {
                 </li>
                 <li>
                   <NavLink
+                    to="/customer-management-system/admin/AttendanceMachineVersionControl"
+                    className={({ isActive }) =>
+                      isActive ? activeLinkClasses : linkClasses
+                    }
+                  >
+                    Attendance Machine Version Control
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
                     to="/customer-management-system/admin/OnlinePrint"
                     className={({ isActive }) =>
                       isActive ? activeLinkClasses : linkClasses
