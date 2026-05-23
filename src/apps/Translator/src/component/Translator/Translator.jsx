@@ -12,6 +12,7 @@ import ImageTextDetection from "./ImageTextDetection";
 import TryImageDetect from "./TryImageDetect";
 import { useLocation, useNavigate } from "react-router-dom";
 import Navbar from "@/pages/SharedPage/Navbar";
+import TranslatorModeTabs from "../TranslatorModeTabs";
 import "../../../../CustomerManagementSystem/components/Shared/responsive-container.css";
 
 function Translator() {
@@ -271,6 +272,7 @@ function Translator() {
   return (
     <div className="min-h-screen responsive-container bg-white text-gray-800 flex flex-col items-center px-6 py-10">
       <Navbar></Navbar>
+      <TranslatorModeTabs />
       <div className="w-full max-w-6xl mx-auto px-4 pt-10 relative">
         {/* Single Language Translator */}
         <div>

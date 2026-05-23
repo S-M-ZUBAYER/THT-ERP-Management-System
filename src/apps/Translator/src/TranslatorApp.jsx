@@ -30,6 +30,7 @@ import Main from "./component/Main/Main";
 import ErrorPage from "./component/ErrorPage/ErrorPage";
 import PrivateRoute from "./component/PrivateRoute/PrivateRoute";
 import Navbar from "@/pages/SharedPage/Navbar";
+import TranslatorModeTabs from "./component/TranslatorModeTabs";
 import ChatbotUnknownQuestionManagement from "@/apps/CustomerManagementSystem/components/Pages/AdminPage/AdminDashboard/ChatbotUnknownQuestionManagement/ChatbotUnknownQuestionManagement";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -39,6 +40,7 @@ import "./App.css";
 const ChatbotManagementPage = () => (
   <div className="min-h-screen responsive-container bg-white text-gray-800 flex flex-col items-center px-6 py-10">
     <Navbar />
+    <TranslatorModeTabs />
     <div className="w-full">
       <ChatbotUnknownQuestionManagement allowDelete={false} />
     </div>
