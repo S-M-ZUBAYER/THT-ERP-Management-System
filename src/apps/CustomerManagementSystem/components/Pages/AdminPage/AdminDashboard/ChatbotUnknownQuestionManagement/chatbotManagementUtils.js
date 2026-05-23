@@ -83,6 +83,94 @@ export const getQuestionAnswer = (question) => {
   return possibleAnswer || "No answer found in this question data.";
 };
 
+const downloadWorkbook = async (workbook, fileName) => {
+  const buffer = await workbook.xlsx.writeBuffer();
+  const blob = new Blob([buffer], {
+    type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = fileName;
+  link.click();
+  URL.revokeObjectURL(url);
+};
+
+export const downloadQADraftTemplate = async () => {
+  const workbook = new ExcelJS.Workbook();
+  const worksheet = workbook.addWorksheet("Q&A Drafts");
+
+  worksheet.columns = [
+    { header: "Question", key: "question", width: 70 },
+    { header: "Answer", key: "answer", width: 80 },
+  ];
+
+  worksheet.getRow(1).font = { bold: true };
+  worksheet.getRow(1).alignment = { vertical: "middle", horizontal: "center" };
+
+  worksheet.addRow({
+    question: "How do I reset the device?",
+    answer: "Open settings, choose reset, then follow the device prompt.",
+  });
+
+  worksheet.eachRow((row) => {
+    row.eachCell((cell) => {
+      cell.alignment = { vertical: "top", wrapText: true };
+      cell.border = {
+        top: { style: "thin" },
+        left: { style: "thin" },
+        bottom: { style: "thin" },
+        right: { style: "thin" },
+      };
+    });
+  });
+
+  await downloadWorkbook(
+    workbook,
+    `chatbot_qa_import_template_${new Date().toISOString().split("T")[0]}.xlsx`,
+  );
+};
+
+const normalizeHeader = (value) => String(value || "").trim().toLowerCase();
+
+export const parseQADraftImportFile = async (file) => {
+  const workbook = new ExcelJS.Workbook();
+  const buffer = await file.arrayBuffer();
+  await workbook.xlsx.load(buffer);
+
+  const worksheet = workbook.worksheets[0];
+  if (!worksheet) {
+    throw new Error("No worksheet found in the uploaded file.");
+  }
+
+  const headerRow = worksheet.getRow(1);
+  const headerMap = {};
+  headerRow.eachCell((cell, colNumber) => {
+    headerMap[normalizeHeader(cell.value)] = colNumber;
+  });
+
+  const questionColumn = headerMap.question;
+  const answerColumn = headerMap.answer;
+
+  if (!questionColumn || !answerColumn) {
+    throw new Error("Template must include Question and Answer columns.");
+  }
+
+  const rows = [];
+  worksheet.eachRow((row, rowNumber) => {
+    if (rowNumber === 1) return;
+
+    const question = String(row.getCell(questionColumn).text || "").trim();
+    const answer = String(row.getCell(answerColumn).text || "").trim();
+
+    if (question && answer) {
+      rows.push({ question, answer });
+    }
+  });
+
+  return rows;
+};
+
 export const FAQ_DRAFT_BASE_URL = "https://grozziie.zjweiting.com:8035";
 export const UNKNOWN_QUESTIONS_PAGE_LIMIT = 20;
 

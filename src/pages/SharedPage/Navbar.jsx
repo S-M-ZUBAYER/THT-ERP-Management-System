@@ -109,8 +109,6 @@ export default function Navbar() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const chatbotManagementPath = "/translator/chatbot-management";
-
   return (
     <div className="w-full flex justify-between items-center max-w-9xl mb-4 ">
       <button
@@ -145,12 +143,6 @@ export default function Navbar() {
           className="text-sm font-medium text-[#272727] hover:text-[#004368] transition"
         >
           App & Helps
-        </button>
-        <button
-          onClick={() => navigate(chatbotManagementPath)}
-          className={getNavClass(chatbotManagementPath)}
-        >
-          Chatbot Management
         </button>
         <button
           onClick={() => navigate("/contact")}
