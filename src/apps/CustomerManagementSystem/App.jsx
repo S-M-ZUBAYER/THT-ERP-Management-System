@@ -121,6 +121,7 @@ import FaceAttendanceManage from "./components/Pages/AdminPage/AdminDashboard/Fa
 import OnlinePrintManagement from "./components/Pages/AdminPage/AdminDashboard/Online Print/OnlinePrintManagement";
 import ChatbotUnknownQuestionManagement from "./components/Pages/AdminPage/AdminDashboard/ChatbotUnknownQuestionManagement/ChatbotUnknownQuestionManagement";
 import UserEmailVerification from "./components/Pages/AdminPage/AdminDashboard/UserEmailVerification/UserEmailVerification";
+import AttendanceMachineVersionControlPage from "./components/Pages/AdminPage/AdminDashboard/AttendanceMachineVersionControl/AttendanceMachineVersionControlPage";
 
 // ✅ Auth Context
 export const AuthContext = createContext();
@@ -396,6 +397,14 @@ const CustomerManagementSystemApp = () => {
               element={
                 <PrivateRoute>
                   <FaceAttendanceManage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="AttendanceMachineVersionControl"
+              element={
+                <PrivateRoute>
+                  <AttendanceMachineVersionControlPage />
                 </PrivateRoute>
               }
             />

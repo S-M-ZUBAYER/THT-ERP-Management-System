@@ -43,6 +43,7 @@ import VoltagePercentage from "../../components/Pages/AdminPage/AdminDashboard/P
 import AddAdminBackgroundImg from "../../components/Pages/AdminPage/AdminDashboard/BackgroundImgPage/AddAdminBackgroundImg";
 import ShowAdminBackgroundImg from "../../components/Pages/AdminPage/AdminDashboard/BackgroundImgPage/ShowAdminBackgroundImg";
 import FaceAttendanceManage from "../../components/Pages/AdminPage/AdminDashboard/FaceAttendanceMange/FaceAttendanceManage";
+import AttendanceMachineVersionControlPage from "../../components/Pages/AdminPage/AdminDashboard/AttendanceMachineVersionControl/AttendanceMachineVersionControlPage";
 import ChatbotUnknownQuestionManagement from "../../components/Pages/AdminPage/AdminDashboard/ChatbotUnknownQuestionManagement/ChatbotUnknownQuestionManagement";
 import UserEmailVerification from "../../components/Pages/AdminPage/AdminDashboard/UserEmailVerification/UserEmailVerification";
 
@@ -288,6 +289,14 @@ export const routes = createBrowserRouter([
         element: (
           <PrivateRoute>
             <FaceAttendanceManage></FaceAttendanceManage>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/customer-management-system/admin/AttendanceMachineVersionControl",
+        element: (
+          <PrivateRoute>
+            <AttendanceMachineVersionControlPage></AttendanceMachineVersionControlPage>
           </PrivateRoute>
         ),
       },
