@@ -29,9 +29,21 @@ import LogIn from "./component/LogIn/LogIn";
 import Main from "./component/Main/Main";
 import ErrorPage from "./component/ErrorPage/ErrorPage";
 import PrivateRoute from "./component/PrivateRoute/PrivateRoute";
+import Navbar from "@/pages/SharedPage/Navbar";
+import ChatbotUnknownQuestionManagement from "@/apps/CustomerManagementSystem/components/Pages/AdminPage/AdminDashboard/ChatbotUnknownQuestionManagement/ChatbotUnknownQuestionManagement";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "@/apps/CustomerManagementSystem/components/Shared/responsive-container.css";
 import "./App.css";
+
+const ChatbotManagementPage = () => (
+  <div className="min-h-screen responsive-container bg-white text-gray-800 flex flex-col items-center px-6 py-10">
+    <Navbar />
+    <div className="w-full">
+      <ChatbotUnknownQuestionManagement allowDelete={false} />
+    </div>
+  </div>
+);
 
 const TranslatorApp = () => {
   return (
@@ -44,6 +56,14 @@ const TranslatorApp = () => {
             element={
               <PrivateRoute>
                 <Translator />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="chatbot-management"
+            element={
+              <PrivateRoute>
+                <ChatbotManagementPage />
               </PrivateRoute>
             }
           />
