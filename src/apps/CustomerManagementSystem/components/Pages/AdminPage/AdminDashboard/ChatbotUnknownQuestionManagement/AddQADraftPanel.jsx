@@ -1,5 +1,13 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { FAQ_APPLY_URLS, FAQ_DRAFT_BASE_URL, FAQ_PRODUCTS, getSavedUserEmail } from "./chatbotManagementUtils";
+import { ChevronDown, Download, FileSpreadsheet, Upload, X } from "lucide-react";
+import {
+  downloadQADraftTemplate,
+  FAQ_APPLY_URLS,
+  FAQ_DRAFT_BASE_URL,
+  FAQ_PRODUCTS,
+  getSavedUserEmail,
+  parseQADraftImportFile,
+} from "./chatbotManagementUtils";
 import { ConfirmActionModal, LoadingSpinner } from "./SharedChatbotComponents";
 
 const AddQADraftPanel = () => {
@@ -16,6 +24,14 @@ const AddQADraftPanel = () => {
   const [applyingDrafts, setApplyingDrafts] = useState(false);
   const [statusMessage, setStatusMessage] = useState("");
   const [confirmAction, setConfirmAction] = useState(null);
+  const [showImportMenu, setShowImportMenu] = useState(false);
+  const [showImportModal, setShowImportModal] = useState(false);
+  const [importProduct, setImportProduct] = useState(FAQ_PRODUCTS[0]);
+  const [importRows, setImportRows] = useState([]);
+  const [importFileName, setImportFileName] = useState("");
+  const [importMessage, setImportMessage] = useState("");
+  const [importingDrafts, setImportingDrafts] = useState(false);
+  const [parsingImport, setParsingImport] = useState(false);
 
   const fetchDrafts = useCallback(async () => {
     if (!selectedProduct || !userEmail) {
@@ -96,6 +112,98 @@ const AddQADraftPanel = () => {
       setStatusMessage("Failed to save Q/A draft.");
     } finally {
       setSavingDraft(false);
+    }
+  };
+
+  const handleOpenImportModal = () => {
+    setShowImportMenu(false);
+    setImportProduct(selectedProduct);
+    setImportRows([]);
+    setImportFileName("");
+    setImportMessage("");
+    setShowImportModal(true);
+  };
+
+  const handleImportFileChange = async (event) => {
+    const file = event.target.files?.[0];
+    setImportRows([]);
+    setImportMessage("");
+
+    if (!file) {
+      setImportFileName("");
+      return;
+    }
+
+    setImportFileName(file.name);
+
+    try {
+      setParsingImport(true);
+      const rows = await parseQADraftImportFile(file);
+
+      if (!rows.length) {
+        setImportMessage("No valid rows found. Question and Answer are required.");
+        return;
+      }
+
+      setImportRows(rows);
+      setImportMessage(`${rows.length} Q/A draft row${rows.length > 1 ? "s" : ""} ready to import.`);
+    } catch (error) {
+      console.error("Failed to parse import file:", error);
+      setImportMessage(error.message || "Failed to read XLSX file.");
+    } finally {
+      setParsingImport(false);
+      event.target.value = "";
+    }
+  };
+
+  const handleImportDrafts = async () => {
+    if (!userEmail) {
+      setImportMessage("Logged-in user email is required.");
+      return;
+    }
+
+    if (!importProduct || importRows.length === 0) {
+      setImportMessage("Select product and upload a valid XLSX file first.");
+      return;
+    }
+
+    try {
+      setImportingDrafts(true);
+      setImportMessage("");
+
+      for (const row of importRows) {
+        const response = await fetch(
+          `${FAQ_DRAFT_BASE_URL}/tht/chatBot/faq-drafts`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              product: importProduct,
+              userEmail,
+              question: row.question,
+              answer: row.answer,
+              variants: [],
+            }),
+          },
+        );
+        const data = await response.json();
+
+        if (!response.ok || data.success === false) {
+          throw new Error(data.message || "Failed to save imported draft");
+        }
+      }
+
+      setSelectedProduct(importProduct);
+      setShowImportModal(false);
+      setStatusMessage(`${importRows.length} imported Q/A draft${importRows.length > 1 ? "s" : ""} saved as pending.`);
+      if (importProduct === selectedProduct) {
+        fetchDrafts();
+      }
+    } catch (error) {
+      console.error("Failed to import drafts:", error);
+      setImportMessage("Failed to save imported Q/A drafts.");
+    } finally {
+      setImportingDrafts(false);
     }
   };
 
@@ -314,6 +422,48 @@ const AddQADraftPanel = () => {
           </div>
 
           <div className="flex flex-col gap-3 md:flex-row">
+            <div className="relative">
+              <button
+                type="button"
+                className="flex items-center gap-2 rounded-lg bg-emerald-600 px-4 py-2 font-semibold text-white transition-colors hover:bg-emerald-700"
+                onClick={() => setShowImportMenu((prev) => !prev)}
+                aria-expanded={showImportMenu}
+              >
+                <FileSpreadsheet size={18} />
+                Import Excel
+                <ChevronDown
+                  size={17}
+                  className={`transition-transform ${
+                    showImportMenu ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+
+              {showImportMenu && (
+                <div className="absolute right-0 z-20 mt-2 w-56 rounded-lg border border-slate-200 bg-white p-2 shadow-lg">
+                  <button
+                    type="button"
+                    className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-sm font-semibold text-slate-700 hover:bg-slate-100"
+                    onClick={async () => {
+                      setShowImportMenu(false);
+                      await downloadQADraftTemplate();
+                    }}
+                  >
+                    <Download size={16} />
+                    Download Template
+                  </button>
+                  <button
+                    type="button"
+                    className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-sm font-semibold text-slate-700 hover:bg-slate-100"
+                    onClick={handleOpenImportModal}
+                  >
+                    <Upload size={16} />
+                    Import XLSX
+                  </button>
+                </div>
+              )}
+            </div>
+
             <button
               className="rounded-lg bg-purple-600 px-4 py-2 font-semibold text-white transition-colors hover:bg-purple-700 disabled:cursor-not-allowed disabled:bg-gray-300"
               onClick={() =>
@@ -501,6 +651,131 @@ const AddQADraftPanel = () => {
           }}
           onCancel={() => setConfirmAction(null)}
         />
+      )}
+
+      {showImportModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
+          <div className="w-full max-w-2xl rounded-xl bg-white shadow-2xl">
+            <div className="flex items-center justify-between border-b border-slate-200 px-6 py-4">
+              <div>
+                <h3 className="text-xl font-bold text-[#004368]">
+                  Import Q/A Drafts
+                </h3>
+                <p className="text-sm text-slate-500">
+                  Upload an XLSX file with Question and Answer columns.
+                </p>
+              </div>
+              <button
+                type="button"
+                className="rounded-full p-2 text-slate-500 hover:bg-slate-100 hover:text-slate-700"
+                onClick={() => setShowImportModal(false)}
+                aria-label="Close import modal"
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            <div className="space-y-5 p-6">
+              <div>
+                <label className="mb-2 block text-sm font-semibold text-gray-700">
+                  Product
+                </label>
+                <select
+                  value={importProduct}
+                  onChange={(event) => setImportProduct(event.target.value)}
+                  className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                >
+                  {FAQ_PRODUCTS.map((product) => (
+                    <option key={product} value={product}>
+                      {product}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="mb-2 block text-sm font-semibold text-gray-700">
+                  XLSX File
+                </label>
+                <label className="flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-slate-300 bg-slate-50 px-4 py-8 text-center transition hover:border-emerald-500 hover:bg-emerald-50">
+                  <Upload className="mb-2 text-emerald-600" size={28} />
+                  <span className="font-semibold text-slate-700">
+                    {importFileName || "Choose XLSX file"}
+                  </span>
+                  <span className="mt-1 text-sm text-slate-500">
+                    Use the downloaded template format.
+                  </span>
+                  <input
+                    type="file"
+                    accept=".xlsx"
+                    className="hidden"
+                    onChange={handleImportFileChange}
+                    disabled={parsingImport || importingDrafts}
+                  />
+                </label>
+              </div>
+
+              {importRows.length > 0 && (
+                <div className="rounded-lg border border-slate-200">
+                  <div className="border-b border-slate-200 bg-slate-50 px-4 py-2 text-sm font-semibold text-slate-700">
+                    Preview ({importRows.length} rows)
+                  </div>
+                  <div className="max-h-52 overflow-auto">
+                    <table className="min-w-full divide-y divide-slate-200 text-sm">
+                      <thead className="bg-white">
+                        <tr>
+                          <th className="px-4 py-2 text-left font-semibold text-slate-600">
+                            Question
+                          </th>
+                          <th className="px-4 py-2 text-left font-semibold text-slate-600">
+                            Answer
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-100">
+                        {importRows.slice(0, 10).map((row, index) => (
+                          <tr key={`${row.question}-${index}`}>
+                            <td className="px-4 py-2 text-slate-700">
+                              {row.question}
+                            </td>
+                            <td className="px-4 py-2 text-slate-700">
+                              {row.answer}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
+
+              {importMessage && (
+                <p className="rounded-lg bg-blue-50 px-4 py-3 text-sm font-medium text-blue-700">
+                  {importMessage}
+                </p>
+              )}
+            </div>
+
+            <div className="flex justify-end gap-3 border-t border-slate-200 px-6 py-4">
+              <button
+                type="button"
+                className="rounded-lg border border-slate-300 px-4 py-2 font-semibold text-slate-700 hover:bg-slate-100"
+                onClick={() => setShowImportModal(false)}
+                disabled={importingDrafts}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                className="rounded-lg bg-[#004368] px-5 py-2 font-semibold text-white transition-colors hover:bg-[#005985] disabled:cursor-not-allowed disabled:bg-gray-300"
+                onClick={handleImportDrafts}
+                disabled={importingDrafts || parsingImport || importRows.length === 0}
+              >
+                {importingDrafts ? "Saving..." : "Save Draft"}
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </>
   );
