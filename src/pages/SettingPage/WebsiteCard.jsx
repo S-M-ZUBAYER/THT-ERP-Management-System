@@ -161,8 +161,6 @@ const WebsiteCard = ({
         }
       );
 
-      const data = await res.json();
-
       if (res.ok) {
         toast.success("✅ User information updated successfully");
 
@@ -222,7 +220,7 @@ const WebsiteCard = ({
               className="w-full h-48 object-cover rounded-xl mb-4"
             />
           </div>
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center gap-3">
             <h2 className="text-base font-medium text-gray-800">
               {site.title}
             </h2>
@@ -237,18 +235,20 @@ const WebsiteCard = ({
                 Visit site <ChevronRight size={15} />
               </Button>
             ) : (
-              <button
-                onClick={handleToggle}
-                className={`w-10 h-5 rounded-full transition relative ${
-                  enabled ? "bg-blue-600" : "bg-gray-300"
-                }`}
-              >
-                <span
-                  className={`absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full transition ${
-                    enabled ? "translate-x-5" : ""
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={handleToggle}
+                  className={`w-10 h-5 rounded-full transition relative ${
+                    enabled ? "bg-blue-600" : "bg-gray-300"
                   }`}
-                />
-              </button>
+                >
+                  <span
+                    className={`absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full transition ${
+                      enabled ? "translate-x-5" : ""
+                    }`}
+                  />
+                </button>
+              </div>
             )}
           </div>
         </CardContent>
