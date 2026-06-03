@@ -1,66 +1,142 @@
 import React, { useCallback, useEffect, useState } from "react";
+import { CalendarDays, ChevronDown } from "lucide-react";
 import { FAQ_DRAFT_BASE_URL, UNKNOWN_QUESTIONS_PAGE_LIMIT, exportQuestionsToExcel, getQuestionAnswer } from "./chatbotManagementUtils";
 import { ConfirmActionModal, EmptyState, ErrorMessage, LoadingSpinner, PaginationControls } from "./SharedChatbotComponents";
 
+const EXPORT_FETCH_LIMIT = 500;
+const PAGE_SIZE_OPTIONS = [20, 50, 100, 120,200,300,500,1000];
+const DATE_FILTER_PRESETS = {
+  YESTERDAY: "yesterday",
+  LAST_7_DAYS: "last7",
+  LAST_30_DAYS: "last30",
+  LAST_90_DAYS: "last90",
+  CUSTOM: "custom",
+};
+
+const formatDateInput = (date) => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+};
+
+const getDaysRange = (days) => {
+  const end = new Date();
+  const start = new Date();
+  start.setDate(end.getDate() - (days - 1));
+
+  return {
+    startDate: formatDateInput(start),
+    endDate: formatDateInput(end),
+  };
+};
+
+const getLastSevenDaysRange = () => getDaysRange(7);
+
+const getYesterdayRange = () => {
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+  const formattedYesterday = formatDateInput(yesterday);
+
+  return {
+    startDate: formattedYesterday,
+    endDate: formattedYesterday,
+  };
+};
+
+const getQuestionDate = (question) => {
+  const value = question?.created_at || question?.createdAt || question?.created;
+
+  return String(value || "").slice(0, 10);
+};
+
+const isQuestionInDateRange = (question, startDate, endDate) => {
+  const questionDate = getQuestionDate(question);
+
+  if (!questionDate) return false;
+  if (startDate && questionDate < startDate) return false;
+  if (endDate && questionDate > endDate) return false;
+
+  return true;
+};
+
+const buildPagination = (total, page, limit) => {
+  const totalPages = Math.max(Math.ceil(total / limit), 1);
+  const safePage = Math.min(Math.max(page, 1), totalPages);
+
+  return {
+    total,
+    page: safePage,
+    limit,
+    totalPages,
+    hasNextPage: safePage < totalPages,
+    hasPrevPage: safePage > 1,
+  };
+};
+
 const QuestionsListPanel = ({ allowDelete }) => {
-  const [questions, setQuestions] = useState([]);
+  const [allQuestions, setAllQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState("all");
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [pagination, setPagination] = useState({
-    total: 0,
-    page: 1,
-    limit: UNKNOWN_QUESTIONS_PAGE_LIMIT,
-    totalPages: 1,
-    hasNextPage: false,
-    hasPrevPage: false,
-  });
+  const [pageSize, setPageSize] = useState(UNKNOWN_QUESTIONS_PAGE_LIMIT);
+  const [datePreset, setDatePreset] = useState(DATE_FILTER_PRESETS.LAST_7_DAYS);
+  const [dateRange, setDateRange] = useState(getLastSevenDaysRange);
   const [showDeleteAllModal, setShowDeleteAllModal] = useState(false);
   const [deleteFilters, setDeleteFilters] = useState({
     product: "",
     lang: "",
     days: "",
   });
-  const [stats, setStats] = useState(null);
 
   useEffect(() => {
-    if (questions.length > 0) {
-      const uniqueProducts = [...new Set(questions.map((q) => q.product))];
+    if (allQuestions.length > 0) {
+      const uniqueProducts = [
+        ...new Set(allQuestions.map((q) => q.product).filter(Boolean)),
+      ];
       setProducts(uniqueProducts);
     } else {
       setProducts([]);
     }
-  }, [questions]);
+  }, [allQuestions]);
 
-  const fetchQuestions = useCallback(async (pageToFetch = 1) => {
+  const fetchQuestions = useCallback(async () => {
     try {
       setLoading(true);
+      setError(null);
 
-      const response = await fetch(
-        `${FAQ_DRAFT_BASE_URL}/tht/chatBot/unknown-questions-paginated?page=${pageToFetch}&limit=${UNKNOWN_QUESTIONS_PAGE_LIMIT}`,
+      const collectedQuestions = [];
+      let pageToFetch = 1;
+      let hasNextPage = true;
+
+      while (hasNextPage && pageToFetch <= 200) {
+        const response = await fetch(
+          `${FAQ_DRAFT_BASE_URL}/tht/chatBot/unknown-questions-paginated?page=${pageToFetch}&limit=${EXPORT_FETCH_LIMIT}`,
+        );
+
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+
+        const data = await response.json();
+
+        if (!data.success) {
+          throw new Error("API returned error");
+        }
+
+        collectedQuestions.push(...(data.data || []));
+        hasNextPage = Boolean(data.hasNextPage);
+        pageToFetch += 1;
+      }
+
+      const uniqueQuestions = Array.from(
+        new Map(collectedQuestions.map((question) => [question.id, question])).values(),
       );
 
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-
-      const data = await response.json();
-
-      if (data.success) {
-        setQuestions(data.data || []);
-        setPagination({
-          total: data.total || 0,
-          page: data.page || pageToFetch,
-          limit: data.limit || UNKNOWN_QUESTIONS_PAGE_LIMIT,
-          totalPages: data.totalPages || 1,
-          hasNextPage: Boolean(data.hasNextPage),
-          hasPrevPage: Boolean(data.hasPrevPage),
-        });
-      } else {
-        setError("API returned error");
-      }
+      setAllQuestions(uniqueQuestions);
     } catch (err) {
       console.error(err);
       setError("Failed to fetch questions");
@@ -69,29 +145,62 @@ const QuestionsListPanel = ({ allowDelete }) => {
     }
   }, []);
 
-  const fetchStats = async () => {
-    try {
-      const response = await fetch(
-        "https://grozziie.zjweiting.com:8035/tht/chatBot/unknown-questions-stats",
-      );
-      const data = await response.json();
-      if (data.success) {
-        setStats({
-          ...data.data,
-          overview: Array.isArray(data.data.overview)
-            ? data.data.overview[0]
-            : data.data.overview,
-        });
-      }
-    } catch (err) {
-      console.error("Failed to fetch stats:", err);
-    }
+  useEffect(() => {
+    fetchQuestions();
+  }, [fetchQuestions]);
+
+  const filteredQuestions = allQuestions.filter((question) => {
+    const matchesProduct =
+      selectedProduct === "all" || question.product === selectedProduct;
+    const matchesDate = isQuestionInDateRange(
+      question,
+      dateRange.startDate,
+      dateRange.endDate,
+    );
+
+    return matchesProduct && matchesDate;
+  });
+
+  const paginationState = buildPagination(
+    filteredQuestions.length,
+    currentPage,
+    pageSize,
+  );
+  const startIndex = (paginationState.page - 1) * pageSize;
+  const currentQuestions = filteredQuestions.slice(
+    startIndex,
+    startIndex + pageSize,
+  );
+  const displayStats = {
+    overview: {
+      total_questions: filteredQuestions.length,
+      unique_products: new Set(
+        filteredQuestions.map((question) => question.product).filter(Boolean),
+      ).size,
+    },
   };
 
   useEffect(() => {
-    fetchQuestions(currentPage);
-    fetchStats();
-  }, [currentPage, fetchQuestions]);
+    if (currentPage !== paginationState.page) {
+      setCurrentPage(paginationState.page);
+    }
+  }, [currentPage, paginationState.page]);
+
+  const handlePageSizeChange = (nextPageSize) => {
+    setPageSize(Number(nextPageSize));
+    setCurrentPage(1);
+  };
+
+  const handleProductChange = (product) => {
+    setSelectedProduct(product);
+    setCurrentPage(1);
+  };
+
+  const handleDateRangeApply = (preset, range) => {
+    setDatePreset(preset);
+    setDateRange(range);
+    setCurrentPage(1);
+  };
 
   const handleDelete = async (id) => {
     try {
@@ -107,9 +216,8 @@ const QuestionsListPanel = ({ allowDelete }) => {
       const data = await response.json();
 
       if (data.success) {
-        setQuestions((prev) => prev.filter((q) => q.id !== id));
-        fetchQuestions(currentPage);
-        fetchStats();
+        setAllQuestions((prev) => prev.filter((q) => q.id !== id));
+        fetchQuestions();
       } else {
         alert("Delete failed");
       }
@@ -136,9 +244,8 @@ const QuestionsListPanel = ({ allowDelete }) => {
         ),
       );
 
-      setQuestions((prev) => prev.filter((q) => !ids.includes(q.id)));
-      fetchQuestions(currentPage);
-      fetchStats();
+      setAllQuestions((prev) => prev.filter((q) => !ids.includes(q.id)));
+      fetchQuestions();
     } catch (err) {
       console.error(err);
       alert("Failed to delete selected questions");
@@ -161,8 +268,7 @@ const QuestionsListPanel = ({ allowDelete }) => {
       if (data.success) {
         alert(data.message);
         setShowDeleteAllModal(false);
-        fetchQuestions(currentPage);
-        fetchStats();
+        fetchQuestions();
         setDeleteFilters({ product: "", lang: "", days: "" });
       }
     } catch (err) {
@@ -171,19 +277,20 @@ const QuestionsListPanel = ({ allowDelete }) => {
     }
   };
 
-  const filteredQuestions =
-    selectedProduct === "all"
-      ? questions
-      : questions.filter((q) => q.product === selectedProduct);
-
   return (
     <>
-      <Header stats={stats} title="Available Unknown Question" />
+      <Header stats={displayStats} title="Available Unknown Question" />
       <Controls
         products={products}
         selectedProduct={selectedProduct}
-        onProductChange={setSelectedProduct}
-        onRefresh={() => fetchQuestions(currentPage)}
+        onProductChange={handleProductChange}
+        pageSize={pageSize}
+        pageSizeOptions={PAGE_SIZE_OPTIONS}
+        onPageSizeChange={handlePageSizeChange}
+        datePreset={datePreset}
+        dateRange={dateRange}
+        onDateRangeApply={handleDateRangeApply}
+        onRefresh={fetchQuestions}
         onShowDeleteAll={() => setShowDeleteAllModal(true)}
         allowDelete={allowDelete}
       />
@@ -193,13 +300,15 @@ const QuestionsListPanel = ({ allowDelete }) => {
         <ErrorMessage message={error} />
       ) : (
         <QuestionsTable
-          questions={filteredQuestions}
+          questions={currentQuestions}
+          allFilteredQuestions={filteredQuestions}
+          serialOffset={startIndex}
           onDelete={handleDelete}
           onDeleteSelected={handleDeleteSelected}
           allowDelete={allowDelete}
         />
       )}
-      <PaginationControls pagination={pagination} onPageChange={setCurrentPage} />
+      <PaginationControls pagination={paginationState} onPageChange={setCurrentPage} />
       {allowDelete && showDeleteAllModal && (
         <DeleteAllModal
           filters={deleteFilters}
@@ -247,49 +356,203 @@ const Controls = ({
   products,
   selectedProduct,
   onProductChange,
+  pageSize,
+  pageSizeOptions,
+  onPageSizeChange,
+  datePreset,
+  dateRange,
+  onDateRangeApply,
   onRefresh,
   onShowDeleteAll,
   allowDelete,
 }) => (
-  <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-6 bg-white p-4 rounded-lg shadow">
-    <div className="flex items-center gap-3 w-full md:w-auto">
-      <label className="font-medium text-gray-900">Filter by Product:</label>
-      <select
-        value={selectedProduct}
-        onChange={(e) => onProductChange(e.target.value)}
-        className="px-3 py-2 bg-white border border-gray-300 text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 flex-1 md:flex-none"
-      >
-        <option value="all">All Products</option>
-        {products.map((product) => (
-          <option key={product} value={product}>
-            {product}
-          </option>
-        ))}
-      </select>
-    </div>
-    <div className="flex gap-3 w-full md:w-auto">
-      <button
-        className="flex-1 md:flex-none px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors flex items-center justify-center gap-2"
-        onClick={onRefresh}
-      >
+  <div className="mb-6 rounded-lg bg-white p-4 shadow">
+    <div className="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
+      <div className="flex flex-col gap-3 md:flex-row md:items-center">
+      <div className="flex min-w-0 items-center gap-3">
+        <label className="shrink-0 font-semibold text-gray-900">Category:</label>
+        <select
+          value={selectedProduct}
+          onChange={(e) => onProductChange(e.target.value)}
+          className="h-10 w-full min-w-[220px] rounded-lg border border-gray-300 bg-white px-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-500 md:w-[280px]"
+        >
+          <option value="all">All Products</option>
+          {products.map((product) => (
+            <option key={product} value={product}>
+              {product}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div className="flex items-center gap-3">
+        <label className="shrink-0 font-semibold text-gray-900">Show:</label>
+        <select
+          value={pageSize}
+          onChange={(e) => onPageSizeChange(e.target.value)}
+          className="h-10 w-full min-w-[140px] rounded-lg border border-gray-300 bg-white px-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-500 md:w-[150px]"
+        >
+          {pageSizeOptions.map((size) => (
+            <option key={size} value={size}>
+              {size}/page
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <DateRangePicker
+        appliedPreset={datePreset}
+        appliedRange={dateRange}
+        onApply={onDateRangeApply}
+      />
+      </div>
+
+      <div className="flex flex-col gap-3 sm:flex-row xl:justify-end">
+        <button
+          className="flex h-10 items-center justify-center gap-2 rounded-lg bg-purple-600 px-4 font-semibold text-white transition-colors hover:bg-purple-700"
+          onClick={onRefresh}
+        >
         <span>🔄</span> Refresh
-      </button>
-      {allowDelete && (
-      <button
-        className="flex-1 md:flex-none px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors flex items-center justify-center gap-2"
-        onClick={onShowDeleteAll}
-      >
+        </button>
+        {allowDelete && (
+          <button
+            className="flex h-10 items-center justify-center gap-2 rounded-lg bg-red-500 px-4 font-semibold text-white transition-colors hover:bg-red-600"
+            onClick={onShowDeleteAll}
+          >
         <span>🗑️</span> Delete All
-      </button>
-      )}
+          </button>
+        )}
+      </div>
     </div>
+
   </div>
 );
+
+const DateRangePicker = ({ appliedPreset, appliedRange, onApply }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [draftPreset, setDraftPreset] = useState(appliedPreset);
+  const [draftRange, setDraftRange] = useState(appliedRange);
+
+  const presetOptions = [
+    {
+      label: "Yesterday",
+      value: DATE_FILTER_PRESETS.YESTERDAY,
+      range: getYesterdayRange,
+    },
+    {
+      label: "Last 7 days",
+      value: DATE_FILTER_PRESETS.LAST_7_DAYS,
+      range: () => getDaysRange(7),
+    },
+    {
+      label: "Last 30 days",
+      value: DATE_FILTER_PRESETS.LAST_30_DAYS,
+      range: () => getDaysRange(30),
+    },
+    {
+      label: "Last 90 days",
+      value: DATE_FILTER_PRESETS.LAST_90_DAYS,
+      range: () => getDaysRange(90),
+    },
+  ];
+
+  const handlePresetClick = (option) => {
+    setDraftPreset(option.value);
+    setDraftRange(option.range());
+  };
+
+  const handleDateChange = (field, value) => {
+    setDraftPreset(DATE_FILTER_PRESETS.CUSTOM);
+    setDraftRange((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleApply = () => {
+    onApply(draftPreset, draftRange);
+    setIsOpen(false);
+  };
+
+  const handleToggle = () => {
+    setDraftPreset(appliedPreset);
+    setDraftRange(appliedRange);
+    setIsOpen((prev) => !prev);
+  };
+
+  return (
+    <div className="relative w-full md:w-[290px]">
+      <button
+        type="button"
+        className="flex h-10 w-full items-center justify-between gap-3 rounded-lg border border-[#8bb5cc] bg-white px-3 text-sm font-medium text-[#365673] shadow-sm transition-colors hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-[#004368]"
+        onClick={handleToggle}
+      >
+        <span className="flex items-center gap-2">
+          <CalendarDays className="h-4 w-4 text-[#8aa4b8]" />
+          {appliedRange.startDate} &rarr; {appliedRange.endDate}
+        </span>
+        <ChevronDown
+          className={`h-4 w-4 text-[#6b879a] transition-transform ${
+            isOpen ? "rotate-180" : ""
+          }`}
+        />
+      </button>
+
+      {isOpen && (
+        <div className="absolute right-0 z-30 mt-2 w-[280px] rounded-xl border border-gray-100 bg-white p-4 shadow-xl">
+          <div className="grid grid-cols-2 gap-2">
+            {presetOptions.map((option) => (
+              <button
+                key={option.value}
+                type="button"
+                className={`rounded-lg border px-3 py-2 text-sm font-medium transition-colors ${
+                  draftPreset === option.value
+                    ? "border-[#004368] bg-[#e8f3f8] text-[#004368]"
+                    : "border-gray-200 bg-white text-[#365673] hover:border-[#8bb5cc]"
+                }`}
+                onClick={() => handlePresetClick(option)}
+              >
+                {option.label}
+              </button>
+            ))}
+          </div>
+
+          <label className="mt-4 block text-sm font-medium text-[#61758a]">
+            Start date
+            <input
+              type="date"
+              value={draftRange.startDate}
+              onChange={(e) => handleDateChange("startDate", e.target.value)}
+              className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm text-gray-900 focus:border-[#004368] focus:outline-none focus:ring-1 focus:ring-[#004368]"
+            />
+          </label>
+
+          <label className="mt-3 block text-sm font-medium text-[#61758a]">
+            End date
+            <input
+              type="date"
+              value={draftRange.endDate}
+              onChange={(e) => handleDateChange("endDate", e.target.value)}
+              className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm text-gray-900 focus:border-[#004368] focus:outline-none focus:ring-1 focus:ring-[#004368]"
+            />
+          </label>
+
+          <button
+            type="button"
+            className="mt-5 w-full rounded-lg bg-[#004d73] px-4 py-3 text-sm font-bold text-white transition-colors hover:bg-[#003f5f]"
+            onClick={handleApply}
+          >
+            Apply
+          </button>
+        </div>
+      )}
+    </div>
+  );
+};
 
 
 // Questions Table Component
 const QuestionsTable = ({
   questions,
+  allFilteredQuestions,
+  serialOffset,
   onDelete,
   onDeleteSelected,
   allowDelete,
@@ -329,7 +592,7 @@ const QuestionsTable = ({
   const handleExportAll = async () => {
     try {
       await exportQuestionsToExcel(
-        questions,
+        allFilteredQuestions,
         `all_unknown_questions_${new Date().toISOString().split("T")[0]}.xlsx`,
       );
     } catch (error) {
@@ -341,8 +604,8 @@ const QuestionsTable = ({
   const confirmExportAll = () => {
     setConfirmAction({
       title: "Export All Questions",
-      message: `Export ${questions.length} unknown question${
-        questions.length > 1 ? "s" : ""
+      message: `Export ${allFilteredQuestions.length} unknown question${
+        allFilteredQuestions.length > 1 ? "s" : ""
       } to an XLSX file?`,
       confirmLabel: "Export All",
       confirmClassName: "bg-green-600 hover:bg-green-700",
@@ -415,7 +678,7 @@ const QuestionsTable = ({
         <button
           className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors disabled:cursor-not-allowed disabled:bg-gray-300"
           onClick={confirmExportAll}
-          disabled={questions.length === 0}
+          disabled={allFilteredQuestions.length === 0}
         >
           Export All XLSX
         </button>
@@ -486,15 +749,15 @@ const QuestionsTable = ({
                   />
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {index + 1}
+                  {serialOffset + index + 1}
                 </td>
                 <td className="px-6 py-4 text-sm text-gray-900 max-w-xs">
                   <span
                     className="text-purple-600 hover:text-purple-800 cursor-pointer underline decoration-dotted"
                     onClick={() => setSelectedQuestion(question)}
                   >
-                    {question.question.length > 50
-                      ? `${question.question.substring(0, 50)}...`
+                    {String(question.question || "").length > 50
+                      ? `${String(question.question || "").substring(0, 50)}...`
                       : question.question}
                   </span>
                 </td>
