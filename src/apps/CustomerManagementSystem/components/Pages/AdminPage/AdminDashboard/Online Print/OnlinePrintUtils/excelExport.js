@@ -2,6 +2,9 @@ import ExcelJS from "exceljs";
 import { PLATFORM_STYLES } from "./constants";
 import { getShopFields, groupShopsByDate } from "./shopHelpers";
 
+const getPlatformUserListHeading = (platform) =>
+    `${platform.toUpperCase()} User List`;
+
 export const exportAllShopsToExcel = async (shops, platform, startDate, endDate) => {
     // Filter shops by date range
     const filteredShops = shops.filter((shop) => {
@@ -30,6 +33,16 @@ export const exportAllShopsToExcel = async (shops, platform, startDate, endDate)
         { header: "Updated Date", key: "updatedAt", width: 30 },
     ];
 
+    worksheet.insertRow(1, [getPlatformUserListHeading(platform)]);
+    worksheet.mergeCells("A1:G1");
+    const titleRow = worksheet.getRow(1);
+    titleRow.height = 28;
+    titleRow.getCell(1).font = { bold: true, size: 16 };
+    titleRow.getCell(1).alignment = {
+        vertical: "middle",
+        horizontal: "center",
+    };
+
     // Get platform styles
     const style = PLATFORM_STYLES.header[platform] || {
         bg: "FFE0E0E0",
@@ -38,7 +51,7 @@ export const exportAllShopsToExcel = async (shops, platform, startDate, endDate)
     };
 
     // Style header row
-    const headerRow = worksheet.getRow(1);
+    const headerRow = worksheet.getRow(2);
     headerRow.eachCell((cell) => {
         cell.font = {
             bold: true,
@@ -131,8 +144,18 @@ export const exportDatewiseToExcel = async (shops, platform, startDate, endDate)
         { header: "Number of Shops", key: "count", width: 30 },
     ];
 
+    worksheet.insertRow(1, [`${getPlatformUserListHeading(platform)} Datewise Summary`]);
+    worksheet.mergeCells("A1:B1");
+    const titleRow = worksheet.getRow(1);
+    titleRow.height = 28;
+    titleRow.getCell(1).font = { bold: true, size: 16 };
+    titleRow.getCell(1).alignment = {
+        vertical: "middle",
+        horizontal: "center",
+    };
+
     // Style header
-    const headerRow = worksheet.getRow(1);
+    const headerRow = worksheet.getRow(2);
     headerRow.font = { bold: true, size: 12 };
     headerRow.fill = {
         type: "pattern",
