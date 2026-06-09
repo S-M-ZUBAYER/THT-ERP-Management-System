@@ -41,20 +41,90 @@ function App() {
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get("code");
     const shopId = urlParams.get("shop_id");
-    const email = urlParams.get("state");
+    const state = urlParams.get("state");
 
     if (code && shopId) {
       console.log("🔐 Shopee Auth detected in App level");
 
       startLoading();
 
-      const dynamicApiUrl = `https://grozziie.zjweiting.com:3091/shopee-open-shop/auth/dynamic?code=${code}&state=${shopId}`;
+      const dynamicApiUrl = `https://grozziie.zjweiting.com:3091/shopee-open-shop/auth/dynamic?code=${encodeURIComponent(
+        code
+      )}&state=${encodeURIComponent(shopId)}`;
+      const wmsMatch = state?.match(/^WMS(\d+)\/(.+)$/i);
+
+      if (wmsMatch) {
+        const [, companyId, email] = wmsMatch;
+        const shopInfoApiUrl = `http://192.168.1.222:8080/shopee-open-shop/api/dev/shop/shop-info?shopId=${encodeURIComponent(
+          shopId
+        )}`;
+        const addPlatformStoreApiUrl =
+          "https://grozziieget.zjweiting.com:8035/api/v1/platform-stores/public";
+
+        fetch(dynamicApiUrl).catch((error) => {
+          console.error("Shopee dynamic auth failed, continuing WMS flow:", error);
+        });
+
+        fetch(shopInfoApiUrl)
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Failed to fetch Shopee shop info");
+            }
+
+            return response.json();
+          })
+          .catch((error) => {
+            console.error("Shopee shop info failed, continuing with fallback:", error);
+            return {};
+          })
+          .then((shopInfo) => {
+            const shopName = String(shopInfo?.shop_name || email);
+            const platformStorePayload = {
+              companyId: Number(companyId),
+              platform: "shopee",
+              storeName: shopName,
+              externalStoreId: String(shopId),
+              externalStoreName: shopName,
+              storeShopId: String(shopId),
+              storeOpenId: "",
+              storeCipher: "",
+              region: String(shopInfo?.region || "SG"),
+              webhookSecret: "",
+            };
+
+            console.log(platformStorePayload, "shopInfo");
+
+            return fetch(addPlatformStoreApiUrl, {
+              method: "POST",
+              headers: {
+                accept: "application/json",
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(platformStorePayload),
+            });
+          })
+          .then((response) => {
+             console.error(response,"response");
+            if (!response.ok) {
+              throw new Error("Failed to connect Shopee platform store");
+            }
+          })
+          .catch((error) => {
+            console.error("Shopee WMS auth flow failed:", error);
+          })
+          .finally(() => {
+            stopLoading();
+            window.location.href = "https://printernoble.com/warehouse_management";
+          });
+
+        return;
+      }
 
       const addShopApiUrl =
         "https://grozziieget.zjweiting.com:8033/tht/grozziiePrinter/shopee/shop/add";
 
       const shopData = {
-        ShopeeUserEmail: email,
+        ShopeeUserEmail: state,
         ShopCountry: "MY",
         ShopeeAPPKey: shopId,
         active: true,
@@ -72,7 +142,7 @@ function App() {
         window.location.href = "https://printernoble.com/onlineprint/";
       });
     }
-  }, []);
+  }, [startLoading, stopLoading]);
 
   // ✅ Show full screen loader BEFORE Router
   if (printerAuthLoading) {
