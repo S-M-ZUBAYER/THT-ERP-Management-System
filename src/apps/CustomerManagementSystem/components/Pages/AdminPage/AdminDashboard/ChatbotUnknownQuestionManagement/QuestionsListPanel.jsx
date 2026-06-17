@@ -45,10 +45,42 @@ const getYesterdayRange = () => {
   };
 };
 
+const getDateListInRange = (startDate, endDate) => {
+  if (!startDate || !endDate || startDate > endDate) return [];
+
+  const dates = [];
+  const currentDate = new Date(`${startDate}T00:00:00`);
+  const lastDate = new Date(`${endDate}T00:00:00`);
+
+  while (currentDate <= lastDate) {
+    dates.push(formatDateInput(currentDate));
+    currentDate.setDate(currentDate.getDate() + 1);
+  }
+
+  return dates;
+};
+
 const getQuestionDate = (question) => {
   const value = question?.created_at || question?.createdAt || question?.created;
 
   return String(value || "").slice(0, 10);
+};
+
+const normalizeProductName = (product) =>
+  String(product || "General").trim().toLowerCase();
+
+const formatNumber = (value) => Number(value || 0).toLocaleString();
+
+const getDayProductKey = (date, product) =>
+  `${date || ""}__${normalizeProductName(product)}`;
+
+const calculateAnsweredQuestions = (totalAsk, totalUnknown) => {
+  const askCount = Number(totalAsk || 0);
+  const unknownCount = Number(totalUnknown || 0);
+
+  if (askCount <= 0) return 0;
+
+  return Math.max(askCount - unknownCount, 0);
 };
 
 const isQuestionInDateRange = (question, startDate, endDate) => {
@@ -77,6 +109,9 @@ const buildPagination = (total, page, limit) => {
 
 const QuestionsListPanel = ({ allowDelete }) => {
   const [allQuestions, setAllQuestions] = useState([]);
+  const [questionStats, setQuestionStats] = useState(null);
+  const [questionStatsLoading, setQuestionStatsLoading] = useState(false);
+  const [questionStatsError, setQuestionStatsError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState("all");
@@ -149,16 +184,91 @@ const QuestionsListPanel = ({ allowDelete }) => {
     fetchQuestions();
   }, [fetchQuestions]);
 
-  const filteredQuestions = allQuestions.filter((question) => {
-    const matchesProduct =
-      selectedProduct === "all" || question.product === selectedProduct;
-    const matchesDate = isQuestionInDateRange(
+  const fetchQuestionStats = useCallback(async () => {
+    try {
+      setQuestionStatsLoading(true);
+      setQuestionStatsError(null);
+
+      const dates = getDateListInRange(dateRange.startDate, dateRange.endDate);
+
+      if (!dates.length) {
+        setQuestionStats({ success: true, totalHits: 0, data: [], dailyStats: [] });
+        return;
+      }
+
+      const dailyStats = await Promise.all(
+        dates.map(async (date) => {
+          const params = new URLSearchParams({ date });
+          const response = await fetch(
+            `${FAQ_DRAFT_BASE_URL}/tht/chatBot/chat-stats?${params.toString()}`,
+            {
+              headers: { accept: "application/json" },
+            },
+          );
+
+          if (!response.ok) {
+            throw new Error("Failed to fetch chat question stats");
+          }
+
+          const data = await response.json();
+
+          if (!data.success) {
+            throw new Error("Stats API returned error");
+          }
+
+          return { ...data, date };
+        }),
+      );
+
+      const productTotals = dailyStats.reduce((result, dayStats) => {
+        (dayStats.data || []).forEach((item) => {
+          const key = normalizeProductName(item.product);
+          const current = result.get(key) || {
+            product: item.product || "General",
+            totalHits: 0,
+          };
+
+          current.totalHits += Number(item.totalHits || 0);
+          result.set(key, current);
+        });
+
+        return result;
+      }, new Map());
+
+      setQuestionStats({
+        success: true,
+        totalHits: dailyStats.reduce(
+          (total, dayStats) => total + Number(dayStats.totalHits || 0),
+          0,
+        ),
+        data: Array.from(productTotals.values()),
+        dailyStats,
+      });
+    } catch (err) {
+      console.error(err);
+      setQuestionStats(null);
+      setQuestionStatsError("Failed to fetch question stats");
+    } finally {
+      setQuestionStatsLoading(false);
+    }
+  }, [dateRange.endDate, dateRange.startDate]);
+
+  useEffect(() => {
+    fetchQuestionStats();
+  }, [fetchQuestionStats]);
+
+  const dateFilteredQuestions = allQuestions.filter((question) =>
+    isQuestionInDateRange(
       question,
       dateRange.startDate,
       dateRange.endDate,
-    );
+    ),
+  );
+  const filteredQuestions = dateFilteredQuestions.filter((question) => {
+    const matchesProduct =
+      selectedProduct === "all" || question.product === selectedProduct;
 
-    return matchesProduct && matchesDate;
+    return matchesProduct;
   });
 
   const paginationState = buildPagination(
@@ -171,12 +281,74 @@ const QuestionsListPanel = ({ allowDelete }) => {
     startIndex,
     startIndex + pageSize,
   );
+  const unknownQuestionsByDayProduct = dateFilteredQuestions.reduce((result, question) => {
+    const date = getQuestionDate(question);
+    const key = getDayProductKey(date, question.product);
+    const current = result.get(key) || {
+      date,
+      product: question.product || "General",
+      total: 0,
+    };
+
+    current.total += 1;
+    result.set(key, current);
+
+    return result;
+  }, new Map());
+  const askQuestionsByDayProduct = (questionStats?.dailyStats || []).reduce((result, dayStats) => {
+    (dayStats.data || []).forEach((item) => {
+      const date = item.date || dayStats.date;
+      const key = getDayProductKey(date, item.product);
+      const current = result.get(key) || {
+        date,
+        product: item.product || "General",
+        totalHits: 0,
+      };
+
+      current.totalHits += Number(item.totalHits || 0);
+      result.set(key, current);
+    });
+
+    return result;
+  }, new Map());
+  const productQuestionStatsMap = Array.from(
+    new Set([...askQuestionsByDayProduct.keys(), ...unknownQuestionsByDayProduct.keys()]),
+  ).reduce((result, key) => {
+    const askStats = askQuestionsByDayProduct.get(key);
+    const unknownStats = unknownQuestionsByDayProduct.get(key);
+    const product = askStats?.product || unknownStats?.product || "General";
+    const productKey = normalizeProductName(product);
+    const current = result.get(productKey) || {
+      product,
+      totalHits: 0,
+      unknownQuestions: 0,
+      answeredQuestions: 0,
+    };
+
+    current.totalHits += askStats?.totalHits || 0;
+    current.unknownQuestions += unknownStats?.total || 0;
+    current.answeredQuestions += calculateAnsweredQuestions(
+      askStats?.totalHits,
+      unknownStats?.total,
+    );
+    result.set(productKey, current);
+
+    return result;
+  }, new Map());
+  const productQuestionStats = Array.from(productQuestionStatsMap.values());
+  const totalAnsweredQuestions = productQuestionStats.reduce(
+    (total, item) => total + item.answeredQuestions,
+    0,
+  );
+  const totalUnknownQuestions = productQuestionStats.reduce(
+    (total, item) => total + item.unknownQuestions,
+    0,
+  );
   const displayStats = {
     overview: {
-      total_questions: filteredQuestions.length,
-      unique_products: new Set(
-        filteredQuestions.map((question) => question.product).filter(Boolean),
-      ).size,
+      total_answered: totalAnsweredQuestions,
+      total_unknown: totalUnknownQuestions,
+      unique_products: productQuestionStats.length,
     },
   };
 
@@ -279,7 +451,13 @@ const QuestionsListPanel = ({ allowDelete }) => {
 
   return (
     <>
-      <Header stats={displayStats} title="Available Unknown Question" />
+      <Header
+        stats={displayStats}
+        title="Available Unknown Question"
+        productQuestionStats={productQuestionStats}
+        questionStatsLoading={questionStatsLoading}
+        questionStatsError={questionStatsError}
+      />
       <Controls
         products={products}
         selectedProduct={selectedProduct}
@@ -290,7 +468,10 @@ const QuestionsListPanel = ({ allowDelete }) => {
         datePreset={datePreset}
         dateRange={dateRange}
         onDateRangeApply={handleDateRangeApply}
-        onRefresh={fetchQuestions}
+        onRefresh={() => {
+          fetchQuestions();
+          fetchQuestionStats();
+        }}
         onShowDeleteAll={() => setShowDeleteAllModal(true)}
         allowDelete={allowDelete}
       />
@@ -322,25 +503,74 @@ const QuestionsListPanel = ({ allowDelete }) => {
 };
 
 // Header Component
-const Header = ({ stats, title }) => (
+const Header = ({
+  stats,
+  title,
+  productQuestionStats,
+  questionStatsLoading,
+  questionStatsError,
+}) => (
   <div className="bg-gradient-to-r from-[#004368] via-[#0b638f] to-[#14a88b] p-6 rounded-xl shadow-lg mb-6 text-white">
     <h1 className="text-3xl font-bold mb-5">{title}</h1>
     {stats && (
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
         <StatCard
-          label="Total Questions"
-          value={stats.overview?.total_questions || 0}
+          label="Total Answer"
+          value={
+            questionStatsLoading
+              ? "..."
+              : formatNumber(stats.overview?.total_answered)
+          }
         />
-        {/* <StatCard
-          label="Languages"
-          value={stats.overview?.unique_languages || 0}
-        /> */}
+        <StatCard
+          label="Total Unknown"
+          value={formatNumber(stats.overview?.total_unknown)}
+        />
         <StatCard
           label="Products"
-          value={stats.overview?.unique_products || 0}
+          value={formatNumber(stats.overview?.unique_products)}
         />
       </div>
     )}
+    <div className="mt-5">
+      <div className="rounded-lg bg-white bg-opacity-20 p-4 backdrop-blur-lg">
+        <div className="mb-3 flex items-center justify-between gap-3">
+          <p className="text-sm font-semibold uppercase tracking-wide opacity-80">
+            Product Wise Questions
+          </p>
+          <span className="text-xs opacity-80">
+            Answer / Unknown
+          </span>
+        </div>
+        {questionStatsError ? (
+          <p className="rounded-md bg-red-500 bg-opacity-30 px-3 py-2 text-sm">
+            {questionStatsError}
+          </p>
+        ) : questionStatsLoading ? (
+          <p className="rounded-md bg-white bg-opacity-10 px-3 py-2 text-sm">
+            Loading product stats...
+          </p>
+        ) : productQuestionStats.length > 0 ? (
+          <div className="grid max-h-52 grid-cols-1 gap-2 overflow-y-auto pr-1 sm:grid-cols-2">
+            {productQuestionStats.map((item) => (
+              <div
+                key={item.product}
+                className="flex items-center justify-between gap-3 rounded-md bg-white bg-opacity-15 px-3 py-2 text-sm"
+              >
+                <span className="min-w-0 truncate font-medium">{item.product}</span>
+                <span className="shrink-0 font-bold">
+                  {formatNumber(item.answeredQuestions)} / {formatNumber(item.unknownQuestions)}
+                </span>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="rounded-md bg-white bg-opacity-10 px-3 py-2 text-sm">
+            No product stats found.
+          </p>
+        )}
+      </div>
+    </div>
   </div>
 );
 
