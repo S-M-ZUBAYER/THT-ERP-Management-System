@@ -258,8 +258,14 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { HiRefresh } from "react-icons/hi";
 import { IoIosRefresh } from "react-icons/io";
-import { X } from "lucide-react";
-import { Download } from "lucide-react";
+import {
+  AlertTriangle,
+  CheckCircle2,
+  Download,
+  Loader2,
+  Server,
+  X,
+} from "lucide-react";
 import BtnSpinner from "../../../Shared/Loading/BtnSpinner";
 import DynamicBarChart from "./DeviceTypeChart";
 import DynamicBarChart2 from "./PrinterModelChart";
@@ -327,6 +333,73 @@ const Dashboard = ({
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [exportLoading, setExportLoading] = useState(false);
+  const [serverCheckLoading, setServerCheckLoading] = useState(null);
+  const [serverCheckModal, setServerCheckModal] = useState(null);
+
+  const serverChecks = {
+    hongkong: {
+      label: "Hong Kong Server",
+      apiUrl:
+        "https://grozziieget.zjweiting.com:3091/CustomerService-Chat/api/app/today-count",
+      validate: (data) => typeof data?.count === "number",
+      successMessage: (data) =>
+        `Hong Kong server Tomcat is running properly. Today's login count is ${data.count}.`,
+    },
+    singapore: {
+      label: "Singapore Server",
+      apiUrl:
+        "https://grozziie.zjweiting.com:3091/grozziie-attendance-debug/devices/get/3e_92_ee_5c_de_19",
+      validate: (data) =>
+        data?.deviceMAC === "3e_92_ee_5c_de_19" && data?.active === true,
+      successMessage: (data) =>
+        `Singapore server Tomcat is running properly. Device ${data.deviceName || data.deviceMAC} is active.`,
+    },
+  };
+
+  const checkServerStatus = async (serverKey) => {
+    const server = serverChecks[serverKey];
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 15000);
+
+    setServerCheckLoading(serverKey);
+
+    try {
+      const response = await fetch(server.apiUrl, {
+        headers: { accept: "*/*" },
+        signal: controller.signal,
+      });
+
+      if (!response.ok) {
+        throw new Error(`Server responded with status ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      if (!server.validate(data)) {
+        throw new Error("API response did not match the expected healthy data.");
+      }
+
+      setServerCheckModal({
+        type: "success",
+        title: `${server.label} Working`,
+        message: server.successMessage(data),
+      });
+    } catch (error) {
+      const isNetworkIssue =
+        error.name === "AbortError" || error instanceof TypeError;
+
+      setServerCheckModal({
+        type: "warning",
+        title: `${server.label} Warning`,
+        message: isNetworkIssue
+          ? "Could not connect to the server. Please check internet or Wi-Fi, then try again."
+          : "The server may have an issue or may not be working properly. Please try again or check the server.",
+      });
+    } finally {
+      clearTimeout(timeout);
+      setServerCheckLoading(null);
+    }
+  };
 
   // API functions
   const fetchSignupData = async (start, end) => {
@@ -624,7 +697,31 @@ const Dashboard = ({
             <p className="font-bold text-2xl">{user?.name}</p>
           </div>
         </section>
-        <div className="pt-2 pr-6">
+        <div className="pt-2 pr-6 flex flex-wrap items-center justify-end gap-2">
+          <button
+            onClick={() => checkServerStatus("hongkong")}
+            disabled={serverCheckLoading !== null}
+            className="flex justify-center items-center gap-1 bg-white py-1 px-3 rounded-xl cursor-pointer disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            {serverCheckLoading === "hongkong" ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : (
+              <Server className="w-4 h-4" />
+            )}
+            <span>Hong Kong</span>
+          </button>
+          <button
+            onClick={() => checkServerStatus("singapore")}
+            disabled={serverCheckLoading !== null}
+            className="flex justify-center items-center gap-1 bg-white py-1 px-3 rounded-xl cursor-pointer disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            {serverCheckLoading === "singapore" ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : (
+              <Server className="w-4 h-4" />
+            )}
+            <span>Singapore</span>
+          </button>
           <button
             onClick={handleCount}
             className="flex justify-center items-center bg-white py-1 px-2 rounded-xl cursor-pointer"
@@ -786,6 +883,45 @@ const Dashboard = ({
                     Export
                   </>
                 )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {serverCheckModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 px-4">
+          <div className="bg-white rounded-xl shadow-2xl p-6 w-full max-w-md">
+            <div className="flex justify-between items-start gap-4 mb-4">
+              <div className="flex items-center gap-3">
+                {serverCheckModal.type === "success" ? (
+                  <CheckCircle2 className="w-9 h-9 text-green-600" />
+                ) : (
+                  <AlertTriangle className="w-9 h-9 text-amber-500" />
+                )}
+                <h3 className="text-xl font-bold text-gray-800">
+                  {serverCheckModal.title}
+                </h3>
+              </div>
+              <button
+                onClick={() => setServerCheckModal(null)}
+                className="text-gray-500 hover:text-gray-700"
+                aria-label="Close server check modal"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+
+            <p className="text-sm leading-6 text-gray-700">
+              {serverCheckModal.message}
+            </p>
+
+            <div className="flex justify-end mt-6">
+              <button
+                onClick={() => setServerCheckModal(null)}
+                className="px-5 py-2 bg-[#004368] text-white rounded-lg hover:bg-blue-700 transition"
+              >
+                Close
               </button>
             </div>
           </div>

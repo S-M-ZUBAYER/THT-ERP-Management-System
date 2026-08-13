@@ -43,29 +43,63 @@ function App() {
     const shopId = urlParams.get("shop_id");
     const state = urlParams.get("state");
 
+  
+
     if (code && shopId) {
       console.log("🔐 Shopee Auth detected in App level");
 
       startLoading();
 
-      const dynamicApiUrl = `https://grozziie.zjweiting.com:3091/shopee-open-shop/auth/dynamic?code=${encodeURIComponent(
+      const wmsMatch = state?.match(/^WMS(\d+)\/(.+)$/i);
+      const dynamicApiBaseUrl = wmsMatch
+        ? "https://grozziie.zjweiting.com:3091/new-shopee-open-shop/auth/dynamic"
+        // ? "http://192.168.1.125:9595/auth/dynamic"
+        : "https://grozziie.zjweiting.com:3091/shopee-open-shop/auth/dynamic";
+      const dynamicApiUrl = `${dynamicApiBaseUrl}?code=${encodeURIComponent(
         code
       )}&state=${encodeURIComponent(shopId)}`;
-      const wmsMatch = state?.match(/^WMS(\d+)\/(.+)$/i);
 
       if (wmsMatch) {
         const [, companyId, email] = wmsMatch;
-        const shopInfoApiUrl = `http://192.168.1.222:8080/shopee-open-shop/api/dev/shop/shop-info?shopId=${encodeURIComponent(
+        const shopInfoApiUrl = `https://grozziie.zjweiting.com:3091/new-shopee-open-shop/api/dev/shop/shop-info?shopId=${encodeURIComponent(
+        // const shopInfoApiUrl = `http://192.168.1.125:9595/api/dev/shop/shop-info?shopId=${encodeURIComponent(
           shopId
         )}`;
         const addPlatformStoreApiUrl =
           "https://grozziieget.zjweiting.com:8035/api/v1/platform-stores/public";
+        const waitOneSecond = () =>
+          new Promise((resolve) => setTimeout(resolve, 1000));
+        const fetchDynamicAuthWithRetry = () =>
+          fetch(dynamicApiUrl)
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error("Shopee dynamic auth failed");
+              }
 
-        fetch(dynamicApiUrl).catch((error) => {
-          console.error("Shopee dynamic auth failed, continuing WMS flow:", error);
-        });
+              return response;
+            })
+            .catch((error) => {
+              console.error("Shopee dynamic auth failed, retrying WMS flow:", error);
 
-        fetch(shopInfoApiUrl)
+              return fetch(dynamicApiUrl)
+                .then((response) => {
+                  if (!response.ok) {
+                    throw new Error("Shopee dynamic auth retry failed");
+                  }
+
+                  return response;
+                })
+                .catch((retryError) => {
+                  console.error(
+                    "Shopee dynamic auth retry failed, continuing WMS flow:",
+                    retryError
+                  );
+                });
+            });
+
+        fetchDynamicAuthWithRetry()
+          .then(() => waitOneSecond())
+          .then(() => fetch(shopInfoApiUrl))
           .then((response) => {
             if (!response.ok) {
               throw new Error("Failed to fetch Shopee shop info");
