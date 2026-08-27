@@ -77,7 +77,7 @@ const Navbar = () => {
                             to="/customer-management-system/admin/modelHightWidth"
                             className="sm:text-xs md:text-base text-gray-700 font-normal"
                           >
-                            Add Bluetooth Model H&W
+                            Add Thermal Printer
                           </Link>
                         </li>
                         <li className="mb-5">
@@ -85,7 +85,15 @@ const Navbar = () => {
                             to="/customer-management-system/admin/wifiModelHightWidth"
                             className="sm:text-xs md:text-base text-gray-700 font-normal"
                           >
-                            Add Wifi Model H&W
+                            Add Dot Printer
+                          </Link>
+                        </li>
+                        <li className="mb-5">
+                          <Link
+                            to="/customer-management-system/admin/printerModelFlashInfo"
+                            className="sm:text-xs md:text-base text-gray-700 font-normal"
+                          >
+                            Printer Model Flash Info
                           </Link>
                         </li>
                         <li className="mb-5">

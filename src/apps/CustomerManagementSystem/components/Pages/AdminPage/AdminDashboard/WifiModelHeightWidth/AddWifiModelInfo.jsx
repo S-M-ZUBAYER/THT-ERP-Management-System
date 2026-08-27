@@ -6,11 +6,37 @@ import { MdDelete, MdEdit } from "react-icons/md";
 import { AuthContext } from "../../../../../context/UserContext";
 import DisplaySpinner from "../../../../Shared/Loading/DisplaySpinner";
 
+const GLOBAL_SERVER_URL = "https://grozziieget.zjweiting.com:8033";
+const DEFAULT_CONNECTED = "2";
+const CONNECTED_LABELS = {
+  1: "Bluetooth",
+  2: "WiFi",
+  3: "Bluetooth & WiFi",
+};
+const CONNECTED_OPTIONS = [
+  { value: "2", label: "WiFi" },
+  { value: "1", label: "Bluetooth" },
+  { value: "3", label: "Bluetooth & WiFi" },
+];
+const CONNECTED_VALUES = CONNECTED_OPTIONS.map((option) => option.value);
+const getConnectedValue = (connected) => {
+  const value =
+    connected === undefined || connected === null || connected === ""
+      ? DEFAULT_CONNECTED
+      : String(connected);
+
+  return CONNECTED_VALUES.includes(value) ? value : DEFAULT_CONNECTED;
+};
+const getConnectedLabel = (connected) =>
+  CONNECTED_LABELS[getConnectedValue(connected)] ||
+  CONNECTED_LABELS[DEFAULT_CONNECTED];
+
 function AddWifiModelHightWidth() {
   const [selectedModelNo, setSelectedModelNo] = useState("");
   const [selectedType, setSelectedType] = useState("");
   const [selectedMusicStatus, setSelectedMusicStatus] = useState("");
   const [selectedPID, setSelectedPID] = useState("");
+  const [selectedConnected, setSelectedConnected] = useState(DEFAULT_CONNECTED);
   const [allModelNoList, setAllModelNoList] = useState([]);
   const [defaultHeight, setDefaultHeight] = useState("");
   const [defaultWidth, setDefaultWidth] = useState("");
@@ -21,13 +47,14 @@ function AddWifiModelHightWidth() {
   const [editModalData, setEditModalData] = useState(null);
   const { loading, setLoading } = useContext(AuthContext);
   const [baseUrl, setBaseUrl] = useState(
-    "https://grozziieget.zjweiting.com:8033",
+    GLOBAL_SERVER_URL,
   );
+  const isGlobalServer = baseUrl === GLOBAL_SERVER_URL;
   const allUrls = [
     {
       id: 1,
       serverName: "Global",
-      url: "https://grozziieget.zjweiting.com:8033",
+      url: GLOBAL_SERVER_URL,
     },
     {
       id: 2,
@@ -104,41 +131,38 @@ function AddWifiModelHightWidth() {
     setSliderImageMark(e.target.value);
   };
 
+  const handleConnectedChange = (e) => {
+    setSelectedConnected(e.target.value);
+  };
+
   const handleUpload = (event) => {
     event.preventDefault();
     if (!selectedModelNo) {
       toast.error("Please Write minimum model No");
       return;
     }
+    const addPayload = {
+      PID: selectedPID,
+      modelNo: selectedModelNo,
+      maxHeight,
+      maxWidth,
+      defaultHeight,
+      defaultWidth,
+      type: selectedType,
+      musicValue: selectedMusicStatus,
+      sliderImageMark: sliderImageMark,
+    };
+
+    if (isGlobalServer) {
+      addPayload.connected = Number(selectedConnected || DEFAULT_CONNECTED);
+    }
+
     axios
       // .post('http://localhost:2000/tht/wifiModelHightWidth/add', { PID: selectedPID, modelNo: selectedModelNo, maxHeight, maxWidth, defaultHeight, defaultWidth, type: selectedType, musicValue: selectedMusicStatus, sliderImageMark: sliderImageMark })
-      .post(`${baseUrl}/tht/wifiModelHightWidth/add`, {
-        PID: selectedPID,
-        modelNo: selectedModelNo,
-        maxHeight,
-        maxWidth,
-        defaultHeight,
-        defaultWidth,
-        type: selectedType,
-        musicValue: selectedMusicStatus,
-        sliderImageMark: sliderImageMark,
-      })
+      .post(`${baseUrl}/tht/wifiModelHightWidth/add`, addPayload)
       .then((res) => {
         if (res.data.status === "success") {
-          setAllModelInfo([
-            ...allModelInfo,
-            {
-              PID: selectedPID,
-              modelNo: selectedModelNo,
-              maxHeight,
-              maxWidth,
-              defaultHeight,
-              defaultWidth,
-              type: selectedType,
-              musicValue: selectedMusicStatus,
-              sliderImageMark,
-            },
-          ]);
+          setAllModelInfo([...allModelInfo, addPayload]);
           toast.success("Model information uploaded successfully");
           setDefaultHeight("");
           setDefaultWidth("");
@@ -148,6 +172,7 @@ function AddWifiModelHightWidth() {
           setSelectedType("");
           setSelectedMusicStatus("");
           setSelectedPID("");
+          setSelectedConnected(DEFAULT_CONNECTED);
           setSliderImageMark("");
         } else {
           toast.error("Model information uploaded failed");
@@ -226,7 +251,11 @@ function AddWifiModelHightWidth() {
   const handleToEdit = (data) => {
     console.log(data);
 
-    setEditModalData(data);
+    setEditModalData(
+      isGlobalServer
+        ? { ...data, connected: getConnectedValue(data.connected) }
+        : data,
+    );
     setIsModalOpen(true);
   };
 
@@ -235,16 +264,23 @@ function AddWifiModelHightWidth() {
     console.log(editModalData, "data");
 
     try {
+      const updatePayload = isGlobalServer
+        ? {
+            ...editModalData,
+            connected: Number(getConnectedValue(editModalData?.connected)),
+          }
+        : editModalData;
+
       await axios.put(
         // `http://localhost:2000/tht/wifiModelHightWidth/update`, // Use dynamic id
         `${baseUrl}/tht/wifiModelHightWidth/update`, // Use dynamic id
-        editModalData,
+        updatePayload,
       );
 
       toast.success("Model Information updated successfully");
       setAllModelInfo((prev) =>
         prev.map((item) =>
-          item.id === editModalData.id ? editModalData : item,
+          item.id === editModalData.id ? updatePayload : item,
         ),
       );
       setIsModalOpen(false);
@@ -353,6 +389,25 @@ function AddWifiModelHightWidth() {
             />
           </div>
 
+          {isGlobalServer && (
+            <div>
+              <label className="block mb-2 text-gray-700 font-medium">
+                Connected
+              </label>
+              <select
+                className="w-full bg-white px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#004368]"
+                value={selectedConnected}
+                onChange={handleConnectedChange}
+              >
+                {CONNECTED_OPTIONS.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+
           {/* Default Height & Width */}
           <div>
             <label className="block mb-2 text-gray-700 font-medium">
@@ -451,6 +506,11 @@ function AddWifiModelHightWidth() {
                     <th className="border border-gray-400 px-4 py-2 text-white">
                       Slider Mark
                     </th>
+                    {isGlobalServer && (
+                      <th className="border border-gray-400 px-4 py-2 text-white">
+                        Connected
+                      </th>
+                    )}
                     <th className="border border-gray-400 px-4 py-2 text-white">
                       Actions
                     </th>
@@ -482,6 +542,11 @@ function AddWifiModelHightWidth() {
                         <td className="px-4 py-2 border">
                           {element.sliderImageMark}
                         </td>
+                        {isGlobalServer && (
+                          <td className="px-4 py-2 border">
+                            {getConnectedLabel(element.connected)}
+                          </td>
+                        )}
                         <td className="px-4 py-2 border-r flex justify-evenly">
                           <MdEdit
                             onClick={() => handleToEdit(element)}
@@ -496,7 +561,10 @@ function AddWifiModelHightWidth() {
                     ))
                   ) : (
                     <tr>
-                      <td colSpan="2" className="text-center py-4">
+                      <td
+                        colSpan={isGlobalServer ? "11" : "10"}
+                        className="text-center py-4"
+                      >
                         No Model information found.
                       </td>
                     </tr>
@@ -675,6 +743,29 @@ function AddWifiModelHightWidth() {
                     placeholder="Enter Music Value"
                   />
                 </div>
+                {isGlobalServer && (
+                  <div>
+                    <label className="block text-gray-700 font-medium mb-1">
+                      Connected
+                    </label>
+                    <select
+                      className="w-full border p-2 rounded bg-gray-50 text-slate-700 focus:ring focus:ring-blue-300"
+                      value={getConnectedValue(editModalData?.connected)}
+                      onChange={(e) =>
+                        setEditModalData({
+                          ...editModalData,
+                          connected: e.target.value,
+                        })
+                      }
+                    >
+                      {CONNECTED_OPTIONS.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                )}
               </div>
 
               {/* Buttons */}

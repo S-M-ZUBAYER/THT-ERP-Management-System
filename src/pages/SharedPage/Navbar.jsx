@@ -12,6 +12,7 @@ import GrozziieLogo from "../../assets/WebsiteImages/GrozziieLogo.svg";
 import useAuthStore from "../../store/auth";
 import EditProfileModal from "../DashboardPage/EditProfileModal";
 import toast from "react-hot-toast";
+import { logoutFromErp } from "@/lib/erpApi";
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -31,7 +32,8 @@ export default function Navbar() {
   console.log(formData, "formdata");
   console.log(user);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await logoutFromErp();
     localStorage.removeItem("user");
     localStorage.removeItem("taskUser");
     localStorage.removeItem("wowomartUser");

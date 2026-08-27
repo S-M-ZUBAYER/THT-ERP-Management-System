@@ -19,6 +19,23 @@ const ShowHightWidth = () => {
 
   // get data from useContext
   const { loading, setLoading } = useContext(AuthContext);
+  const connectedOptions = [
+    { value: "", label: "None" },
+    { value: 1, label: "Bluetooth" },
+    { value: 2, label: "WiFi" },
+    { value: 3, label: "Bluetooth & WiFi" },
+  ];
+  const parseConnectedValue = (value) => (value === "" ? null : Number(value));
+  const getConnectedLabel = (connected) => {
+    if (connected === null || connected === undefined || connected === "") {
+      return "None";
+    }
+
+    return (
+      connectedOptions.find((option) => option.value === Number(connected))
+        ?.label || "None"
+    );
+  };
 
   // Fetch all model info for the specified model number
   useEffect(() => {
@@ -55,7 +72,7 @@ const ShowHightWidth = () => {
 
   // Handle edit functionality
   const handleToEdit = (data) => {
-    setEditModalData(data);
+    setEditModalData({ ...data, connected: data?.connected ?? null });
     setIsModalOpen(true);
   };
 
@@ -159,6 +176,9 @@ const ShowHightWidth = () => {
                   Battery Mark
                 </th>
                 <th className="border border-gray-400 px-4 py-2 text-white">
+                  Connected
+                </th>
+                <th className="border border-gray-400 px-4 py-2 text-white">
                   Actions
                 </th>
               </tr>
@@ -180,6 +200,9 @@ const ShowHightWidth = () => {
                   </td>
                   <td className="px-4 py-2 border">{element?.command}</td>
                   <td className="px-4 py-2 border">{element?.battery_mark}</td>
+                  <td className="px-4 py-2 border">
+                    {getConnectedLabel(element?.connected)}
+                  </td>
                   <td className="px-4 py-2 border-r flex justify-evenly">
                     <MdEdit
                       onClick={() => handleToEdit(element)}
@@ -199,13 +222,17 @@ const ShowHightWidth = () => {
 
       {/* Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 px-4 py-6">
           <form
             onSubmit={handleEditSubmit}
-            className="space-y-4 bg-white p-6 rounded-lg shadow-lg w-1/2"
+            className="bg-white rounded-lg shadow-xl w-full max-w-xl max-h-[88vh] overflow-y-auto"
           >
-            <h2 className="text-xl font-bold mb-4">{`Edit PID ${editModalData?.pidNo} Information`}</h2>
-            <div>
+            <div className="sticky top-0 bg-white border-b px-5 py-4">
+              <h2 className="text-lg font-bold text-[#004368]">{`Edit PID ${editModalData?.pidNo} Information`}</h2>
+            </div>
+
+            <div className="space-y-3 px-5 py-4">
+              <div>
               <label className="block text-gray-700 font-medium mb-1">
                 Model No
               </label>
@@ -356,7 +383,30 @@ const ShowHightWidth = () => {
               />
             </div>
 
-            <div className="flex justify-end space-x-4 mt-4">
+            <div>
+              <label className="block text-gray-700 font-medium mb-1">
+                Connected
+              </label>
+              <select
+                className="w-full border p-2 rounded bg-gray-50 text-slate-700 focus:ring focus:ring-blue-300"
+                value={editModalData?.connected ?? ""}
+                onChange={(e) =>
+                  setEditModalData({
+                    ...editModalData,
+                    connected: parseConnectedValue(e.target.value),
+                  })
+                }
+              >
+                {connectedOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+            </div>
+
+            <div className="sticky bottom-0 bg-white border-t px-5 py-4 flex justify-end space-x-4">
               <button
                 type="submit"
                 className="bg-[#004368] text-white px-4 py-2 rounded hover:bg-slate-800 transition"

@@ -281,6 +281,24 @@ import axios from "axios";
 import ShowModelNo from "./ShowModelNo";
 import AddModelNo from "./AddModelNo";
 
+const defaultCommands = ["CPCL", "ESC"];
+
+const normalizeCommands = (responseData = []) => {
+  const commands = Array.isArray(responseData)
+    ? responseData
+    : responseData?.commands || responseData?.data || [];
+
+  return commands
+    .map((command) => {
+      if (typeof command === "string") {
+        return command;
+      }
+
+      return command?.command || command?.commandName || command?.name;
+    })
+    .filter(Boolean);
+};
+
 function ModelHightWidth() {
   const [selectedImages, setSelectedImages] = useState([]);
   const [selectedModelNo, setSelectedModelNo] = useState("");
@@ -293,9 +311,17 @@ function ModelHightWidth() {
   const [selectedPID, setSelectedPID] = useState("");
   const [sliderImageMark, setSliderImageMark] = useState("");
   const [batteryMark, setBatteryMark] = useState(0); // default 0
+  const [connected, setConnected] = useState(1);
+  const [commandList, setCommandList] = useState(defaultCommands);
 
   // Define the list of elements to choose from
-  const elements = ["CPCL", "ESC"];
+  const connectedOptions = [
+    { value: "", label: "None" },
+    { value: 1, label: "Bluetooth" },
+    { value: 2, label: "WiFi" },
+    { value: 3, label: "Bluetooth & WiFi" },
+  ];
+  const parseConnectedValue = (value) => (value === "" ? null : Number(value));
   const [baseUrl, setBaseUrl] = useState(
     "https://grozziieget.zjweiting.com:8033",
   );
@@ -319,6 +345,24 @@ function ModelHightWidth() {
         setAllModelNoList(data.map((modelNo) => modelNo.modelNo));
       });
   }, [baseUrl]);
+
+  useEffect(() => {
+    axios
+      .get(`${baseUrl}/tht/bluetoothCommand/list`)
+      .then((response) => {
+        setCommandList(normalizeCommands(response.data));
+      })
+      .catch((error) => {
+        console.error("Error fetching commands:", error);
+        setCommandList(defaultCommands);
+      });
+  }, [baseUrl]);
+
+  useEffect(() => {
+    setSelectedCommands((prev) =>
+      prev.filter((command) => commandList.includes(command)),
+    );
+  }, [commandList]);
 
   // Function to handle changes in the city name input field
   const handleDefaultHightChange = (event) => {
@@ -362,6 +406,7 @@ function ModelHightWidth() {
         modelNo: selectedModelNo,
         sliderImageMark,
         battery_mark: batteryMark,
+        connected,
       })
       .then((res) => {
         if (res.data.status === "success") {
@@ -374,6 +419,7 @@ function ModelHightWidth() {
           setSliderImageMark("");
           setSelectedCommands([]);
           setBatteryMark(0);
+          setConnected(1);
         } else {
           toast.error("Model information uploaded failed");
         }
@@ -427,6 +473,8 @@ function ModelHightWidth() {
         baseUrl={baseUrl}
         setAllWarehouseNameList={setAllModelNoList}
         allWarehouseNameList={allModelNoList}
+        commandList={commandList}
+        setCommandList={setCommandList}
       ></AddModelNo>
 
       <div className="my-24 flex items-center justify-center px-4">
@@ -506,10 +554,10 @@ function ModelHightWidth() {
           {/* Select Elements */}
           <div>
             <label className="block mb-3 text-gray-700 font-medium">
-              Select Elements
+              Select Commands
             </label>
             <div className="flex flex-wrap gap-4">
-              {elements.map((element) => (
+              {commandList.map((element) => (
                 <label
                   key={element}
                   className="inline-flex items-center gap-2 text-sm text-gray-600"
@@ -572,6 +620,23 @@ function ModelHightWidth() {
               value={batteryMark}
               onChange={(e) => setBatteryMark(Number(e.target.value))}
             />
+          </div>
+
+          <div>
+            <label className="block mb-2 text-gray-700 font-medium">
+              Connected
+            </label>
+            <select
+              className="w-full px-4 py-2 border rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-[#004368]"
+              value={connected ?? ""}
+              onChange={(e) => setConnected(parseConnectedValue(e.target.value))}
+            >
+              {connectedOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
           </div>
 
           {/* Submit Button */}

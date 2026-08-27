@@ -68,7 +68,7 @@ const Admin = () => {
                       isActive ? activeLinkClasses : linkClasses
                     }
                   >
-                    Add Bluetooth Model H&W
+                    Add Thermal Printer
                   </NavLink>
                 </li>
                 <li>
@@ -78,7 +78,17 @@ const Admin = () => {
                       isActive ? activeLinkClasses : linkClasses
                     }
                   >
-                    Add Wifi Model H&W
+                    Add Dot Printer
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/customer-management-system/admin/printerModelFlashInfo"
+                    className={({ isActive }) =>
+                      isActive ? activeLinkClasses : linkClasses
+                    }
+                  >
+                    Printer Model Flash Info
                   </NavLink>
                 </li>
                 <li>
@@ -179,6 +189,56 @@ const Admin = () => {
                     }
                   >
                     Online Print Management
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/customer-management-system/admin/WarehouseERPManagement"
+                    className={({ isActive }) =>
+                      isActive ? activeLinkClasses : linkClasses
+                    }
+                  >
+                    ERP Warehouse Management
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/customer-management-system/admin/PlatformTransactions"
+                    className={({ isActive }) =>
+                      isActive ? activeLinkClasses : linkClasses
+                    }
+                  >
+                   ERP Platform Transactions
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/customer-management-system/admin/ManualOrderShippingWalletPayments"
+                    className={({ isActive }) =>
+                      isActive ? activeLinkClasses : linkClasses
+                    }
+                  >
+                   ERP Shipping Wallet Payments
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/customer-management-system/admin/SubscriptionPlans"
+                    className={({ isActive }) =>
+                      isActive ? activeLinkClasses : linkClasses
+                    }
+                  >
+                   ERP Subscription Plan Management
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/customer-management-system/admin/GiftManagement"
+                    className={({ isActive }) =>
+                      isActive ? activeLinkClasses : linkClasses
+                    }
+                  >
+                   ERP Gift Management
                   </NavLink>
                 </li>
                 <li>
