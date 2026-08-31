@@ -188,6 +188,7 @@ export const FAQ_PRODUCTS = [
   "Power Bank",
   "Face Attendance",
   "Device Face Attendance Machine",
+  "Warehouse ERP",
 ];
 
 export const FAQ_APPLY_URLS = {
@@ -201,6 +202,7 @@ export const FAQ_APPLY_URLS = {
   "Face Attendance": "/tht/chatBot/faceAttendance/faq/applyDrafts",
   "Device Face Attendance Machine":
     "/tht/chatBot/deviceFaceAttendanceMachine/faq/applyDrafts",
+  "Warehouse ERP": "/tht/chatBot/warehouseErp/faq/applyDrafts",
 };
 
 export const getSavedUserEmail = () => {

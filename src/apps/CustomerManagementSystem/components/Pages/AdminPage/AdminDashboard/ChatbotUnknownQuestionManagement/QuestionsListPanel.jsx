@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { CalendarDays, ChevronDown } from "lucide-react";
-import { FAQ_DRAFT_BASE_URL, UNKNOWN_QUESTIONS_PAGE_LIMIT, exportQuestionsToExcel, getQuestionAnswer } from "./chatbotManagementUtils";
+import { FAQ_DRAFT_BASE_URL, FAQ_PRODUCTS, UNKNOWN_QUESTIONS_PAGE_LIMIT, exportQuestionsToExcel, getQuestionAnswer } from "./chatbotManagementUtils";
 import { ConfirmActionModal, EmptyState, ErrorMessage, LoadingSpinner, PaginationControls } from "./SharedChatbotComponents";
 
 const EXPORT_FETCH_LIMIT = 500;
@@ -115,7 +115,7 @@ const QuestionsListPanel = ({ allowDelete }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState("all");
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState(FAQ_PRODUCTS);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(UNKNOWN_QUESTIONS_PAGE_LIMIT);
   const [datePreset, setDatePreset] = useState(DATE_FILTER_PRESETS.LAST_7_DAYS);
@@ -130,11 +130,14 @@ const QuestionsListPanel = ({ allowDelete }) => {
   useEffect(() => {
     if (allQuestions.length > 0) {
       const uniqueProducts = [
-        ...new Set(allQuestions.map((q) => q.product).filter(Boolean)),
+        ...new Set([
+          ...FAQ_PRODUCTS,
+          ...allQuestions.map((q) => q.product).filter(Boolean),
+        ]),
       ];
       setProducts(uniqueProducts);
     } else {
-      setProducts([]);
+      setProducts(FAQ_PRODUCTS);
     }
   }, [allQuestions]);
 
