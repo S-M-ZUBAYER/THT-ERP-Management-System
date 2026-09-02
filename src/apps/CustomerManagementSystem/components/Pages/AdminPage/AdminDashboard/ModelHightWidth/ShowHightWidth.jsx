@@ -26,6 +26,10 @@ const ShowHightWidth = () => {
     { value: 3, label: "Bluetooth & WiFi" },
   ];
   const parseConnectedValue = (value) => (value === "" ? null : Number(value));
+  const getPrintedLineValue = (value) =>
+    value === undefined || value === null || value === ""
+      ? "100"
+      : String(value);
   const getConnectedLabel = (connected) => {
     if (connected === null || connected === undefined || connected === "") {
       return "None";
@@ -72,7 +76,11 @@ const ShowHightWidth = () => {
 
   // Handle edit functionality
   const handleToEdit = (data) => {
-    setEditModalData({ ...data, connected: data?.connected ?? null });
+    setEditModalData({
+      ...data,
+      connected: data?.connected ?? null,
+      printedLine: getPrintedLineValue(data?.printedLine),
+    });
     setIsModalOpen(true);
   };
 
@@ -85,11 +93,23 @@ const ShowHightWidth = () => {
       return;
     }
     console.log(editModalData);
+    const printedLineValue = getPrintedLineValue(editModalData?.printedLine);
+    const parsedPrintedLine = Number(printedLineValue);
+
+    if (!Number.isInteger(parsedPrintedLine) || parsedPrintedLine < 0) {
+      toast.error("Printed Line must be a valid number");
+      return;
+    }
 
     try {
+      const updatePayload = {
+        ...editModalData,
+        printedLine: parsedPrintedLine,
+      };
+
       const response = await axios.put(
         `${baseUrl}/tht/bluetoothModelHightWidth/update/${editModalData.id}`,
-        editModalData,
+        updatePayload,
         {
           headers: {
             "Content-Type": "application/json",
@@ -106,7 +126,7 @@ const ShowHightWidth = () => {
       // 🔁 Update local state safely
       setAllModelInfo((prev) =>
         prev.map((item) =>
-          item.id === editModalData.id ? { ...item, ...editModalData } : item,
+          item.id === editModalData.id ? { ...item, ...updatePayload } : item,
         ),
       );
 
@@ -179,6 +199,9 @@ const ShowHightWidth = () => {
                   Connected
                 </th>
                 <th className="border border-gray-400 px-4 py-2 text-white">
+                  Printed Line
+                </th>
+                <th className="border border-gray-400 px-4 py-2 text-white">
                   Actions
                 </th>
               </tr>
@@ -202,6 +225,9 @@ const ShowHightWidth = () => {
                   <td className="px-4 py-2 border">{element?.battery_mark}</td>
                   <td className="px-4 py-2 border">
                     {getConnectedLabel(element?.connected)}
+                  </td>
+                  <td className="px-4 py-2 border">
+                    {getPrintedLineValue(element?.printedLine)}
                   </td>
                   <td className="px-4 py-2 border-r flex justify-evenly">
                     <MdEdit
@@ -403,6 +429,27 @@ const ShowHightWidth = () => {
                   </option>
                 ))}
               </select>
+            </div>
+
+            <div>
+              <label className="block text-gray-700 font-medium mb-1">
+                Printed Line
+              </label>
+              <input
+                type="number"
+                min="0"
+                step="1"
+                name="printedLine"
+                className="w-full border p-2 rounded bg-gray-50 text-slate-700 focus:ring focus:ring-blue-300"
+                value={getPrintedLineValue(editModalData?.printedLine)}
+                onChange={(e) =>
+                  setEditModalData({
+                    ...editModalData,
+                    printedLine: e.target.value,
+                  })
+                }
+                placeholder="Enter Printed Line"
+              />
             </div>
             </div>
 

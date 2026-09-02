@@ -312,6 +312,7 @@ function ModelHightWidth() {
   const [sliderImageMark, setSliderImageMark] = useState("");
   const [batteryMark, setBatteryMark] = useState(0); // default 0
   const [connected, setConnected] = useState(1);
+  const [printedLine, setPrintedLine] = useState("100");
   const [commandList, setCommandList] = useState(defaultCommands);
 
   // Define the list of elements to choose from
@@ -393,21 +394,42 @@ function ModelHightWidth() {
     setSliderImageMark(e.target.value);
   };
 
+  const handlePrintedLineChange = (e) => {
+    setPrintedLine(e.target.value);
+  };
+
   const handleUpload = (event) => {
     event.preventDefault();
+    const printedLineValue = printedLine.trim();
+    const parsedPrintedLine = Number(printedLineValue);
+
+    if (
+      printedLineValue &&
+      (!Number.isInteger(parsedPrintedLine) || parsedPrintedLine < 0)
+    ) {
+      toast.error("Printed Line must be a valid number");
+      return;
+    }
+
+    const payload = {
+      pidNo: selectedPID,
+      defaultHight,
+      defaultWidth,
+      maxHight,
+      maxWidth,
+      command: selectedCommands,
+      modelNo: selectedModelNo,
+      sliderImageMark,
+      battery_mark: batteryMark,
+      connected,
+    };
+
+    if (printedLineValue) {
+      payload.printedLine = parsedPrintedLine;
+    }
+
     axios
-      .post(`${baseUrl}/tht/hightWidth/add`, {
-        pidNo: selectedPID,
-        defaultHight,
-        defaultWidth,
-        maxHight,
-        maxWidth,
-        command: selectedCommands,
-        modelNo: selectedModelNo,
-        sliderImageMark,
-        battery_mark: batteryMark,
-        connected,
-      })
+      .post(`${baseUrl}/tht/hightWidth/add`, payload)
       .then((res) => {
         if (res.data.status === "success") {
           toast.success("Model information uploaded successfully");
@@ -420,6 +442,7 @@ function ModelHightWidth() {
           setSelectedCommands([]);
           setBatteryMark(0);
           setConnected(1);
+          setPrintedLine("100");
         } else {
           toast.error("Model information uploaded failed");
         }
@@ -637,6 +660,22 @@ function ModelHightWidth() {
                 </option>
               ))}
             </select>
+          </div>
+
+          <div>
+            <label className="block mb-2 text-gray-700 font-medium">
+              Printed Line
+            </label>
+            <input
+              type="number"
+              min="0"
+              step="1"
+              name="printedLine"
+              className="w-full bg-white px-4 py-2 border rounded-md focus:ring-2 focus:ring-[#004368]"
+              value={printedLine}
+              onChange={handlePrintedLineChange}
+              placeholder="Enter Printed Line"
+            />
           </div>
 
           {/* Submit Button */}
