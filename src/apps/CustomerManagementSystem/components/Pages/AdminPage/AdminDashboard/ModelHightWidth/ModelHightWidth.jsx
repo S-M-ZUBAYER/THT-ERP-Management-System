@@ -278,6 +278,7 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import axios from "axios";
+import { MdClose } from "react-icons/md";
 import ShowModelNo from "./ShowModelNo";
 import AddModelNo from "./AddModelNo";
 
@@ -313,6 +314,13 @@ function ModelHightWidth() {
   const [batteryMark, setBatteryMark] = useState(0); // default 0
   const [connected, setConnected] = useState(1);
   const [printedLine, setPrintedLine] = useState("100");
+  const [connectivityList, setConnectivityList] = useState([]);
+  const [connectivityName, setConnectivityName] = useState("");
+  const [connectivityToDelete, setConnectivityToDelete] = useState(null);
+  const [selectedConnectivity, setSelectedConnectivity] = useState([]);
+  const [deviceTypeList, setDeviceTypeList] = useState([]);
+  const [deviceTypeName, setDeviceTypeName] = useState("");
+  const [deviceTypeToDelete, setDeviceTypeToDelete] = useState(null);
   const [commandList, setCommandList] = useState(defaultCommands);
 
   // Define the list of elements to choose from
@@ -360,6 +368,30 @@ function ModelHightWidth() {
   }, [baseUrl]);
 
   useEffect(() => {
+    axios
+      .get(`${baseUrl}/tht/connectivity/list`)
+      .then((response) => {
+        setConnectivityList(response.data || []);
+      })
+      .catch((error) => {
+        console.error("Error fetching connectivity list:", error);
+        setConnectivityList([]);
+      });
+  }, [baseUrl]);
+
+  useEffect(() => {
+    axios
+      .get(`${baseUrl}/tht/deviceType/list`)
+      .then((response) => {
+        setDeviceTypeList(response.data?.result || response.data || []);
+      })
+      .catch((error) => {
+        console.error("Error fetching device type list:", error);
+        setDeviceTypeList([]);
+      });
+  }, [baseUrl]);
+
+  useEffect(() => {
     setSelectedCommands((prev) =>
       prev.filter((command) => commandList.includes(command)),
     );
@@ -398,6 +430,138 @@ function ModelHightWidth() {
     setPrintedLine(e.target.value);
   };
 
+  const handleConnectivityNameChange = (e) => {
+    setConnectivityName(e.target.value);
+  };
+
+  const handleDeviceTypeNameChange = (e) => {
+    setDeviceTypeName(e.target.value);
+  };
+
+  const handleAddConnectivity = () => {
+    const connectivity = connectivityName.trim();
+
+    if (!connectivity) {
+      toast.error("Please enter connectivity");
+      return;
+    }
+
+    axios
+      .post(`${baseUrl}/tht/connectivity/add`, { connectivity })
+      .then(() => {
+        setConnectivityList((prev) =>
+          prev.some((item) => item.connectivity === connectivity)
+            ? prev
+            : [...prev, { connectivity }],
+        );
+        setConnectivityName("");
+        toast.success("Connectivity added successfully");
+      })
+      .catch((error) => {
+        console.error("Error adding connectivity:", error);
+        toast.error(error?.response?.data?.error || "Error adding connectivity");
+      });
+  };
+
+  const handleConfirmDeleteConnectivity = () => {
+    if (!connectivityToDelete) {
+      return;
+    }
+
+    axios
+      .delete(
+        `${baseUrl}/tht/connectivity/delete/${encodeURIComponent(
+          connectivityToDelete,
+        )}`,
+      )
+      .then(() => {
+        setConnectivityList(
+          connectivityList.filter(
+            (item) => item.connectivity !== connectivityToDelete,
+          ),
+        );
+        setSelectedConnectivity(
+          selectedConnectivity.filter((item) => item !== connectivityToDelete),
+        );
+        toast.success("Connectivity Deleted Successfully");
+        setConnectivityToDelete(null);
+      })
+      .catch((error) => {
+        console.error("Error deleting connectivity:", error);
+        toast.error(
+          error?.response?.data?.error || "Error deleting connectivity",
+        );
+      });
+  };
+
+  const handleAddDeviceType = () => {
+    const deviceType = deviceTypeName.trim();
+
+    if (!deviceType) {
+      toast.error("Please enter device type");
+      return;
+    }
+
+    axios
+      .post(`${baseUrl}/tht/deviceType/add`, { deviceType })
+      .then((response) => {
+        const addedDeviceType = response.data?.result || { deviceType };
+        setDeviceTypeList((prev) =>
+          prev.some((item) => item.deviceType === deviceType)
+            ? prev
+            : [...prev, addedDeviceType],
+        );
+        setDeviceTypeName("");
+        toast.success("Device type added successfully");
+      })
+      .catch((error) => {
+        console.error("Error adding device type:", error);
+        toast.error(
+          error?.response?.data?.message ||
+            error?.response?.data?.error ||
+            "Error adding device type",
+        );
+      });
+  };
+
+  const handleConfirmDeleteDeviceType = () => {
+    if (!deviceTypeToDelete) {
+      return;
+    }
+
+    axios
+      .delete(
+        `${baseUrl}/tht/deviceType/delete/${encodeURIComponent(
+          deviceTypeToDelete,
+        )}`,
+      )
+      .then(() => {
+        setDeviceTypeList(
+          deviceTypeList.filter((item) => item.deviceType !== deviceTypeToDelete),
+        );
+        toast.success("Device type deleted successfully");
+        setDeviceTypeToDelete(null);
+      })
+      .catch((error) => {
+        console.error("Error deleting device type:", error);
+        toast.error(
+          error?.response?.data?.message ||
+            error?.response?.data?.error ||
+            "Error deleting device type",
+        );
+      });
+  };
+
+  const handleConnectivityChange = (event) => {
+    const { value, checked } = event.target;
+
+    if (checked) {
+      setSelectedConnectivity([...selectedConnectivity, value]);
+    } else {
+      setSelectedConnectivity(selectedConnectivity.filter((item) => item !== value));
+    }
+  };
+
   const handleUpload = (event) => {
     event.preventDefault();
     const printedLineValue = printedLine.trim();
@@ -422,6 +586,7 @@ function ModelHightWidth() {
       sliderImageMark,
       battery_mark: batteryMark,
       connected,
+      connectivity: selectedConnectivity,
     };
 
     if (printedLineValue) {
@@ -443,6 +608,7 @@ function ModelHightWidth() {
           setBatteryMark(0);
           setConnected(1);
           setPrintedLine("100");
+          setSelectedConnectivity([]);
         } else {
           toast.error("Model information uploaded failed");
         }
@@ -499,6 +665,150 @@ function ModelHightWidth() {
         commandList={commandList}
         setCommandList={setCommandList}
       ></AddModelNo>
+
+      <div className="max-w-5xl mx-auto my-10 px-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-center">
+          <div>
+            <h2 className="text-2xl font-bold text-[#004368] mb-5">
+              Available Connectivity
+            </h2>
+            <input
+              type="text"
+              value={connectivityName}
+              onChange={handleConnectivityNameChange}
+              placeholder="Enter Connectivity"
+              className="pl-2 text-center bg-white text-gray-800 border p-1 rounded"
+            />
+            <div>
+              <button
+                type="button"
+                className="bg-[#004368] hover:bg-blue-700 text-white font-bold py-2 my-5 px-20 rounded-lg"
+                onClick={handleAddConnectivity}
+              >
+                Add Connectivity
+              </button>
+            </div>
+            {connectivityList.length > 0 && (
+              <div className="flex flex-wrap justify-center gap-2 mt-2">
+                {connectivityList.map((item, index) => (
+                  <span
+                    key={item.id || item.connectivity || index}
+                    className="inline-flex items-center gap-2 px-3 py-1 text-sm bg-slate-100 text-[#004368] border rounded-full"
+                  >
+                    {item.connectivity}
+                    <button
+                      type="button"
+                      className="text-red-500 hover:text-red-700"
+                      onClick={() => setConnectivityToDelete(item.connectivity)}
+                    >
+                      <MdClose />
+                    </button>
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <div>
+            <h2 className="text-2xl font-bold text-[#004368] mb-5">
+              Available Device Type
+            </h2>
+            <input
+              type="text"
+              value={deviceTypeName}
+              onChange={handleDeviceTypeNameChange}
+              placeholder="Enter Device Type"
+              className="pl-2 text-center bg-white text-gray-800 border p-1 rounded"
+            />
+            <div>
+              <button
+                type="button"
+                className="bg-[#004368] hover:bg-blue-700 text-white font-bold py-2 my-5 px-20 rounded-lg"
+                onClick={handleAddDeviceType}
+              >
+                Add Device Type
+              </button>
+            </div>
+            {deviceTypeList.length > 0 && (
+              <div className="flex flex-wrap justify-center gap-2 mt-2">
+                {deviceTypeList.map((item, index) => (
+                  <span
+                    key={item.id || item.deviceType || index}
+                    className="inline-flex items-center gap-2 px-3 py-1 text-sm bg-slate-100 text-[#004368] border rounded-full"
+                  >
+                    {item.deviceType}
+                    <button
+                      type="button"
+                      className="text-red-500 hover:text-red-700"
+                      onClick={() => setDeviceTypeToDelete(item.deviceType)}
+                    >
+                      <MdClose />
+                    </button>
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {connectivityToDelete && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 px-4">
+          <div className="w-full max-w-sm rounded-lg bg-white p-6 shadow-xl text-center">
+            <h2 className="text-xl font-bold text-[#004368] mb-3">
+              Delete Connectivity?
+            </h2>
+            <p className="text-gray-600 mb-6">
+              Are you sure you want to delete {connectivityToDelete}?
+            </p>
+            <div className="flex justify-center gap-3">
+              <button
+                type="button"
+                className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-6 rounded"
+                onClick={handleConfirmDeleteConnectivity}
+              >
+                Confirm
+              </button>
+              <button
+                type="button"
+                className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-6 rounded"
+                onClick={() => setConnectivityToDelete(null)}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {deviceTypeToDelete && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 px-4">
+          <div className="w-full max-w-sm rounded-lg bg-white p-6 shadow-xl text-center">
+            <h2 className="text-xl font-bold text-[#004368] mb-3">
+              Delete Device Type?
+            </h2>
+            <p className="text-gray-600 mb-6">
+              Are you sure you want to delete {deviceTypeToDelete}?
+            </p>
+            <div className="flex justify-center gap-3">
+              <button
+                type="button"
+                className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-6 rounded"
+                onClick={handleConfirmDeleteDeviceType}
+              >
+                Confirm
+              </button>
+              <button
+                type="button"
+                className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-6 rounded"
+                onClick={() => setDeviceTypeToDelete(null)}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="my-24 flex items-center justify-center px-4">
         <form className="w-full max-w-4xl bg-white shadow rounded-xl p-10 space-y-8 border border-gray-200">
@@ -611,6 +921,36 @@ function ModelHightWidth() {
               </ul>
             </div>
           )}
+
+          {/* Connectivity */}
+          <div>
+            <label className="block mb-3 text-gray-700 font-medium">
+              Connectivity
+            </label>
+            {connectivityList.length > 0 ? (
+              <div className="flex flex-wrap gap-4">
+                {connectivityList.map((item, index) => (
+                  <label
+                    key={item.id || item.connectivity || index}
+                    className="inline-flex items-center gap-2 text-sm text-gray-600"
+                  >
+                    <input
+                      type="checkbox"
+                      value={item.connectivity}
+                      checked={selectedConnectivity.includes(item.connectivity)}
+                      onChange={handleConnectivityChange}
+                      className="accent-[#004368] bg-white"
+                    />
+                    {item.connectivity}
+                  </label>
+                ))}
+              </div>
+            ) : (
+              <p className="text-sm text-gray-500">
+                No connectivity available.
+              </p>
+            )}
+          </div>
 
           {/* Model No Select */}
           <div>
