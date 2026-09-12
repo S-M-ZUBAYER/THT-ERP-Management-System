@@ -1,3 +1,4 @@
+import FontManagement from "./FontManagement";
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
 import {
@@ -474,6 +475,8 @@ const PrinterModelFlashInfo = () => {
           </table>
         </div>
       )}
+
+      <FontManagement />
 
       {isAddModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 px-4">

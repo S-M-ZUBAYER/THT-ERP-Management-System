@@ -93,7 +93,7 @@ const Navbar = () => {
                             to="/customer-management-system/admin/printerModelFlashInfo"
                             className="sm:text-xs md:text-base text-gray-700 font-normal"
                           >
-                            Printer Model Flash Info
+                            Printer Model Flash and Font Management
                           </Link>
                         </li>
                         <li className="mb-5">

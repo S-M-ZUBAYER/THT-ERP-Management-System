@@ -88,7 +88,7 @@ const Admin = () => {
                       isActive ? activeLinkClasses : linkClasses
                     }
                   >
-                    Printer Model Flash Info
+                    Printer Model Flash and Font Management
                   </NavLink>
                 </li>
                 <li>
