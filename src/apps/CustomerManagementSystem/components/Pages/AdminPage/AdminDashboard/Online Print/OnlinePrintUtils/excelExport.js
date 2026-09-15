@@ -5,6 +5,7 @@ import {
     getNewShopsByFirstCreatedDate,
     getShopFields,
     groupShopsByDate,
+    NEW_SHOPS_COMPARISON_START_DATE,
 } from "./shopHelpers";
 
 const getPlatformUserListHeading = (platform) =>
@@ -319,7 +320,10 @@ export const exportNewShopsDatewiseToExcel = async (shops, platform, startDate, 
 
     worksheet.addRow([]);
     worksheet.addRow(["Report Date Range:", `${startDate} to ${endDate}`]);
-    worksheet.addRow(["Count Rule:", "Only shop IDs whose first created date is inside the selected date range"]);
+    worksheet.addRow([
+        "Count Rule:",
+        `Only shop IDs whose first created date from ${NEW_SHOPS_COMPARISON_START_DATE} onward is inside the selected date range`,
+    ]);
 
     const buffer = await workbook.xlsx.writeBuffer();
     const blob = new Blob([buffer], {

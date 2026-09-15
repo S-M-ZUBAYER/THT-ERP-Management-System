@@ -297,14 +297,14 @@ const PlatformManager = ({ platform }) => {
           exportType === "newDatewise"
             ? [
                 "Date-wise new shop count summary",
-                "Only shop IDs first created in selected period",
-                "Shop IDs already created before the selected period are excluded",
+                "Only shop IDs first created from February 1, 2026 onward are checked",
+                "Shop IDs before February 1, 2026 are ignored for comparison",
               ]
             : exportType === "newDetails"
               ? [
                   "Unique new shop details for the selected period",
                   "Repeated shop details listed below in red",
-                  "First created date and first email are included for repeated shop IDs",
+                  "Comparison starts from February 1, 2026 only",
                 ]
             : undefined
         }

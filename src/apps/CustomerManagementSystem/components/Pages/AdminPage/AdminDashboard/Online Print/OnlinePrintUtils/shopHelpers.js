@@ -38,6 +38,12 @@ export const normalizeShopKey = (shop, platform) => {
     return key === undefined || key === null ? "" : String(key).trim();
 };
 
+export const NEW_SHOPS_COMPARISON_START_DATE = "2026-02-01";
+const newShopsComparisonStartDate = new Date(`${NEW_SHOPS_COMPARISON_START_DATE}T00:00:00`);
+
+const isAfterNewShopsComparisonStart = (createdAt) =>
+    createdAt >= newShopsComparisonStartDate;
+
 export const filterShopsBySearchTerm = (shops, platform, searchTerm) => {
     const normalizedSearch = searchTerm.trim().toLowerCase();
 
@@ -60,7 +66,13 @@ export const getNewShopsByFirstCreatedDate = (shops, platform, startDate, endDat
         const shopKey = normalizeShopKey(shop, platform);
         const createdAt = new Date(shop.createdAt);
 
-        if (!shopKey || Number.isNaN(createdAt.getTime())) return;
+        if (
+            !shopKey ||
+            Number.isNaN(createdAt.getTime()) ||
+            !isAfterNewShopsComparisonStart(createdAt)
+        ) {
+            return;
+        }
 
         const existing = firstShopByKey.get(shopKey);
         if (!existing || createdAt < existing.createdAt) {
@@ -84,7 +96,13 @@ export const getNewAndRepeatedShopsByDateRange = (shops, platform, startDate, en
         const shopKey = normalizeShopKey(shop, platform);
         const createdAt = new Date(shop.createdAt);
 
-        if (!shopKey || Number.isNaN(createdAt.getTime())) return;
+        if (
+            !shopKey ||
+            Number.isNaN(createdAt.getTime()) ||
+            !isAfterNewShopsComparisonStart(createdAt)
+        ) {
+            return;
+        }
 
         const record = { shop, shopKey, createdAt, index };
         validShopRecords.push(record);
