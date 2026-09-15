@@ -8,6 +8,37 @@ export const filterTransactionsByDateRange = (transactions, startDate, endDate) 
     });
 };
 
+const transactionShopSearchFields = [
+    "shopName",
+    "shopId",
+    "shopID",
+    "shop_id",
+    "ShopId",
+    "ShopID",
+    "storeName",
+    "storeId",
+    "TikTokAPPKey",
+    "ShopeeAPPKey",
+    "LazadaAPPKey",
+];
+
+export const filterTransactionsBySearchTerm = (transactions, searchTerm) => {
+    const normalizedSearch = searchTerm.trim().toLowerCase();
+
+    if (!normalizedSearch) return transactions;
+
+    return transactions.filter((transaction) => {
+        const searchableValues = [
+            transaction.email,
+            ...transactionShopSearchFields.map((field) => transaction[field]),
+        ];
+
+        return searchableValues.some((value) =>
+            String(value ?? "").toLowerCase().includes(normalizedSearch)
+        );
+    });
+};
+
 export const groupTransactionsByDate = (transactions) => {
     const transactionsByDate = {};
 

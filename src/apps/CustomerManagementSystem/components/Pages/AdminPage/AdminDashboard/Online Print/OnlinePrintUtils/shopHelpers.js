@@ -33,6 +33,85 @@ export const filterShopsByDateRange = (shops, startDate, endDate) => {
     });
 };
 
+export const normalizeShopKey = (shop, platform) => {
+    const { key } = getShopFields(shop, platform);
+    return key === undefined || key === null ? "" : String(key).trim();
+};
+
+export const filterShopsBySearchTerm = (shops, platform, searchTerm) => {
+    const normalizedSearch = searchTerm.trim().toLowerCase();
+
+    if (!normalizedSearch) return shops;
+
+    return shops.filter((shop) => {
+        const { email, key } = getShopFields(shop, platform);
+        return [email, key].some((value) =>
+            String(value ?? "").toLowerCase().includes(normalizedSearch)
+        );
+    });
+};
+
+export const getNewShopsByFirstCreatedDate = (shops, platform, startDate, endDate) => {
+    const startDateObj = new Date(startDate + "T00:00:00");
+    const endDateObj = new Date(endDate + "T23:59:59.999");
+    const firstShopByKey = new Map();
+
+    shops.forEach((shop, index) => {
+        const shopKey = normalizeShopKey(shop, platform);
+        const createdAt = new Date(shop.createdAt);
+
+        if (!shopKey || Number.isNaN(createdAt.getTime())) return;
+
+        const existing = firstShopByKey.get(shopKey);
+        if (!existing || createdAt < existing.createdAt) {
+            firstShopByKey.set(shopKey, { shop, createdAt, index });
+        }
+    });
+
+    return Array.from(firstShopByKey.values())
+        .filter(({ createdAt }) => createdAt >= startDateObj && createdAt <= endDateObj)
+        .sort((a, b) => a.createdAt - b.createdAt || a.index - b.index)
+        .map(({ shop }) => shop);
+};
+
+export const getNewAndRepeatedShopsByDateRange = (shops, platform, startDate, endDate) => {
+    const startDateObj = new Date(startDate + "T00:00:00");
+    const endDateObj = new Date(endDate + "T23:59:59.999");
+    const validShopRecords = [];
+    const firstShopByKey = new Map();
+
+    shops.forEach((shop, index) => {
+        const shopKey = normalizeShopKey(shop, platform);
+        const createdAt = new Date(shop.createdAt);
+
+        if (!shopKey || Number.isNaN(createdAt.getTime())) return;
+
+        const record = { shop, shopKey, createdAt, index };
+        validShopRecords.push(record);
+
+        const existing = firstShopByKey.get(shopKey);
+        if (!existing || createdAt < existing.createdAt) {
+            firstShopByKey.set(shopKey, record);
+        }
+    });
+
+    const uniqueNewShops = Array.from(firstShopByKey.values())
+        .filter(({ createdAt }) => createdAt >= startDateObj && createdAt <= endDateObj)
+        .sort((a, b) => a.createdAt - b.createdAt || a.index - b.index)
+        .map(({ shop }) => shop);
+
+    const repeatedShops = validShopRecords
+        .filter(({ createdAt }) => createdAt >= startDateObj && createdAt <= endDateObj)
+        .filter((record) => firstShopByKey.get(record.shopKey)?.index !== record.index)
+        .sort((a, b) => a.createdAt - b.createdAt || a.index - b.index)
+        .map((record) => ({
+            shop: record.shop,
+            firstShop: firstShopByKey.get(record.shopKey)?.shop,
+        }));
+
+    return { uniqueNewShops, repeatedShops };
+};
+
 export const groupShopsByDate = (shops) => {
     const shopsByDate = {};
 

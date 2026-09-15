@@ -1,6 +1,22 @@
 import React from "react";
 
-const DateRangePicker = ({ startDate, setStartDate, endDate, setEndDate, onExport, onCancel, loading, showDateRange }) => {
+const defaultExportDetails = [
+    "Date-wise shop count summary",
+    "Total shops created in selected period",
+    "Daily breakdown of shop registrations",
+];
+
+const DateRangePicker = ({
+    startDate,
+    setStartDate,
+    endDate,
+    setEndDate,
+    onExport,
+    onCancel,
+    loading,
+    showDateRange,
+    exportDetails = defaultExportDetails,
+}) => {
     if (!showDateRange) return null;
 
     return (
@@ -59,9 +75,9 @@ const DateRangePicker = ({ startDate, setStartDate, endDate, setEndDate, onExpor
                     <div className="text-xs text-gray-500 mt-4 pt-4 border-t">
                         <p className="font-medium mb-1">What will be exported:</p>
                         <ul className="list-disc pl-4 space-y-1">
-                            <li>Date-wise shop count summary</li>
-                            <li>Total shops created in selected period</li>
-                            <li>Daily breakdown of shop registrations</li>
+                            {exportDetails.map((detail) => (
+                                <li key={detail}>{detail}</li>
+                            ))}
                         </ul>
                     </div>
                 </div>

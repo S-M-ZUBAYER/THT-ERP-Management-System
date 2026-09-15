@@ -1,15 +1,19 @@
 import React from "react";
+import { CalendarCheck, FileSpreadsheet } from "lucide-react";
 
 const ExportButtons = ({
-  onExportAll,
   onExportSelected,
   onToggleDateRange,
+  onExportNewShopsDatewise,
+  onExportNewShopsDetails,
   dateWise,
   exportAllLoading,
   dateRangeLoading,
+  newShopsDateRangeLoading,
+  newShopsDetailsLoading,
 }) => {
   return (
-    <div className="flex gap-4">
+    <div className="flex flex-wrap justify-end gap-4">
       <button
         // onClick={onExportAll}
         onClick={onExportSelected}
@@ -61,6 +65,46 @@ const ExportButtons = ({
             />
           </svg>
           Export Datewise
+        </button>
+      )}
+
+      {dateWise && onExportNewShopsDatewise && (
+        <button
+          onClick={onExportNewShopsDatewise}
+          disabled={newShopsDateRangeLoading}
+          className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 flex items-center gap-2 transition"
+        >
+          {newShopsDateRangeLoading ? (
+            <>
+              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+              Exporting...
+            </>
+          ) : (
+            <>
+              <CalendarCheck className="w-5 h-5" />
+              Export New Shops Datewise
+            </>
+          )}
+        </button>
+      )}
+
+      {dateWise && onExportNewShopsDetails && (
+        <button
+          onClick={onExportNewShopsDetails}
+          disabled={newShopsDetailsLoading}
+          className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 flex items-center gap-2 transition"
+        >
+          {newShopsDetailsLoading ? (
+            <>
+              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+              Exporting...
+            </>
+          ) : (
+            <>
+              <FileSpreadsheet className="w-5 h-5" />
+              Export New Shops Details
+            </>
+          )}
         </button>
       )}
     </div>

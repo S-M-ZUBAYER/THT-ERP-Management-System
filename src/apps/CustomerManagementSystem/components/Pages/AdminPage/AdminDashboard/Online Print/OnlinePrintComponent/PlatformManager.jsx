@@ -1,16 +1,22 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import ShopTable from "./ShopTable ";
 import ExportButtons from "./ExportButtons";
 import DateRangePicker from "./DateRangePicker";
 import LoadingSpinner from "./LoadingSpinner";
 import NoDataMessage from "./NoDataMessage";
 import Pagination from "./Pagination";
+import SearchField from "./SearchField";
 import { fetchShopsByPlatform } from "../OnlinePrintUtils/apiService";
 import {
   exportAllShopsToExcel,
   exportDatewiseToExcel,
+  exportNewShopsDetailsToExcel,
+  exportNewShopsDatewiseToExcel,
 } from "../OnlinePrintUtils/excelExport";
-import { filterShopsByDateRange } from "../OnlinePrintUtils/shopHelpers";
+import {
+  filterShopsByDateRange,
+  filterShopsBySearchTerm,
+} from "../OnlinePrintUtils/shopHelpers";
 import { getPaginationData } from "../OnlinePrintUtils/pagination";
 
 const PlatformManager = ({ platform }) => {
@@ -19,12 +25,15 @@ const PlatformManager = ({ platform }) => {
   const [exportLoading, setExportLoading] = useState({
     all: false,
     datewise: false,
+    newDatewise: false,
+    newDetails: false,
   });
   const [showDateRange, setShowDateRange] = useState(false);
   const [exportType, setExportType] = useState(null); // Track which export button was clicked
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const fetchShops = useCallback(async () => {
     setLoading(true);
@@ -43,6 +52,19 @@ const PlatformManager = ({ platform }) => {
   useEffect(() => {
     fetchShops();
   }, [fetchShops]);
+
+  useEffect(() => {
+    setSearchTerm("");
+  }, [platform]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm]);
+
+  const searchedShops = useMemo(
+    () => filterShopsBySearchTerm(shops, platform, searchTerm),
+    [platform, searchTerm, shops],
+  );
 
   const handleExportAll = async () => {
     if (!startDate || !endDate) {
@@ -101,6 +123,60 @@ const PlatformManager = ({ platform }) => {
     }
   };
 
+  const handleExportNewShopsDatewise = async () => {
+    if (!startDate || !endDate) {
+      alert("Please select both start and end dates");
+      return;
+    }
+
+    if (new Date(startDate) > new Date(endDate)) {
+      alert("Start date cannot be later than end date");
+      return;
+    }
+
+    setExportLoading((prev) => ({ ...prev, newDatewise: true }));
+    try {
+      await exportNewShopsDatewiseToExcel(shops, platform, startDate, endDate);
+
+      setShowDateRange(false);
+      setStartDate("");
+      setEndDate("");
+      setExportType(null);
+    } catch (error) {
+      console.error("Export error:", error);
+      alert("Failed to export data");
+    } finally {
+      setExportLoading((prev) => ({ ...prev, newDatewise: false }));
+    }
+  };
+
+  const handleExportNewShopsDetails = async () => {
+    if (!startDate || !endDate) {
+      alert("Please select both start and end dates");
+      return;
+    }
+
+    if (new Date(startDate) > new Date(endDate)) {
+      alert("Start date cannot be later than end date");
+      return;
+    }
+
+    setExportLoading((prev) => ({ ...prev, newDetails: true }));
+    try {
+      await exportNewShopsDetailsToExcel(shops, platform, startDate, endDate);
+
+      setShowDateRange(false);
+      setStartDate("");
+      setEndDate("");
+      setExportType(null);
+    } catch (error) {
+      console.error("Export error:", error);
+      alert("Failed to export data");
+    } finally {
+      setExportLoading((prev) => ({ ...prev, newDetails: false }));
+    }
+  };
+
   const handleExportClick = () => {
     setExportType("all");
     setShowDateRange(true);
@@ -111,11 +187,25 @@ const PlatformManager = ({ platform }) => {
     setShowDateRange(true);
   };
 
+  const handleNewShopsDatewiseClick = () => {
+    setExportType("newDatewise");
+    setShowDateRange(true);
+  };
+
+  const handleNewShopsDetailsClick = () => {
+    setExportType("newDetails");
+    setShowDateRange(true);
+  };
+
   const handleDateRangeExport = () => {
     if (exportType === "all") {
       handleExportAll();
     } else if (exportType === "datewise") {
       handleExportDatewise();
+    } else if (exportType === "newDatewise") {
+      handleExportNewShopsDatewise();
+    } else if (exportType === "newDetails") {
+      handleExportNewShopsDetails();
     }
   };
 
@@ -127,7 +217,7 @@ const PlatformManager = ({ platform }) => {
   };
 
   const { totalPages, currentItems: currentShops } = getPaginationData(
-    shops,
+    searchedShops,
     currentPage,
   );
 
@@ -146,8 +236,12 @@ const PlatformManager = ({ platform }) => {
               onExportAll={handleExportClick}
               onExportSelected={handleExportClick}
               onToggleDateRange={handleDatewiseClick}
+              onExportNewShopsDatewise={handleNewShopsDatewiseClick}
+              onExportNewShopsDetails={handleNewShopsDetailsClick}
               exportAllLoading={exportLoading.all}
               dateRangeLoading={exportLoading.datewise}
+              newShopsDateRangeLoading={exportLoading.newDatewise}
+              newShopsDetailsLoading={exportLoading.newDetails}
               dateWise={true}
             />
           </div>
@@ -159,12 +253,28 @@ const PlatformManager = ({ platform }) => {
           <NoDataMessage platform={platform} />
         ) : (
           <>
-            <ShopTable shops={currentShops} platform={platform} />
-            <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={setCurrentPage}
+            <SearchField
+              value={searchTerm}
+              onChange={setSearchTerm}
+              placeholder="Search email or shop ID"
+              resultCount={searchedShops.length}
+              totalCount={shops.length}
             />
+
+            {searchedShops.length === 0 ? (
+              <div className="bg-white p-6 rounded-xl shadow border border-gray-200 text-center text-gray-500">
+                No shops found for this search.
+              </div>
+            ) : (
+              <>
+                <ShopTable shops={currentShops} platform={platform} />
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={setCurrentPage}
+                />
+              </>
+            )}
           </>
         )}
       </div>
@@ -176,8 +286,28 @@ const PlatformManager = ({ platform }) => {
         setEndDate={setEndDate}
         onExport={handleDateRangeExport}
         onCancel={handleDateRangeCancel}
-        loading={exportLoading.all || exportLoading.datewise}
+        loading={
+          exportLoading.all ||
+          exportLoading.datewise ||
+          exportLoading.newDatewise ||
+          exportLoading.newDetails
+        }
         showDateRange={showDateRange}
+        exportDetails={
+          exportType === "newDatewise"
+            ? [
+                "Date-wise new shop count summary",
+                "Only shop IDs first created in selected period",
+                "Shop IDs already created before the selected period are excluded",
+              ]
+            : exportType === "newDetails"
+              ? [
+                  "Unique new shop details for the selected period",
+                  "Repeated shop details listed below in red",
+                  "First created date and first email are included for repeated shop IDs",
+                ]
+            : undefined
+        }
       />
     </>
   );
