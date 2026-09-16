@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import ExcelJS from "exceljs";
 import toast from "react-hot-toast";
-import { Download, Edit3, Eye, PackageCheck, RefreshCw, Save, X } from "lucide-react";
+import { Download, Edit3, Ellipsis, Eye, PackageCheck, RefreshCw, Save, X } from "lucide-react";
 import erpApi, { hasErpSession } from "@/lib/erpApi";
 import LoadingSpinner from "../Online Print/OnlinePrintComponent/LoadingSpinner";
 
@@ -57,8 +57,58 @@ const formatStatusLabel = (status) =>
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
 
+const objectDisplayKeys = [
+  "fullName",
+  "name",
+  "recipientName",
+  "phone",
+  "recipientPhone",
+  "addressLine1",
+  "addressLine2",
+  "address",
+  "city",
+  "state",
+  "province",
+  "country",
+  "zipCode",
+  "postalCode",
+  "code",
+  "id",
+];
+
+const hasDisplayValue = (value) =>
+  value !== null && value !== undefined && value !== "";
+
+const formatScalarValue = (value) => {
+  if (typeof value === "boolean") return value ? "Yes" : "No";
+  return String(value);
+};
+
 const formatValue = (value) => {
   if (value === null || value === undefined || value === "") return "-";
+  if (Array.isArray(value)) {
+    const formattedValues = value
+      .map((item) => formatValue(item))
+      .filter((item) => item !== "-");
+    return formattedValues.length ? formattedValues.join(", ") : "-";
+  }
+  if (typeof value === "object") {
+    const preferredValues = objectDisplayKeys
+      .map((key) => value[key])
+      .filter((item) => hasDisplayValue(item) && typeof item !== "object")
+      .map(formatScalarValue);
+
+    if (preferredValues.length) {
+      return [...new Set(preferredValues)].join(", ");
+    }
+
+    const scalarValues = Object.values(value)
+      .filter((item) => hasDisplayValue(item) && typeof item !== "object")
+      .map(formatScalarValue);
+
+    return scalarValues.length ? [...new Set(scalarValues)].join(", ") : "-";
+  }
+  if (typeof value === "boolean") return value ? "Yes" : "No";
   return value;
 };
 
@@ -307,9 +357,18 @@ const exportGiftsToExcel = async (rows, filters) => {
 
   rows.forEach((row, index) => {
     worksheet.addRow({
-      ...row,
       serialNumber: index + 1,
+      ownerEmail: formatValue(row.ownerEmail),
+      ownerCompanyName: formatValue(row.ownerCompanyName),
+      couponCode: formatValue(row.couponCode),
       status: formatStatusLabel(row.status),
+      recipientName: formatValue(row.recipientName),
+      recipientPhone: formatValue(row.recipientPhone),
+      address: formatValue(row.address),
+      city: formatValue(row.city),
+      country: formatValue(row.country),
+      zipCode: formatValue(row.zipCode),
+      trackingNumber: formatValue(row.trackingNumber),
       createdAt: formatDate(row.createdAt),
       modalSeenAt: formatDate(row.modalSeenAt),
     });
@@ -364,6 +423,7 @@ const GiftManagement = () => {
   const [detailGift, setDetailGift] = useState(null);
   const [detailLoading, setDetailLoading] = useState(false);
   const [statusTarget, setStatusTarget] = useState(null);
+  const [openActionMenuId, setOpenActionMenuId] = useState(null);
   const [statusForm, setStatusForm] = useState({
     status: "processing",
     trackingNumber: "",
@@ -378,6 +438,15 @@ const GiftManagement = () => {
 
     return () => clearTimeout(timeoutId);
   }, [searchInput]);
+
+  useEffect(() => {
+    if (openActionMenuId === null) return undefined;
+
+    const closeActionMenu = () => setOpenActionMenuId(null);
+    document.addEventListener("click", closeActionMenu);
+
+    return () => document.removeEventListener("click", closeActionMenu);
+  }, [openActionMenuId]);
 
   const queryParams = useMemo(
     () => ({
@@ -440,6 +509,7 @@ const GiftManagement = () => {
   }, [loadGifts]);
 
   const openDetail = async (gift) => {
+    setOpenActionMenuId(null);
     setDetailGift(gift);
     setDetailLoading(true);
 
@@ -455,6 +525,7 @@ const GiftManagement = () => {
 
   const openStatusModal = (gift, preferTracking = false) => {
     const currentStatus = ADMIN_STATUS_OPTIONS.includes(gift.status) ? gift.status : "processing";
+    setOpenActionMenuId(null);
     setStatusTarget(gift);
     setStatusForm({
       status: preferTracking ? "shipped" : currentStatus,
@@ -694,56 +765,102 @@ const GiftManagement = () => {
                     </td>
                   </tr>
                 ) : (
-                  gifts.map((gift, index) => (
-                    <tr key={gift.id} className="border-b last:border-b-0">
-                      <td className="px-4 py-3 font-semibold text-[#004368]">
-                        {(page - 1) * ITEMS_PER_PAGE + index + 1}
-                      </td>
-                      <td className="px-4 py-3">{formatValue(gift.ownerEmail)}</td>
-                      <td className="px-4 py-3">{formatValue(gift.ownerCompanyName)}</td>
-                      <td className="px-4 py-3">{formatValue(gift.couponCode)}</td>
-                      <td className="px-4 py-3">
-                        <StatusBadge status={gift.status} />
-                      </td>
-                      <td className="px-4 py-3">{formatValue(gift.recipientName)}</td>
-                      <td className="px-4 py-3">{formatValue(gift.recipientPhone)}</td>
-                      <td className="max-w-[280px] px-4 py-3">{formatValue(gift.address)}</td>
-                      <td className="px-4 py-3">{formatValue(gift.city)}</td>
-                      <td className="px-4 py-3">{formatValue(gift.country)}</td>
-                      <td className="px-4 py-3">{formatValue(gift.zipCode)}</td>
-                      <td className="px-4 py-3">{formatValue(gift.trackingNumber)}</td>
-                      <td className="px-4 py-3">{formatDate(gift.createdAt)}</td>
-                      <td className="px-4 py-3">{formatDate(gift.modalSeenAt)}</td>
-                      <td className="sticky right-0 bg-white px-4 py-3">
-                        <div className="flex flex-wrap gap-2">
-                          <button
-                            type="button"
-                            onClick={() => openDetail(gift)}
-                            className="inline-flex h-9 items-center gap-1 rounded-md border border-gray-300 px-3 text-xs font-semibold text-gray-700 hover:bg-gray-50"
-                          >
-                            <Eye size={14} />
-                            View
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => openStatusModal(gift)}
-                            className="inline-flex h-9 items-center gap-1 rounded-md border border-blue-200 px-3 text-xs font-semibold text-[#004368] hover:bg-blue-50"
-                          >
-                            <Edit3 size={14} />
-                            Status
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => openStatusModal(gift, true)}
-                            className="inline-flex h-9 items-center gap-1 rounded-md border border-indigo-200 px-3 text-xs font-semibold text-indigo-700 hover:bg-indigo-50"
-                          >
-                            <PackageCheck size={14} />
-                            Tracking
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))
+                  gifts.map((gift, index) => {
+                    const isActionMenuOpen = openActionMenuId === gift.id;
+
+                    return (
+                      <tr key={gift.id} className="border-b last:border-b-0">
+                        <td className="px-4 py-3 font-semibold text-[#004368]">
+                          {(page - 1) * ITEMS_PER_PAGE + index + 1}
+                        </td>
+                        <td className="px-4 py-3">{formatValue(gift.ownerEmail)}</td>
+                        <td className="px-4 py-3">{formatValue(gift.ownerCompanyName)}</td>
+                        <td className="px-4 py-3">{formatValue(gift.couponCode)}</td>
+                        <td className="px-4 py-3">
+                          <StatusBadge status={gift.status} />
+                        </td>
+                        <td className="px-4 py-3">{formatValue(gift.recipientName)}</td>
+                        <td className="px-4 py-3">{formatValue(gift.recipientPhone)}</td>
+                        <td className="max-w-[280px] px-4 py-3">{formatValue(gift.address)}</td>
+                        <td className="px-4 py-3">{formatValue(gift.city)}</td>
+                        <td className="px-4 py-3">{formatValue(gift.country)}</td>
+                        <td className="px-4 py-3">{formatValue(gift.zipCode)}</td>
+                        <td className="px-4 py-3">{formatValue(gift.trackingNumber)}</td>
+                        <td className="px-4 py-3">{formatDate(gift.createdAt)}</td>
+                        <td className="px-4 py-3">{formatDate(gift.modalSeenAt)}</td>
+                        <td
+                          className={`sticky right-0 bg-white px-4 py-3 ${
+                            isActionMenuOpen ? "z-40" : "z-10"
+                          }`}
+                        >
+                          <div className="relative flex justify-center">
+                            <button
+                              type="button"
+                              onClick={(event) => {
+                                event.stopPropagation();
+                                setOpenActionMenuId((current) =>
+                                  current === gift.id ? null : gift.id,
+                                );
+                              }}
+                              className={` inline-grid h-8 w-8 items-center justify-center text-xs transition focus:outline-none focus:ring-2 focus:ring-[#004368]/25 ${
+                                isActionMenuOpen ? "bg-blue-50" : "hover:bg-gray-100"
+                              }`}
+                              aria-label={`Open actions for gift ${gift.id}`}
+                              aria-expanded={isActionMenuOpen}
+                              title="Actions"
+                            >
+                              <Ellipsis
+                                size={26}
+                                strokeWidth={3.5}
+                                color={isActionMenuOpen ? "#004368" : "#374151"}
+                                aria-hidden="true"
+                              />
+                            </button>
+                            {isActionMenuOpen && (
+                              <div
+                                className="absolute right-0 top-9 z-50 w-44 overflow-hidden rounded-lg border border-gray-200 bg-white shadow-xl ring-1 ring-black/5"
+                                onClick={(event) => event.stopPropagation()}
+                              >
+                                <div className="border-b border-gray-100 px-3 py-2 text-xs font-bold uppercase tracking-wide text-gray-400">
+                                  Actions
+                                </div>
+                                <button
+                                  type="button"
+                                  onClick={() => openDetail(gift)}
+                                  className="flex w-full items-center gap-3 px-3 py-2.5 text-left text-sm font-semibold text-gray-700 transition hover:bg-gray-50"
+                                >
+                                  <span className="flex h-7 w-7 items-center justify-center rounded-md bg-gray-100 text-gray-600">
+                                    <Eye size={15} />
+                                  </span>
+                                  View
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => openStatusModal(gift)}
+                                  className="flex w-full items-center gap-3 px-3 py-2.5 text-left text-sm font-semibold text-[#004368] transition hover:bg-blue-50"
+                                >
+                                  <span className="flex h-7 w-7 items-center justify-center rounded-md bg-blue-50 text-[#004368]">
+                                    <Edit3 size={15} />
+                                  </span>
+                                  Status
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => openStatusModal(gift, true)}
+                                  className="flex w-full items-center gap-3 px-3 py-2.5 text-left text-sm font-semibold text-indigo-700 transition hover:bg-indigo-50"
+                                >
+                                  <span className="flex h-7 w-7 items-center justify-center rounded-md bg-indigo-50 text-indigo-700">
+                                    <PackageCheck size={15} />
+                                  </span>
+                                  Tracking
+                                </button>
+                              </div>
+                            )}
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })
                 )}
               </tbody>
             </table>
