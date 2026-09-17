@@ -2,7 +2,30 @@ import React, { useEffect, useState } from "react";
 import { AiFillFolderOpen } from "react-icons/ai";
 import { Link } from "react-router-dom";
 
-const ShowModelNo = ({ allModelNoList = [], baseUrl }) => {
+const ModelCardIcon = ({ iconUrl, modelNo }) => {
+  const [imageError, setImageError] = useState(false);
+
+  useEffect(() => {
+    setImageError(false);
+  }, [iconUrl]);
+
+  if (iconUrl && !imageError) {
+    return (
+      <img
+        src={iconUrl}
+        alt={`${modelNo} printer icon`}
+        onError={() => setImageError(true)}
+        className="w-20 h-20 mx-auto object-contain"
+      />
+    );
+  }
+
+  return (
+    <AiFillFolderOpen className="w-20 h-20 mx-auto text-yellow-400"></AiFillFolderOpen>
+  );
+};
+
+const ShowModelNo = ({ allModelNoList = [], baseUrl, modelIconMap = {} }) => {
   const [filterModelList, setFilterModelList] = useState(allModelNoList);
 
   useEffect(() => {
@@ -47,7 +70,7 @@ const ShowModelNo = ({ allModelNoList = [], baseUrl }) => {
             )}`}
             className="my-5 mx-auto"
           >
-            <AiFillFolderOpen className="w-20 h-20 mx-auto text-yellow-400"></AiFillFolderOpen>
+            <ModelCardIcon iconUrl={modelIconMap[modelNo]} modelNo={modelNo} />
             <p className="font-semibold text-gray-700">{modelNo}</p>
           </Link>
         ))}

@@ -6,6 +6,28 @@ import { MdDelete, MdEdit } from "react-icons/md";
 import { AuthContext } from "../../../../../context/UserContext";
 import DisplaySpinner from "../../../../Shared/Loading/DisplaySpinner";
 
+const printerIconAccept = "image/png,image/svg+xml,.png,.svg";
+const maxPrinterIconSize = 5 * 1024 * 1024;
+
+const getPrinterIconValidationError = (file) => {
+  if (!file) {
+    return "";
+  }
+
+  const validType = ["image/png", "image/svg+xml"].includes(file.type);
+  const validExtension = /\.(png|svg)$/i.test(file.name || "");
+
+  if (!validType || !validExtension) {
+    return "Printer icon must be a PNG or SVG file.";
+  }
+
+  if (file.size > maxPrinterIconSize) {
+    return "Printer icon must be 5 MB or smaller.";
+  }
+
+  return "";
+};
+
 const ShowHightWidth = () => {
   const [allModelInfo, setAllModelInfo] = useState([]);
   const [connectivityList, setConnectivityList] = useState([]);
@@ -192,8 +214,29 @@ const ShowHightWidth = () => {
       connected: data?.connected ?? null,
       printedLine: getPrintedLineValue(data?.printedLine),
       connectivity: getConnectivityValue(data?.connectivity),
+      printerIconFile: null,
     });
     setIsModalOpen(true);
+  };
+
+  const handleEditPrinterIconChange = (event) => {
+    const file = event.target.files?.[0] || null;
+    const validationError = getPrinterIconValidationError(file);
+
+    if (validationError) {
+      toast.error(validationError);
+      event.target.value = "";
+      setEditModalData({
+        ...editModalData,
+        printerIconFile: null,
+      });
+      return;
+    }
+
+    setEditModalData({
+      ...editModalData,
+      printerIconFile: file,
+    });
   };
 
   const handleConnectivityChange = (event) => {
@@ -401,7 +444,6 @@ const ShowHightWidth = () => {
       toast.error("Invalid model data. Please try again.");
       return;
     }
-    console.log(editModalData);
     const printedLineValue = getPrintedLineValue(editModalData?.printedLine);
     const parsedPrintedLine = Number(printedLineValue);
 
@@ -411,19 +453,34 @@ const ShowHightWidth = () => {
     }
 
     try {
-      const updatePayload = {
+      const connectivityValue = getConnectivityValue(editModalData?.connectivity);
+      const updatedModelInfo = {
         ...editModalData,
         printedLine: parsedPrintedLine,
-        connectivity: getConnectivityValue(editModalData?.connectivity),
+        connectivity: connectivityValue,
       };
+      delete updatedModelInfo.printerIconFile;
+
+      const updatePayload = new FormData();
+      updatePayload.append("defaultHight", editModalData.defaultHight || "");
+      updatePayload.append("defaultWidth", editModalData.defaultWidth || "");
+      updatePayload.append("maxHight", editModalData.maxHight || "");
+      updatePayload.append("maxWidth", editModalData.maxWidth || "");
+      updatePayload.append("command", editModalData.command || "");
+      updatePayload.append("sliderImageMark", editModalData.sliderImageMark || "");
+      updatePayload.append("battery_mark", editModalData.battery_mark ?? 0);
+      updatePayload.append("connected", editModalData.connected ?? "");
+      updatePayload.append("printedLine", parsedPrintedLine);
+      updatePayload.append("connectivity", JSON.stringify(connectivityValue));
+
+      if (editModalData.printerIconFile) {
+        updatePayload.append("printerIcon", editModalData.printerIconFile);
+      }
 
       const response = await axios.put(
         `${baseUrl}/tht/bluetoothModelHightWidth/update/${editModalData.id}`,
         updatePayload,
         {
-          headers: {
-            "Content-Type": "application/json",
-          },
           timeout: 10000, // ⏱ prevent infinite hanging
         },
       );
@@ -434,14 +491,24 @@ const ShowHightWidth = () => {
       }
 
       // 🔁 Update local state safely
+      const nextPrinterIcon =
+        response?.data?.printerIcon || editModalData.printerIcon || null;
+
       setAllModelInfo((prev) =>
         prev.map((item) =>
-          item.id === editModalData.id ? { ...item, ...updatePayload } : item,
+          item.id === editModalData.id
+            ? {
+                ...item,
+                ...updatedModelInfo,
+                printerIcon: nextPrinterIcon,
+              }
+            : item,
         ),
       );
 
       toast.success("Model information updated successfully");
       setIsModalOpen(false);
+      setEditModalData(null);
     } catch (error) {
       console.error("Update Error:", error);
 
@@ -480,6 +547,9 @@ const ShowHightWidth = () => {
               <tr className="bg-gradient-to-r from-teal-400 to-purple-400">
                 <th className="border border-gray-400 px-4 py-2 text-white">
                   Model Name
+                </th>
+                <th className="border border-gray-400 px-4 py-2 text-white">
+                  Printer Icon
                 </th>
                 <th className="border border-gray-400 px-4 py-2 text-white">
                   PID
@@ -526,6 +596,17 @@ const ShowHightWidth = () => {
                   key={element.id}
                 >
                   <td className="px-4 py-2 border">{element?.modelNo}</td>
+                  <td className="px-4 py-2 border">
+                    {element?.printerIcon ? (
+                      <img
+                        src={element.printerIcon}
+                        alt={`${element?.modelNo || "Model"} printer icon`}
+                        className="h-12 w-12 object-contain mx-auto"
+                      />
+                    ) : (
+                      <span className="text-xs text-gray-400">No icon</span>
+                    )}
+                  </td>
                   <td className="px-4 py-2 border">{element?.pidNo}</td>
                   <td className="px-4 py-2 border">{element?.defaultHight}</td>
                   <td className="px-4 py-2 border">{element?.defaultWidth}</td>
@@ -907,6 +988,30 @@ const ShowHightWidth = () => {
               />
             </div>
 
+            <div>
+              <label className="block text-gray-700 font-medium mb-1">
+                Printer Icon
+              </label>
+              {editModalData?.printerIcon && (
+                <img
+                  src={editModalData.printerIcon}
+                  alt={`${editModalData?.modelNo || "Model"} printer icon`}
+                  className="mb-2 h-16 w-16 object-contain border rounded bg-white"
+                />
+              )}
+              <input
+                type="file"
+                accept={printerIconAccept}
+                onChange={handleEditPrinterIconChange}
+                className="w-full border p-2 rounded bg-gray-50 text-slate-700 focus:ring focus:ring-blue-300"
+              />
+              {editModalData?.printerIconFile && (
+                <p className="mt-1 text-sm text-gray-500">
+                  {editModalData.printerIconFile.name}
+                </p>
+              )}
+            </div>
+
             {/* Battery Mark */}
             <div>
               <label className="block text-gray-700 font-medium mb-1">
@@ -1011,7 +1116,10 @@ const ShowHightWidth = () => {
               <button
                 type="button"
                 className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 transition"
-                onClick={() => setIsModalOpen(false)}
+                onClick={() => {
+                  setIsModalOpen(false);
+                  setEditModalData(null);
+                }}
               >
                 Cancel
               </button>

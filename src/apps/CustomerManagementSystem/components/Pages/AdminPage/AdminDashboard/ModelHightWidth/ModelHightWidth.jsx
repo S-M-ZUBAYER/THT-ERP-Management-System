@@ -300,10 +300,32 @@ const normalizeCommands = (responseData = []) => {
     .filter(Boolean);
 };
 
+const printerIconAccept = "image/png,image/svg+xml,.png,.svg";
+const maxPrinterIconSize = 5 * 1024 * 1024;
+
+const getPrinterIconValidationError = (file) => {
+  if (!file) {
+    return "";
+  }
+
+  const validType = ["image/png", "image/svg+xml"].includes(file.type);
+  const validExtension = /\.(png|svg)$/i.test(file.name || "");
+
+  if (!validType || !validExtension) {
+    return "Printer icon must be a PNG or SVG file.";
+  }
+
+  if (file.size > maxPrinterIconSize) {
+    return "Printer icon must be 5 MB or smaller.";
+  }
+
+  return "";
+};
+
 function ModelHightWidth() {
-  const [selectedImages, setSelectedImages] = useState([]);
   const [selectedModelNo, setSelectedModelNo] = useState("");
   const [allModelNoList, setAllModelNoList] = useState([]);
+  const [modelIconMap, setModelIconMap] = useState({});
   const [defaultHight, setDefaultHight] = useState("");
   const [defaultWidth, setDefaultWidth] = useState("");
   const [maxHight, setMaxHight] = useState("");
@@ -311,6 +333,7 @@ function ModelHightWidth() {
   const [selectedCommands, setSelectedCommands] = useState([]);
   const [selectedPID, setSelectedPID] = useState("");
   const [sliderImageMark, setSliderImageMark] = useState("");
+  const [printerIcon, setPrinterIcon] = useState(null);
   const [batteryMark, setBatteryMark] = useState(0); // default 0
   const [connected, setConnected] = useState(1);
   const [printedLine, setPrintedLine] = useState("100");
@@ -352,6 +375,24 @@ function ModelHightWidth() {
       .then((response) => response.json())
       .then((data) => {
         setAllModelNoList(data.map((modelNo) => modelNo.modelNo));
+      });
+
+    axios
+      .get(`${baseUrl}/tht/allModelInfo`)
+      .then((response) => {
+        const iconMap = (response.data || []).reduce((acc, item) => {
+          if (item?.modelNo && item?.printerIcon && !acc[item.modelNo]) {
+            acc[item.modelNo] = item.printerIcon;
+          }
+
+          return acc;
+        }, {});
+
+        setModelIconMap(iconMap);
+      })
+      .catch((error) => {
+        console.error("Error fetching model icons:", error);
+        setModelIconMap({});
       });
   }, [baseUrl]);
 
@@ -428,6 +469,20 @@ function ModelHightWidth() {
 
   const handlePrintedLineChange = (e) => {
     setPrintedLine(e.target.value);
+  };
+
+  const handlePrinterIconChange = (event) => {
+    const file = event.target.files?.[0] || null;
+    const validationError = getPrinterIconValidationError(file);
+
+    if (validationError) {
+      toast.error(validationError);
+      event.target.value = "";
+      setPrinterIcon(null);
+      return;
+    }
+
+    setPrinterIcon(file);
   };
 
   const handleConnectivityNameChange = (e) => {
@@ -564,6 +619,7 @@ function ModelHightWidth() {
 
   const handleUpload = (event) => {
     event.preventDefault();
+    const form = event.currentTarget;
     const printedLineValue = printedLine.trim();
     const parsedPrintedLine = Number(printedLineValue);
 
@@ -575,28 +631,38 @@ function ModelHightWidth() {
       return;
     }
 
-    const payload = {
-      pidNo: selectedPID,
-      defaultHight,
-      defaultWidth,
-      maxHight,
-      maxWidth,
-      command: selectedCommands,
-      modelNo: selectedModelNo,
-      sliderImageMark,
-      battery_mark: batteryMark,
-      connected,
-      connectivity: selectedConnectivity,
-    };
+    const payload = new FormData();
+    payload.append("pidNo", selectedPID);
+    payload.append("defaultHight", defaultHight);
+    payload.append("defaultWidth", defaultWidth);
+    payload.append("maxHight", maxHight);
+    payload.append("maxWidth", maxWidth);
+    payload.append("command", JSON.stringify(selectedCommands));
+    payload.append("modelNo", selectedModelNo);
+    payload.append("sliderImageMark", sliderImageMark);
+    payload.append("battery_mark", batteryMark);
+    payload.append("connected", connected ?? "");
+    payload.append("connectivity", JSON.stringify(selectedConnectivity));
 
     if (printedLineValue) {
-      payload.printedLine = parsedPrintedLine;
+      payload.append("printedLine", parsedPrintedLine);
+    }
+
+    if (printerIcon) {
+      payload.append("printerIcon", printerIcon);
     }
 
     axios
       .post(`${baseUrl}/tht/hightWidth/add`, payload)
       .then((res) => {
         if (res.data.status === "success") {
+          if (res.data?.printerIcon && selectedModelNo) {
+            setModelIconMap((prev) => ({
+              ...prev,
+              [selectedModelNo]: res.data.printerIcon,
+            }));
+          }
+
           toast.success("Model information uploaded successfully");
           setSelectedPID("");
           setDefaultHight("");
@@ -609,6 +675,8 @@ function ModelHightWidth() {
           setConnected(1);
           setPrintedLine("100");
           setSelectedConnectivity([]);
+          setPrinterIcon(null);
+          form.reset();
         } else {
           toast.error("Model information uploaded failed");
         }
@@ -811,7 +879,10 @@ function ModelHightWidth() {
       )}
 
       <div className="my-24 flex items-center justify-center px-4">
-        <form className="w-full max-w-4xl bg-white shadow rounded-xl p-10 space-y-8 border border-gray-200">
+        <form
+          onSubmit={handleUpload}
+          className="w-full max-w-4xl bg-white shadow rounded-xl p-10 space-y-8 border border-gray-200"
+        >
           <h2 className="text-2xl font-bold text-center text-[#004368]">
             Add Height & Width Configuration
           </h2>
@@ -1018,12 +1089,26 @@ function ModelHightWidth() {
             />
           </div>
 
+          <div>
+            <label className="block mb-2 text-gray-700 font-medium">
+              Printer Icon
+            </label>
+            <input
+              type="file"
+              accept={printerIconAccept}
+              onChange={handlePrinterIconChange}
+              className="w-full bg-white px-4 py-2 border rounded-md focus:ring-2 focus:ring-[#004368]"
+            />
+            {printerIcon && (
+              <p className="mt-2 text-sm text-gray-500">{printerIcon.name}</p>
+            )}
+          </div>
+
           {/* Submit Button */}
           <div className="flex justify-center">
             <button
+              type="submit"
               className="bg-[#004368] hover:bg-blue-800 text-white font-semibold py-2 px-10 rounded-lg transition duration-300"
-              onClick={handleUpload}
-              disabled={!selectedImages}
             >
               Add Bluetooth Modal H & W
             </button>
@@ -1034,6 +1119,7 @@ function ModelHightWidth() {
       <ShowModelNo
         baseUrl={baseUrl}
         allModelNoList={allModelNoList}
+        modelIconMap={modelIconMap}
       ></ShowModelNo>
     </div>
   );
