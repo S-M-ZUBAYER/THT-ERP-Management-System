@@ -101,6 +101,7 @@ import AddProduct from "./components/Pages/AdminPage/AdminDashboard/AddProduct";
 import WarehouseAndCities from "./components/Pages/AdminPage/AdminDashboard/Warehouse&Cities.js/WarehouseAndCities";
 import ModelHightWidth from "./components/Pages/AdminPage/AdminDashboard/ModelHightWidth/ModelHightWidth";
 import AddWifiModelHightWidth from "./components/Pages/AdminPage/AdminDashboard/WifiModelHeightWidth/AddWifiModelInfo";
+import PrinterModelFlashInfo from "./components/Pages/AdminPage/AdminDashboard/PrinterModelFlashInfo/PrinterModelFlashInfo";
 import ShowHightWidth from "./components/Pages/AdminPage/AdminDashboard/ModelHightWidth/ShowHightWidth";
 import AddIconImg from "./components/Pages/AdminPage/AdminDashboard/IconImgPage/AddIconImg";
 import ShowIconImg from "./components/Pages/AdminPage/AdminDashboard/IconImgPage/ShowIconImg";
@@ -119,6 +120,11 @@ import ImageResize from "./components/Pages/AdminPage/AdminDashboard/ImageResize
 import PrivateRoute from "./Routes/Routes/PrivateRoute/PrivateRoute";
 import FaceAttendanceManage from "./components/Pages/AdminPage/AdminDashboard/FaceAttendanceMange/FaceAttendanceManage";
 import OnlinePrintManagement from "./components/Pages/AdminPage/AdminDashboard/Online Print/OnlinePrintManagement";
+import PlatformStoreManagement from "./components/Pages/AdminPage/AdminDashboard/WarehouseERPManagement/PlatformStoreManagement";
+import PlatformTransactions from "./components/Pages/AdminPage/AdminDashboard/WarehouseERPManagement/PlatformTransactions";
+import ManualOrderShippingWalletPayments from "./components/Pages/AdminPage/AdminDashboard/WarehouseERPManagement/ManualOrderShippingWalletPayments";
+import SubscriptionPlanManagement from "./components/Pages/AdminPage/AdminDashboard/WarehouseERPManagement/SubscriptionPlanManagement";
+import GiftManagement from "./components/Pages/AdminPage/AdminDashboard/WarehouseERPManagement/GiftManagement";
 import ChatbotUnknownQuestionManagement from "./components/Pages/AdminPage/AdminDashboard/ChatbotUnknownQuestionManagement/ChatbotUnknownQuestionManagement";
 import UserEmailVerification from "./components/Pages/AdminPage/AdminDashboard/UserEmailVerification/UserEmailVerification";
 import AttendanceMachineVersionControlPage from "./components/Pages/AdminPage/AdminDashboard/AttendanceMachineVersionControl/AttendanceMachineVersionControlPage";
@@ -297,6 +303,14 @@ const CustomerManagementSystemApp = () => {
               }
             />
             <Route
+              path="printerModelFlashInfo"
+              element={
+                <PrivateRoute>
+                  <PrinterModelFlashInfo />
+                </PrivateRoute>
+              }
+            />
+            <Route
               path="modelInfo/:modelNo"
               element={
                 <PrivateRoute>
@@ -413,6 +427,46 @@ const CustomerManagementSystemApp = () => {
               element={
                 <PrivateRoute>
                   <OnlinePrintManagement />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="WarehouseERPManagement"
+              element={
+                <PrivateRoute>
+                  <PlatformStoreManagement />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="PlatformTransactions"
+              element={
+                <PrivateRoute>
+                  <PlatformTransactions />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="ManualOrderShippingWalletPayments"
+              element={
+                <PrivateRoute>
+                  <ManualOrderShippingWalletPayments />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="SubscriptionPlans"
+              element={
+                <PrivateRoute>
+                  <SubscriptionPlanManagement />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="GiftManagement"
+              element={
+                <PrivateRoute>
+                  <GiftManagement />
                 </PrivateRoute>
               }
             />

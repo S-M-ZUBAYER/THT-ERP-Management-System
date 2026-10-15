@@ -20,7 +20,7 @@
 // export default App;
 
 import { BrowserRouter as Router } from "react-router-dom";
-import { Toaster } from "react-hot-toast";
+import { Toaster, toast } from "react-hot-toast";
 import { useEffect, useRef } from "react";
 import AppRoutes from "./routes/AppRoutes";
 import UserContext from "./apps/CustomerManagementSystem/context/UserContext";
@@ -43,30 +43,181 @@ function App() {
     const shopId = urlParams.get("shop_id");
     const state = urlParams.get("state");
 
+  
+
     if (code && shopId) {
       console.log("🔐 Shopee Auth detected in App level");
 
       startLoading();
 
-      const dynamicApiUrl = `https://grozziie.zjweiting.com:3091/shopee-open-shop/auth/dynamic?code=${encodeURIComponent(
+      const wmsMatch = state?.match(/^WMS(\d+)\/(.+)$/i);
+      const dynamicApiBaseUrl = wmsMatch
+        ? "https://grozziie.zjweiting.com:3091/new-shopee-open-shop/auth/dynamic"
+        // ? "http://192.168.1.125:9595/auth/dynamic"
+        : "https://grozziie.zjweiting.com:3091/shopee-open-shop/auth/dynamic";
+      const dynamicApiUrl = `${dynamicApiBaseUrl}?code=${encodeURIComponent(
         code
       )}&state=${encodeURIComponent(shopId)}`;
-      const wmsMatch = state?.match(/^WMS(\d+)\/(.+)$/i);
 
       if (wmsMatch) {
         const [, companyId, email] = wmsMatch;
-        const shopInfoApiUrl = `http://192.168.1.222:8080/shopee-open-shop/api/dev/shop/shop-info?shopId=${encodeURIComponent(
+        let shouldDelayRedirectForWarning = false;
+        const wmsDebugKey = "shopeeWmsAuthDebugLog";
+        const wmsLatestDebugKey = "shopeeWmsAuthDebugLatest";
+        const incompleteAuthMessage =
+          "Authorization properly not completed. Please authorization again.";
+        const maskEmail = (value) => {
+          if (!value) return "";
+          const [name = "", domain = ""] = String(value).split("@");
+          return domain
+            ? `${name.slice(0, 2)}***@${domain}`
+            : `${String(value).slice(0, 3)}***`;
+        };
+        const wmsDebugSession = {
+          id: `${Date.now()}-${Math.random().toString(36).slice(2)}`,
+          startedAt: new Date().toISOString(),
+          codePresent: Boolean(code),
+          codeLength: code?.length || 0,
+          shopId: String(shopId),
+          stateMatched: true,
+          companyId: String(companyId),
+          email: maskEmail(email),
+          steps: [],
+        };
+        const appendWmsDebug = (step, details = {}) => {
+          const entry = {
+            at: new Date().toISOString(),
+            step,
+            ...details,
+          };
+
+          wmsDebugSession.steps.push(entry);
+          wmsDebugSession.updatedAt = entry.at;
+
+          try {
+            const previous = JSON.parse(
+              window.localStorage.getItem(wmsDebugKey) || "[]"
+            );
+            const previousSessions = Array.isArray(previous) ? previous : [];
+            const nextSessions = [
+              wmsDebugSession,
+              ...previousSessions.filter(
+                (session) => session?.id !== wmsDebugSession.id
+              ),
+            ].slice(0, 10);
+
+            window.localStorage.setItem(
+              wmsDebugKey,
+              JSON.stringify(nextSessions)
+            );
+            window.localStorage.setItem(
+              wmsLatestDebugKey,
+              JSON.stringify(wmsDebugSession)
+            );
+          } catch (storageError) {
+            console.warn("Shopee WMS debug storage failed:", storageError);
+          }
+
+          console.log("[Shopee WMS Auth]", step, details);
+        };
+        const showIncompleteAuthWarning = (reason, details = {}) => {
+          shouldDelayRedirectForWarning = true;
+          appendWmsDebug("authorization-incomplete-warning-shown", {
+            reason,
+            ...details,
+          });
+          toast.error(incompleteAuthMessage);
+        };
+        const shopInfoApiUrl = `https://grozziie.zjweiting.com:3091/new-shopee-open-shop/api/dev/shop/shop-info?shopId=${encodeURIComponent(
+        // const shopInfoApiUrl = `http://192.168.1.125:9595/api/dev/shop/shop-info?shopId=${encodeURIComponent(
           shopId
         )}`;
         const addPlatformStoreApiUrl =
           "https://grozziieget.zjweiting.com:8035/api/v1/platform-stores/public";
-
-        fetch(dynamicApiUrl).catch((error) => {
-          console.error("Shopee dynamic auth failed, continuing WMS flow:", error);
+        const dynamicApiUrlForDebug = `${dynamicApiBaseUrl}?code=<redacted:${code?.length || 0}>&state=${encodeURIComponent(
+          shopId
+        )}`;
+        appendWmsDebug("wms-flow-started", {
+          dynamicApiUrl: dynamicApiUrlForDebug,
+          shopInfoApiUrl,
+          addPlatformStoreApiUrl,
         });
+        const waitOneSecond = () =>
+          new Promise((resolve) => setTimeout(resolve, 1000));
+        const fetchDynamicAuthWithRetry = () => {
+          appendWmsDebug("dynamic-auth-first-attempt-started", {
+            stateSentToApi: String(shopId),
+          });
 
-        fetch(shopInfoApiUrl)
+          return fetch(dynamicApiUrl)
+            .then((response) => {
+              appendWmsDebug("dynamic-auth-first-attempt-response", {
+                ok: response.ok,
+                status: response.status,
+                statusText: response.statusText,
+              });
+
+              if (!response.ok) {
+                throw new Error("Shopee dynamic auth failed");
+              }
+
+              return response;
+            })
+            .catch((error) => {
+              appendWmsDebug("dynamic-auth-first-attempt-failed", {
+                errorName: error?.name,
+                errorMessage: error?.message,
+              });
+              console.error("Shopee dynamic auth failed, retrying WMS flow:", error);
+              appendWmsDebug("dynamic-auth-retry-started", {
+                stateSentToApi: String(shopId),
+              });
+
+              return fetch(dynamicApiUrl)
+                .then((response) => {
+                  appendWmsDebug("dynamic-auth-retry-response", {
+                    ok: response.ok,
+                    status: response.status,
+                    statusText: response.statusText,
+                  });
+
+                  if (!response.ok) {
+                    throw new Error("Shopee dynamic auth retry failed");
+                  }
+
+                  return response;
+                })
+                .catch((retryError) => {
+                  appendWmsDebug("dynamic-auth-retry-failed-continuing", {
+                    errorName: retryError?.name,
+                    errorMessage: retryError?.message,
+                  });
+                  console.error(
+                    "Shopee dynamic auth retry failed, continuing WMS flow:",
+                    retryError
+                  );
+                });
+            });
+        };
+
+        fetchDynamicAuthWithRetry()
+          .then(() => {
+            appendWmsDebug("waiting-before-shop-info", {
+              waitMs: 1000,
+            });
+            return waitOneSecond();
+          })
+          .then(() => {
+            appendWmsDebug("shop-info-request-started");
+            return fetch(shopInfoApiUrl);
+          })
           .then((response) => {
+            appendWmsDebug("shop-info-response", {
+              ok: response.ok,
+              status: response.status,
+              statusText: response.statusText,
+            });
+
             if (!response.ok) {
               throw new Error("Failed to fetch Shopee shop info");
             }
@@ -74,11 +225,41 @@ function App() {
             return response.json();
           })
           .catch((error) => {
-            console.error("Shopee shop info failed, continuing with fallback:", error);
-            return {};
+            appendWmsDebug("shop-info-failed-skipping-platform-store", {
+              errorName: error?.name,
+              errorMessage: error?.message,
+            });
+            showIncompleteAuthWarning("shop-info-request-failed", {
+              errorName: error?.name,
+              errorMessage: error?.message,
+            });
+            console.error("Shopee shop info failed, skipping platform store:", error);
+            appendWmsDebug("platform-store-skipped", {
+              reason: "shop-info-request-failed",
+            });
+            return { skippedPlatformStore: true };
           })
           .then((shopInfo) => {
-            const shopName = String(shopInfo?.shop_name || email);
+            if (shopInfo?.skippedPlatformStore) {
+              return shopInfo;
+            }
+
+            const hasShopName = Boolean(shopInfo?.shop_name);
+            const hasRegion = Boolean(shopInfo?.region);
+
+            if (!hasShopName || !hasRegion) {
+              showIncompleteAuthWarning("shop-info-missing-required-data", {
+                hasShopName,
+                hasRegion,
+              });
+              appendWmsDebug("platform-store-skipped", {
+                reason: "shop-info-missing-required-data",
+              });
+
+              return { skippedPlatformStore: true };
+            }
+
+            const shopName = String(shopInfo.shop_name);
             const platformStorePayload = {
               companyId: Number(companyId),
               platform: "shopee",
@@ -88,11 +269,23 @@ function App() {
               storeShopId: String(shopId),
               storeOpenId: "",
               storeCipher: "",
-              region: String(shopInfo?.region || "SG"),
+              region: String(shopInfo.region),
               webhookSecret: "",
             };
 
             console.log(platformStorePayload, "shopInfo");
+            appendWmsDebug("platform-store-request-started", {
+              payload: {
+                ...platformStorePayload,
+                storeName:
+                  shopName === email ? maskEmail(shopName) : platformStorePayload.storeName,
+                externalStoreName:
+                  shopName === email
+                    ? maskEmail(shopName)
+                    : platformStorePayload.externalStoreName,
+              },
+              shopInfoFound: Boolean(shopInfo?.shop_name),
+            });
 
             return fetch(addPlatformStoreApiUrl, {
               method: "POST",
@@ -104,17 +297,41 @@ function App() {
             });
           })
           .then((response) => {
-             console.error(response,"response");
+            if (response?.skippedPlatformStore) {
+              return;
+            }
+
+            console.error(response,"response");
+            appendWmsDebug("platform-store-response", {
+              ok: response.ok,
+              status: response.status,
+              statusText: response.statusText,
+            });
+
             if (!response.ok) {
               throw new Error("Failed to connect Shopee platform store");
             }
           })
           .catch((error) => {
+            appendWmsDebug("wms-flow-failed", {
+              errorName: error?.name,
+              errorMessage: error?.message,
+            });
             console.error("Shopee WMS auth flow failed:", error);
           })
           .finally(() => {
+            appendWmsDebug("wms-flow-finished-redirecting", {
+              redirectUrl: "https://printernoble.com/warehouse_management",
+              delayedForWarning: shouldDelayRedirectForWarning,
+            });
             stopLoading();
-            window.location.href = "https://printernoble.com/warehouse_management";
+            setTimeout(
+              () => {
+                window.location.href =
+                  "https://printernoble.com/warehouse_management";
+              },
+              shouldDelayRedirectForWarning ? 2000 : 0
+            );
           });
 
         return;

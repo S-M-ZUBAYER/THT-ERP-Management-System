@@ -1,5 +1,6 @@
 import { useState } from "react";
 import FaceAttendancePaymentManage from "./FaceAttendancePaymentManage";
+import FaceAttendancePasswordManage from "./FaceAttendancePasswordManage";
 import FaceAttendanceUsersManagement from "./FaceAttendanceUsersManagement/FaceAttendanceUsersManagement";
 
 export default function FaceAttendanceManagement() {
@@ -55,6 +56,7 @@ export default function FaceAttendanceManagement() {
             <FaceAttendancePaymentManage />
           </>
         )}
+        <FaceAttendancePasswordManage />
       </div>
     </div>
   );

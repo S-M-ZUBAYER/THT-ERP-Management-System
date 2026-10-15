@@ -12,6 +12,7 @@ import {
 } from "../CustomerServicePage/indexedDB";
 import { useNavigate } from "react-router-dom";
 import useAuthStore from "@/store/auth";
+import { logoutFromErp } from "@/lib/erpApi";
 const Account = () => {
   const QuestionPerPage = 25;
 
@@ -164,6 +165,7 @@ const Account = () => {
       SocketDisconnect();
       setUser(null);
       setChattingUser(null);
+      await logoutFromErp();
       localStorage.removeItem("chattingUser");
 
       await manageDeleteChatsInDB(); // This might throw an error

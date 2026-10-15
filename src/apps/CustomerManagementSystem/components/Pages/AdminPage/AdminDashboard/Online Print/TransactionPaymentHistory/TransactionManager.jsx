@@ -1,10 +1,13 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { fetchAllTransactions } from "../TransactionPaymentUtils/transactionApiService";
 import {
   exportAllTransactionsToExcel,
   exportDatewiseTransactionsToExcel,
 } from "../TransactionPaymentUtils/transactionExcelExport";
-import { filterTransactionsByDateRange } from "../TransactionPaymentUtils/transactionHelpers";
+import {
+  filterTransactionsByDateRange,
+  filterTransactionsBySearchTerm,
+} from "../TransactionPaymentUtils/transactionHelpers";
 import { getPaginationData } from "../OnlinePrintUtils/pagination";
 import ExportButtons from "../OnlinePrintComponent/ExportButtons";
 import LoadingSpinner from "../OnlinePrintComponent/LoadingSpinner";
@@ -14,6 +17,7 @@ import TransactionStats from "./TransactionStats";
 import TransactionTable from "./TransactionTable";
 import Pagination from "../OnlinePrintComponent/Pagination";
 import DateRangePicker from "../OnlinePrintComponent/DateRangePicker";
+import SearchField from "../OnlinePrintComponent/SearchField";
 
 // NOTE: Make sure all imports above are DEFAULT exports, not named exports
 // If you get import errors, check that each component file has:
@@ -34,6 +38,7 @@ const TransactionManager = ({ platform }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [filterType, setFilterType] = useState("all");
   const [selectedIds, setSelectedIds] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const fetchTransactions = useCallback(async () => {
     setLoading(true);
@@ -54,6 +59,10 @@ const TransactionManager = ({ platform }) => {
     fetchTransactions();
   }, [fetchTransactions]);
 
+  useEffect(() => {
+    setSearchTerm("");
+  }, [platform]);
+
   // Apply filter whenever allTransactions or filterType changes
   useEffect(() => {
     let filtered = [...allTransactions];
@@ -68,6 +77,16 @@ const TransactionManager = ({ platform }) => {
     setCurrentPage(1);
     setSelectedIds([]);
   }, [allTransactions, filterType]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+    setSelectedIds([]);
+  }, [searchTerm]);
+
+  const searchedTransactions = useMemo(
+    () => filterTransactionsBySearchTerm(filteredTransactions, searchTerm),
+    [filteredTransactions, searchTerm],
+  );
 
   const handleFilterChange = (newFilter) => {
     setFilterType(newFilter);
@@ -177,7 +196,7 @@ const TransactionManager = ({ platform }) => {
   };
 
   const { totalPages, currentItems: currentTransactions } = getPaginationData(
-    filteredTransactions,
+    searchedTransactions,
     currentPage,
     12,
   );
@@ -217,26 +236,42 @@ const TransactionManager = ({ platform }) => {
               filterType={filterType}
               onFilterChange={handleFilterChange}
               selectedCount={selectedIds.length}
-              totalCount={filteredTransactions.length}
+              totalCount={searchedTransactions.length}
             />
 
             <TransactionStats
-              transactions={filteredTransactions}
+              transactions={searchedTransactions}
               platform={platform}
             />
 
-            <TransactionTable
-              transactions={currentTransactions}
-              selectedIds={selectedIds}
-              onSelectAll={handleSelectAll}
-              onSelectOne={handleSelectOne}
+            <SearchField
+              value={searchTerm}
+              onChange={setSearchTerm}
+              placeholder="Search email or shop"
+              resultCount={searchedTransactions.length}
+              totalCount={filteredTransactions.length}
             />
 
-            <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={setCurrentPage}
-            />
+            {searchedTransactions.length === 0 ? (
+              <div className="bg-white p-6 rounded-xl shadow border border-gray-200 text-center text-gray-500">
+                No transactions found for this search.
+              </div>
+            ) : (
+              <>
+                <TransactionTable
+                  transactions={currentTransactions}
+                  selectedIds={selectedIds}
+                  onSelectAll={handleSelectAll}
+                  onSelectOne={handleSelectOne}
+                />
+
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={setCurrentPage}
+                />
+              </>
+            )}
           </>
         )}
       </div>
