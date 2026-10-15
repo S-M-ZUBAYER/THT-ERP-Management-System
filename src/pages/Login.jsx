@@ -7,6 +7,9 @@ import useAuthStore from "../store/auth";
 import toast from "react-hot-toast";
 import logInLogo from "../assets/Login.svg";
 import axios from "axios";
+import { clearErpSession, loginToErp } from "@/lib/erpApi";
+
+const isAdminUser = (user) => user?.isAdmin === "true" || user?.isAdmin === true;
 
 export default function Login() {
   const navigate = useNavigate();
@@ -94,6 +97,16 @@ export default function Login() {
       }
 
       // 3️⃣ Chat registration API call
+      clearErpSession();
+
+      if (isAdminUser(userInfo)) {
+        try {
+          await loginToErp({ email, password });
+        } catch (error) {
+          console.error("ERP admin login error:", error);
+        }
+      }
+
       const chatUrl =
         serviceCountry === "CN"
           ? "https://jiapuv.com:3091/CustomerService-ChatCN/api/dev/user/signIn"

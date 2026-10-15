@@ -1,5 +1,11 @@
 import ExcelJS from "exceljs";
 
+const formatDateOnly = (value) => {
+  if (!value) return "";
+
+  return String(value).split(/[T ]/)[0];
+};
+
 export const exportQuestionsToExcel = async (questions, fileName) => {
   if (!questions.length) {
     alert("No questions available to export");
@@ -28,7 +34,7 @@ export const exportQuestionsToExcel = async (questions, fileName) => {
       question: question.question || "",
       answer: getQuestionAnswer(question),
       product: question.product || "",
-      createdAt: question.created_at || "",
+      createdAt: formatDateOnly(question.created_at),
     });
   });
 
@@ -182,6 +188,9 @@ export const FAQ_PRODUCTS = [
   "Power Bank",
   "Face Attendance",
   "Device Face Attendance Machine",
+  "Warehouse ERP",
+  "Face Attendance Website",
+  "Warehouse ERP App Site",
 ];
 
 export const FAQ_APPLY_URLS = {
@@ -195,6 +204,11 @@ export const FAQ_APPLY_URLS = {
   "Face Attendance": "/tht/chatBot/faceAttendance/faq/applyDrafts",
   "Device Face Attendance Machine":
     "/tht/chatBot/deviceFaceAttendanceMachine/faq/applyDrafts",
+  "Warehouse ERP": "/tht/chatBot/warehouseErp/faq/applyDrafts",
+  "Face Attendance Website":
+    "/tht/chatBot/faceAttendanceWebsite/faq/applyDrafts",
+  "Warehouse ERP App Site":
+    "/tht/chatBot/warehouseErpAppSite/faq/applyDrafts",
 };
 
 export const getSavedUserEmail = () => {

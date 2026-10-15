@@ -1,6 +1,8 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { FAQ_DRAFT_BASE_URL, FAQ_PRODUCTS, UNKNOWN_QUESTIONS_PAGE_LIMIT } from "./chatbotManagementUtils";
+import { FAQ_DRAFT_BASE_URL, FAQ_PRODUCTS } from "./chatbotManagementUtils";
 import { ErrorMessage, LoadingSpinner, PaginationControls } from "./SharedChatbotComponents";
+
+const AVAILABLE_QA_PAGE_LIMIT = 50;
 
 const AvailableQAPanel = () => {
   const [selectedProduct, setSelectedProduct] = useState(FAQ_PRODUCTS[0]);
@@ -11,7 +13,7 @@ const AvailableQAPanel = () => {
   const [pagination, setPagination] = useState({
     total: 0,
     page: 1,
-    limit: UNKNOWN_QUESTIONS_PAGE_LIMIT,
+    limit: AVAILABLE_QA_PAGE_LIMIT,
     totalPages: 1,
     hasNextPage: false,
     hasPrevPage: false,
@@ -24,7 +26,7 @@ const AvailableQAPanel = () => {
       const response = await fetch(
         `${FAQ_DRAFT_BASE_URL}/tht/chatBot/faqs?product=${encodeURIComponent(
           selectedProduct,
-        )}&page=${currentPage}&limit=${UNKNOWN_QUESTIONS_PAGE_LIMIT}`,
+        )}&page=${currentPage}&limit=${AVAILABLE_QA_PAGE_LIMIT}`,
       );
       const data = await response.json();
 
@@ -36,7 +38,7 @@ const AvailableQAPanel = () => {
       setPagination({
         total: data.total || 0,
         page: data.page || currentPage,
-        limit: data.limit || UNKNOWN_QUESTIONS_PAGE_LIMIT,
+        limit: data.limit || AVAILABLE_QA_PAGE_LIMIT,
         totalPages: data.totalPages || 1,
         hasNextPage: Boolean(data.hasNextPage),
         hasPrevPage: Boolean(data.hasPrevPage),

@@ -34,6 +34,7 @@ import ShowHightWidth from "../../components/Pages/AdminPage/AdminDashboard/Mode
 import AutomaticChat from "../../components/Pages/CustomerServicePage/AutomaticChat";
 import ImageResize from "../../components/Pages/AdminPage/AdminDashboard/ImageResize";
 import AddWifiModelHightWidth from "../../components/Pages/AdminPage/AdminDashboard/WifiModelHeightWidth/AddWifiModelInfo";
+import PrinterModelFlashInfo from "../../components/Pages/AdminPage/AdminDashboard/PrinterModelFlashInfo/PrinterModelFlashInfo";
 import AutomaticChat_CN from "../../components/Pages/CustomerServicePage/AutomaticChat_CN";
 import ShopifyInfo from "../../components/Pages/AdminPage/AdminDashboard/ShopifyInfo";
 import UserBaseBitmap from "../../components/Pages/AdminPage/UserBaseBitmap";
@@ -185,6 +186,14 @@ export const routes = createBrowserRouter([
         element: (
           <PrivateRoute>
             <AddWifiModelHightWidth></AddWifiModelHightWidth>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/customer-management-system/admin/printerModelFlashInfo",
+        element: (
+          <PrivateRoute>
+            <PrinterModelFlashInfo></PrinterModelFlashInfo>
           </PrivateRoute>
         ),
       },
