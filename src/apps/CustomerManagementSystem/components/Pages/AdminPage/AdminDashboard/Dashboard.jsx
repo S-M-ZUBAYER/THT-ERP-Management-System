@@ -348,9 +348,9 @@ const Dashboard = ({
     singapore: {
       label: "Singapore Server",
       apiUrl:
-        "https://grozziie.zjweiting.com:3091/grozziie-attendance-debug/devices/get/3e_92_ee_5c_de_19",
+        "https://grozziie.zjweiting.com:3091/grozziie-attendance-debug/devices/get/e3_30_f3_44_74_03",
       validate: (data) =>
-        data?.deviceMAC === "3e_92_ee_5c_de_19" && data?.active === true,
+        data?.deviceMAC === "e3_30_f3_44_74_03",
       successMessage: (data) =>
         `Singapore server Tomcat is running properly. Device ${data.deviceName || data.deviceMAC} is active.`,
     },
